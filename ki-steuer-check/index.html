@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d2e31">
+<title>KI-Steuer-Check — Eine Idee. Kein Gesetz.</title>
+<style>
+:root{
+  --bg:#0c2c30; --line:#1f8f86; --ink:#f4f1e8; --muted:#bcd6d1; --soft:#a9cbc5;
+  --cream:#fbf6ea; --cream-ink:#1c2826; --cream-muted:#4d5c59;
+  --coral:#ff7a66; --yellow:#f6c945;
+  --belegt:#2fb5a1; --teils:#e98a3a; --offen:#9aa7a6; --widerlegt:#ef5d55;
+  --belegt-d:#0b6b5e; --teils-d:#8f4510; --offen-d:#465350; --widerlegt-d:#a8231c;
+  --serif:Georgia,"Times New Roman","Noto Serif","DejaVu Serif",serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans","Helvetica Neue",Arial,sans-serif;
+  --tabh:62px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+html,body{margin:0;padding:0;overflow-x:hidden}
+body{background:linear-gradient(180deg,var(--bg) 0%,#0e3437 40%,#0b2a2d 100%);background-attachment:fixed;color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;padding-bottom:calc(var(--tabh) + 30px + env(safe-area-inset-bottom))}
+a{color:inherit}
+button,select,input{font:inherit}
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+.top{background:linear-gradient(90deg,#123b3d 0%,#2b3a37 55%,#40342f 100%);border-bottom:2px solid var(--line)}
+.wrap{max-width:760px;margin:0 auto;padding:0 14px}
+.brand{display:flex;align-items:center;gap:12px;padding:12px 0 10px}
+.logo{flex:0 0 46px;height:46px;border-radius:12px;background:linear-gradient(135deg,#ff7a66 0%,#f6c945 45%,#53c79a 75%,#1f8f86 100%);display:grid;place-items:center;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+.logo svg{width:28px;height:28px}
+.brand h1{font-family:var(--serif);font-size:1.32rem;line-height:1.15;margin:0;font-weight:700;letter-spacing:.2px}
+.brand p{margin:2px 0 0;color:var(--muted);font-weight:600;font-size:.88rem}
+.filters{padding:4px 0 12px}
+.search{position:relative;margin:4px 0 12px}
+.search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:20px;height:20px;color:#3b4a48;pointer-events:none}
+.search input{width:100%;height:50px;border-radius:12px;border:0;background:var(--cream);color:var(--cream-ink);padding:0 44px;font-size:1rem;-webkit-appearance:none;appearance:none}
+.search input::-webkit-search-cancel-button{display:none}
+.search input::placeholder{color:#5f6d6a}
+.search .clear{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:38px;height:38px;border:0;border-radius:10px;background:transparent;color:#3b4a48;font-size:1.3rem;cursor:pointer}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 14px 6px;margin:0 -14px;scroll-snap-type:x proximity}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;scroll-snap-align:start;display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 16px;border-radius:999px;border:2px solid #6a8a86;background:#123a3d;color:var(--ink);font-weight:700;cursor:pointer;white-space:nowrap}
+.chip[aria-pressed="true"]{background:var(--cream);color:var(--cream-ink);border-color:var(--cream)}
+.chip .n{font-weight:600;font-size:.82rem;opacity:.85}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex:0 0 10px}
+.d-belegt{background:var(--belegt)}.d-teils{background:var(--teils)}.d-offen{background:var(--offen)}.d-widerlegt{background:var(--widerlegt)}
+.selects{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0 8px}
+.selects label{display:flex;flex-direction:column;font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);gap:3px;min-width:0}
+.selects select{height:42px;border-radius:10px;border:2px solid #6a8a86;background:#123a3d;color:var(--ink);padding:0 8px;font-size:.95rem;font-weight:600;min-width:0;width:100%;text-transform:none;letter-spacing:0}
+.hint{margin:4px 0 0;font-size:.86rem;font-weight:700;line-height:1.5;color:#e9f1ee}
+.active{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px;font-size:.85rem;color:var(--muted)}
+.active[hidden]{display:none}
+.reset{border:1px solid var(--muted);background:transparent;color:inherit;border-radius:999px;padding:4px 12px;font-weight:700;cursor:pointer;font-size:.85rem}
+main{padding-top:22px}
+.panel>.kicker+h2.sec{margin-top:12px}
+.panel[hidden]{display:none}
+.kicker{display:inline-block;background:var(--yellow);color:#1d1a10;font-weight:800;font-size:.8rem;letter-spacing:.12em;padding:5px 12px;border-radius:999px;text-transform:uppercase}
+.hero{font-family:var(--serif);font-size:2.35rem;line-height:1.08;margin:12px 0 10px;font-weight:700}
+.hero em{color:var(--coral);font-style:italic}
+.lead{font-size:1.13rem;line-height:1.6;margin:0 0 10px}
+.lead strong{color:#fff}
+.meta{color:var(--muted);font-size:.9rem;margin:0 0 18px}
+h2.sec{font-family:var(--serif);font-size:1.45rem;margin:26px 0 6px}
+p.sub{color:var(--muted);margin:0 0 12px;font-size:.92rem}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card{background:var(--cream);color:var(--cream-ink);border-radius:16px;padding:14px;border-top:8px solid var(--coral);box-shadow:0 2px 8px rgba(0,0,0,.25);min-width:0;overflow-wrap:break-word;hyphens:auto}
+.card .lab{font-size:.75rem;font-weight:800;letter-spacing:.12em;color:var(--cream-muted);text-transform:uppercase;margin:0 0 4px}
+.card .big{font-family:var(--serif);font-size:1.4rem;font-weight:700;line-height:1.15;margin:0 0 6px}
+.card p{margin:0;font-size:.92rem;line-height:1.45;color:#2b3734}
+.t-coral{border-top-color:var(--coral)}.t-yellow{border-top-color:var(--yellow)}.t-teal{border-top-color:var(--belegt)}.t-orange{border-top-color:var(--teils)}.t-gray{border-top-color:var(--offen)}.t-red{border-top-color:var(--widerlegt)}
+.fazit{background:#123f42;border:1px solid #2c6d68;border-left:6px solid var(--yellow);border-radius:14px;padding:14px;margin:18px 0 0}
+.fazit p{margin:0}
+.dist{display:flex;height:16px;border-radius:999px;overflow:hidden;margin:10px 0 8px;background:#123a3d}
+.dist span{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.9rem;color:var(--muted);margin:0;padding:0;list-style:none}
+.legend li{display:flex;align-items:center;gap:6px}
+.nums{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.num{background:#123f42;border:1px solid #2c6d68;border-radius:14px;padding:12px;min-width:0;overflow-wrap:break-word}
+.num b{display:block;font-family:var(--serif);font-size:1.45rem;line-height:1.1;color:#fff}
+.num span{display:block;font-size:.86rem;color:var(--muted);margin-top:4px}
+.num small{display:block;font-size:.75rem;color:var(--soft);margin-top:6px}
+.count{color:var(--muted);font-size:.9rem;margin:0 0 12px}
+.list{display:grid;gap:12px;grid-template-columns:minmax(0,1fr)}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:800;letter-spacing:.02em;padding:3px 10px;border-radius:999px;border:1.5px solid currentColor}
+.b-belegt{color:var(--belegt-d);background:#e3f4ef}.b-teils{color:var(--teils-d);background:#fbeadb}.b-offen{color:var(--offen-d);background:#eceeed}.b-widerlegt{color:var(--widerlegt-d);background:#fbe4e2}
+.claim .no{font-size:.75rem;font-weight:800;color:var(--cream-muted);letter-spacing:.1em}
+.claim h3{font-family:var(--serif);font-size:1.16rem;line-height:1.3;margin:8px 0}
+.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:space-between}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.tag{font-size:.75rem;font-weight:700;padding:2px 8px;border-radius:6px;background:#e9e3d3;color:#3a4542}
+.flag{font-size:.75rem;font-weight:800;padding:2px 8px;border-radius:6px;background:#fff0c9;color:#5a3d00;border:1px solid #c99a2e}
+.srcs{margin:10px 0 0;padding:0;list-style:none;font-size:.85rem;display:flex;flex-direction:column;gap:4px}
+.srcs a,.src a.go{color:#0a5c52;font-weight:700;text-underline-offset:2px}
+.tl{list-style:none;margin:0;padding:0 0 0 18px;border-left:3px solid #2c6d68}
+.tl>li{position:relative;margin:0 0 14px}
+.tl>li::before{content:"";position:absolute;left:-28px;top:16px;width:17px;height:17px;border-radius:50%;background:var(--yellow);border:3px solid var(--bg)}
+.tl .when{font-size:.78rem;font-weight:800;letter-spacing:.06em;color:var(--cream-muted);text-transform:uppercase}
+.tl h3{font-size:1.02rem;margin:4px 0 6px;line-height:1.35}
+.voice blockquote{margin:8px 0;font-family:var(--serif);font-size:1.12rem;line-height:1.42;color:#18221f;border-left:4px solid var(--coral);padding-left:10px}
+.voice .who{font-weight:800;font-size:1rem}
+.role{font-size:.83rem;color:var(--cream-muted)}
+.lbl{font-size:.72rem;font-weight:800;letter-spacing:.08em;color:var(--cream-muted);text-transform:uppercase;display:block;margin-bottom:2px}
+.stance{font-size:.75rem;font-weight:800;padding:2px 8px;border-radius:6px;background:#173f42;color:#e8f3f0}
+.src .outlet{font-weight:800}
+.src .when{font-size:.83rem;color:var(--cream-muted)}
+.src a.go{display:inline-block;margin-top:8px;font-weight:800}
+mark{background:#ffe27a;color:#1b1b0f;border-radius:3px;padding:0 1px}
+.empty{background:#123f42;border:1px dashed #6a8a86;border-radius:14px;padding:16px;color:var(--muted)}
+.empty button{margin-top:8px}
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:#0a2629;border-top:2px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
+.tabbar ul{list-style:none;margin:0 auto;padding:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;max-width:760px}
+.tabbar button{width:100%;height:var(--tabh);border:0;border-radius:12px;background:transparent;color:#e6efed;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:.72rem;font-weight:800;cursor:pointer;padding:0}
+.tabbar svg{width:22px;height:22px}
+.tabbar button[aria-current="page"]{background:var(--cream);color:var(--cream-ink)}
+@media (min-width:700px){
+  .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .nums{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .hero{font-size:3rem}
+}
+@media (min-width:1000px){
+  .wrap{max-width:1100px;padding:0 28px}
+  .chips{margin:0;padding:2px 0 6px;flex-wrap:wrap;overflow:visible}
+  .filters{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:0 24px;align-items:start}
+  .filters .search{grid-column:1;grid-row:1}
+  .filters .chips{grid-column:1/3;grid-row:2}
+  .filters .selects{grid-column:2;grid-row:1;margin:-18px 0 12px}
+  .filters .hint,.filters .active{grid-column:1/3}
+  .list{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .lagecols{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:36px;align-items:start}
+  .lagecols .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tl{max-width:860px}
+  .tabbar{left:50%;right:auto;transform:translateX(-50%);width:min(760px,100%);border:2px solid var(--line);border-bottom:0;border-radius:18px 18px 0 0}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#10302f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M7 21h10M5 7h14"/><path d="M5 7l-3 6a3.2 3.2 0 0 0 6 0zM19 7l-3 6a3.2 3.2 0 0 0 6 0z"/></svg>
+      </div>
+      <div>
+        <h1>KI-Steuer-Check</h1>
+        <p>Wildberger · Stand 14.10.2026</p>
+      </div>
+    </div>
+    <div class="filters" role="search">
+      <div class="search">
+        <label for="q" class="vh">Suche nach Satz, Name oder Quelle</label>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+        <input id="q" type="search" placeholder="Satz, Name, Quelle" autocomplete="off" enterkeyhint="search">
+        <button class="clear" id="qclear" type="button" aria-label="Suche leeren" hidden>×</button>
+      </div>
+      <div class="chips" id="chips" role="group" aria-label="Urteil filtern (nur Prüfpunkte)"></div>
+      <div class="selects">
+        <label>Person<select id="person"></select></label>
+        <label>Thema<select id="thema"></select></label>
+      </div>
+      <p class="hint">Urteil filtert nur die Prüfpunkte. Person und Thema filtern Prüfpunkte, Verlauf, Stimmen und Quellen. Lücken folgen nur Thema und Suche. Die Lage bleibt die Übersicht.</p>
+      <div class="active" id="active" hidden aria-live="polite"></div>
+    </div>
+  </div>
+</header>
+<main class="wrap" id="main">
+  <section class="panel" id="p-lage" aria-label="Lage">
+    <div class="lagecols">
+      <div>
+        <span class="kicker">Faktencheck · 13.–14. Oktober 2026</span>
+        <h2 class="hero">Eine Idee. <em>Kein Gesetz.</em></h2>
+        <p class="lead">Karsten Wildberger (CDU) will den „extrem hohen Umsatz“ mit KI besteuern, um den Umbau des Arbeitsmarkts zu finanzieren – und stellte eine neue Steuer am selben Tag zurück. <strong>Satz, Gesetzentwurf und Koalitionslinie gibt es nicht.</strong> Die Ökonomen sind uneins: Südekum für Ansätze bei Gewinnen aus KI, Langenmayr und Fuest gegen eine eigene KI-Steuer.</p>
+        <p class="meta">12 Prüfpunkte aus öffentlichen Berichten. Nichts dazuerfunden, auch keine Milliarden.</p>
+        <div class="fazit"><p><strong>Kurzfazit:</strong> Die Meldung ist im Kern richtig, aber überzogen. Eine Zweckbindung an die Arbeitslosenversicherung ist nicht belegt.</p></div>
+        <h2 class="sec">Urteile im Überblick</h2>
+        <div class="dist" id="dist" role="img"></div>
+        <ul class="legend" id="legend"></ul>
+      </div>
+      <div>
+        <h2 class="sec">Was vorgeschlagen wird</h2>
+        <p class="sub">Stand 14.10.2026</p>
+        <div class="grid" id="facts"></div>
+      </div>
+    </div>
+    <h2 class="sec">Was der Arbeitsmarkt bisher zeigt</h2>
+    <p class="sub">IAB-Forum, 13.10.2026 · rund 22,3 Millionen sozialversicherungspflichtige Vollzeitbeschäftigte, 2022 bis 2025 · dazu IW und eine ältere IAB-Projektion</p>
+    <div class="nums" id="nums"></div>
+    <h2 class="sec">Nachbarzahlen – nicht diese Steuer</h2>
+    <p class="sub">Belegte Zahlen zu anderen Abgaben. Sie gehören nicht zu Wildbergers Idee.</p>
+    <div class="nums" id="nums2"></div>
+  </section>
+  <section class="panel" id="p-check" aria-label="Check" hidden>
+    <span class="kicker">Prüfpunkte</span>
+    <h2 class="sec">Was stimmt?</h2>
+    <p class="count" id="c-check" aria-live="polite"></p>
+    <div class="list" id="l-check"></div>
+  </section>
+  <section class="panel" id="p-zeit" aria-label="Zeit" hidden>
+    <span class="kicker">Verlauf</span>
+    <h2 class="sec">Zeitleiste</h2>
+    <p class="count" id="c-zeit" aria-live="polite"></p>
+    <ol class="tl" id="l-zeit"></ol>
+  </section>
+  <section class="panel" id="p-stimmen" aria-label="Stimmen" hidden>
+    <span class="kicker">Stimmen</span>
+    <h2 class="sec">Wer was gesagt hat</h2>
+    <p class="sub">Wörtlich nur, was in der Recherche in Anführungszeichen steht. Alles andere ist als Wiedergabe gekennzeichnet.</p>
+    <p class="count" id="c-stimmen" aria-live="polite"></p>
+    <div class="list" id="l-stimmen"></div>
+  </section>
+  <section class="panel" id="p-luecken" aria-label="Lücken" hidden>
+    <span class="kicker">Lücken</span>
+    <h2 class="sec">Was fehlt oder nicht belegt ist</h2>
+    <p class="count" id="c-luecken" aria-live="polite"></p>
+    <div class="list" id="l-luecken"></div>
+    <h2 class="sec">Rechtliche Hürden</h2>
+    <p class="sub">Falls aus der Idee eine echte Abgabe würde.</p>
+    <p class="count" id="c-huerden" aria-live="polite"></p>
+    <div class="list" id="l-huerden"></div>
+  </section>
+  <section class="panel" id="p-quellen" aria-label="Quellen" hidden>
+    <span class="kicker">Quellen</span>
+    <h2 class="sec">Quellen</h2>
+    <p class="count" id="c-quellen" aria-live="polite"></p>
+    <div class="list" id="l-quellen"></div>
+  </section>
+</main>
+<nav class="tabbar" aria-label="Bereiche">
+  <ul>
+    <li><button type="button" id="t-lage" data-tab="lage"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M7 21h10M5 7h14"/><path d="M5 7l-3 6a3.2 3.2 0 0 0 6 0zM19 7l-3 6a3.2 3.2 0 0 0 6 0z"/></svg>Lage</button></li>
+    <li><button type="button" id="t-check" data-tab="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg>Check</button></li>
+    <li><button type="button" id="t-zeit" data-tab="zeit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>Zeit</button></li>
+    <li><button type="button" id="t-stimmen" data-tab="stimmen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h11v8H8l-3 3v-3H3z"/><path d="M14 9h7v8h-2v3l-3-3h-4v-4"/></svg>Stimmen</button></li>
+    <li><button type="button" id="t-luecken" data-tab="luecken"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7.5 3v5.5c0 4.5-3.2 8-7.5 9.5-4.3-1.5-7.5-5-7.5-9.5V6z"/><path d="M12 8v4.5M12 16v.01"/></svg>Lücken</button></li>
+    <li><button type="button" id="t-quellen" data-tab="quellen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4v16M9.5 4v16M14 5l4.5 15"/></svg>Quellen</button></li>
+  </ul>
+</nav>
+<script>
+"use strict";
+/* Alle Daten stammen ausschließlich aus Faktencheck-KI-Steuer-Wildberger-2026-10-14.md (Stand der Recherche: 14.10.2026). */
+const PERSONS = [
+  {id:"wildberger", name:"Karsten Wildberger", group:"Personen"},
+  {id:"klingbeil", name:"Lars Klingbeil", group:"Personen"},
+  {id:"suedekum", name:"Jens Südekum", group:"Personen"},
+  {id:"langenmayr", name:"Dominika Langenmayr", group:"Personen"},
+  {id:"fuest", name:"Clemens Fuest", group:"Personen"},
+  {id:"gates", name:"Bill Gates", group:"Personen"},
+  {id:"fratzscher", name:"Marcel Fratzscher", group:"Personen"},
+  {id:"hoekstra", name:"Wopke Hoekstra", group:"Personen"},
+  {id:"trump", name:"Donald Trump", group:"Personen"},
+  {id:"bmf", name:"Bundesfinanzministerium (BMF)", group:"Institutionen"},
+  {id:"spd", name:"SPD-Bundestagsfraktion", group:"Institutionen"},
+  {id:"bitkom", name:"Bitkom", group:"Institutionen"},
+  {id:"bdi", name:"BDI", group:"Institutionen"},
+  {id:"union", name:"Kanzleramt, CSU, Unionsfraktion", group:"Institutionen"},
+  {id:"gewerkschaften", name:"Gewerkschaften (DGB, IG Metall, ver.di)", group:"Institutionen"},
+  {id:"iab", name:"IAB", group:"Institutionen"},
+  {id:"iw", name:"IW", group:"Institutionen"}
+];
+const TOPICS = [
+  {id:"vorschlag", name:"Vorschlag & Rücknahme"},
+  {id:"basis", name:"Satz & Bemessung"},
+  {id:"verwendung", name:"Verwendung des Geldes"},
+  {id:"status", name:"Status & Recht"},
+  {id:"reaktionen", name:"Reaktionen"},
+  {id:"arbeitsmarkt", name:"Arbeitsmarkt & Studien"},
+  {id:"international", name:"Digitalsteuer, EU & USA"}
+];
+/* Urteil-Gruppen für die Filter-Chips; angezeigt wird immer das Urteil wörtlich aus Abschnitt 5. */
+const VERDICTS = [
+  {id:"belegt", chip:"Belegt"},
+  {id:"teils", chip:"Teils"},
+  {id:"offen", chip:"Offen"},
+  {id:"widerlegt", chip:"Widerlegt"}
+];
+const SOURCES = [
+  {id:"ts1", outlet:"Tagesspiegel", title:"Digitalminister Karsten Wildberger im Gespräch (Interview)", date:"13.10.2026", time:"7:59 Uhr (Online-Stand)", url:"https://www.tagesspiegel.de/wissen/digitalminister-karsten-wildberger-im-gesprach-ich-hoffe-dass-openai-und-google-die-welt-nicht-als-testlabor-benutzen-16150738.html", flags:["Erstquelle","Bezahlschranke"], note:"Dienstagsausgabe vom 13. Oktober 2026. Der Steuerpassus ist online nicht frei lesbar.", persons:["wildberger"], topics:["vorschlag","basis","verwendung"]},
+  {id:"zeit1", outlet:"DIE ZEIT (ZEIT/dpa)", title:"KI-Steuer: Wildberger, Bill Gates, Arbeitsmarkt", date:"13.10.2026", time:"6:34 Uhr", url:"https://www.zeit.de/digital/2026-10/ki-steuer-karsten-wildberger-cdu-bill-gates-arbeitsmarkt", flags:[], note:"Früheste frei lesbare Fassung in der Recherche; dpa hat die Stelle am Morgen übernommen.", persons:["wildberger","gates"], topics:["vorschlag","basis","verwendung"]},
+  {id:"spiegel", outlet:"SPIEGEL", title:"Digitalminister Karsten Wildberger will KI-Umsätze in Deutschland besteuern", date:"13.10.2026", time:"", url:"https://www.spiegel.de/wirtschaft/unternehmen/digitalminister-karsten-wildberger-will-ki-umsaetze-in-deutschland-besteuern-a-a10bfd19-847f-4d49-b0ee-f32a5ea1a285", flags:[], note:"Gleichlautende Verbreitung.", persons:["wildberger"], topics:["vorschlag"]},
+  {id:"faz1", outlet:"FAZ", title:"Wildberger will KI-Umsätze in Deutschland besteuern", date:"13.10.2026", time:"8:07 Uhr", url:"https://www.faz.net/aktuell/wirtschaft/mehr-wirtschaft/wildberger-will-ki-umsaetze-in-deutschland-besteuern-accg-201312507.html", flags:[], note:"Gleichlautende Verbreitung.", persons:["wildberger"], topics:["vorschlag"]},
+  {id:"ntv", outlet:"n-tv", title:"Wildberger fordert Steuer auf KI-Umsätze", date:"13.10.2026", time:"7:12 Uhr", url:"https://www.n-tv.de/wirtschaft/Wildberger-fordert-Steuer-auf-KI-Umsaetze-id31410948.html", flags:[], note:"Gleichlautende Verbreitung. Im selben Stück auch Fratzscher, aus dem SZ Dossier und zu einem anderen Vorschlag.", persons:["wildberger","fratzscher"], topics:["vorschlag","reaktionen"]},
+  {id:"yahoo", outlet:"Yahoo Finance (dpa-Roundup)", title:"ROUNDUP: Wildberger will KI-Umsätze besteuern", date:"13.10.2026", time:"", url:"https://de.finance.yahoo.com/nachrichten/roundup-wildberger-will-ki-ums%C3%A4tze-152339530.html", flags:[], note:"Rücknahme im Interview mit RTL/ntv.", persons:["wildberger"], topics:["vorschlag"]},
+  {id:"regio", outlet:"regionalHeute", title:"Wildberger setzt auf KI-Wachstum statt zusätzlicher KI-Steuer", date:"13.10.2026", time:"16:13 Uhr", url:"https://regionalheute.de/wildberger-setzt-auf-ki-wachstum-statt-zusaetzlicher-ki-steuer-1791900782/", flags:[], note:"Ergänzende Zitate zur Rücknahme.", persons:["wildberger"], topics:["vorschlag"]},
+  {id:"faz2", outlet:"FAZ", title:"KI-Steuer: Klingbeil und Wildberger prüfen neue Abgaben", date:"13.10.2026", time:"23:23 Uhr", url:"https://www.faz.net/aktuell/wirtschaft/kuenstliche-intelligenz/ki-steuer-klingbeil-und-wildberger-pruefen-neue-abgaben-201313058.html", flags:[], note:"Klingbeil, Sprecher des Digitalministeriums, BMF und die Ökonomen Südekum, Langenmayr, Fuest.", persons:["klingbeil","wildberger","bmf","suedekum","langenmayr","fuest","gates"], topics:["reaktionen","status","international","vorschlag"]},
+  {id:"ts2", outlet:"Tagesspiegel", title:"Wir müssen uns zusammenraufen: Digitalminister Wildberger erwartet massive Jobverluste durch KI", date:"zum NOZ-Interview vom 21.3.2026", time:"", url:"https://www.tagesspiegel.de/wirtschaft/wir-mussen-uns-zusammenraufen-digitalminister-wildberger-erwartet-massive-jobverluste-durch-ki-15385483.html", flags:["Vorgeschichte"], note:"Zitiert Wildbergers Aussage gegenüber der Neuen Osnabrücker Zeitung.", persons:["wildberger"], topics:["vorschlag"]},
+  {id:"spd", outlet:"SPD-Bundestagsfraktion (PDF)", title:"Damit Fortschritt bei allen ankommt: gute Arbeit im KI-Zeitalter", date:"4.9.2026", time:"", url:"https://www.spdfraktion.de/system/files/documents/beschluss_gute_arbeit_im_ki_zeitalter.pdf", flags:["Anderes Papier"], note:"Benachbart, aber nicht Wildbergers Vorschlag. Kein Satz, keine KI-Umsatzsteuer.", persons:["spd"], topics:["status","basis"]},
+  {id:"cb", outlet:"ComputerBase", title:"Umbau des Arbeitsmarktes finanzieren: Digitalminister will Steuer für KI-Umsätze", date:"13.10.2026", time:"18:40 Uhr", url:"https://www.computerbase.de/news/netzpolitik/umbau-des-arbeitsmarktes-finanzieren-digitalminister-will-steuer-fuer-ki-umsaetze.99802/", flags:[], note:"Fasst das SPD-Papier zusammen: in zwei von elf Punkten „faire Steuer“, konkret nur die Gewerbesteuer der Rechenzentren.", persons:["wildberger","spd"], topics:["vorschlag","status"]},
+  {id:"bitkom1", outlet:"Bitkom (Presseinformation)", title:"Bitkom zum KI-Seepferdchen", date:"14.10.2026", time:"", url:"https://www.bitkom.org/Presse/Presseinformation/Bitkom-zum-KI-Seepferdchen", flags:["Nicht zur Steuer"], note:"Betrifft das Social-Media-Verbot und ein „KI-Seepferdchen“, nicht die Steuer.", persons:["bitkom"], topics:["reaktionen"]},
+  {id:"bitkom2", outlet:"Bitkom (Stellungnahme, PDF)", title:"Stellungnahme zu einer möglichen Digitalabgabe", date:"Oktober 2026", time:"", url:"https://www.bitkom.org/sites/main/files/2026-10/bitkom-stellungnahme-zu-einer-moeglichen-digitalabgabe.pdf", flags:["Anderes Instrument"], note:"Lehnt eine Digitalabgabe des Kulturstaatsministers für den Mediensektor ab; dokumentiert Trumps Zolldrohung von Ende Juni 2026.", persons:["bitkom","trump"], topics:["international","reaktionen"]},
+  {id:"bitkom3", outlet:"Bitkom (Übersichtsseite)", title:"Stellungnahme: Bitkom zu Digitalabgabe", date:"5.10.2026", time:"", url:"https://www.bitkom.org/Bitkom/Publikationen/Stellungnahme-Bitkom-zu-Digitalabgabe", flags:["Anderes Instrument"], note:"Übersichtsseite zur Stellungnahme.", persons:["bitkom"], topics:["international","reaktionen"]},
+  {id:"hib", outlet:"Deutscher Bundestag (hib 513/2026)", title:"Finanzausschuss lehnt Grünen-Antrag ab", date:"24.6.2026", time:"", url:"https://www.bundestag.de/presse/hib/kurzmeldungen-1191994", flags:["Andere Abgabe"], note:"10 Prozent auf in Deutschland erzielte digitale Umsätze, abgelehnt.", persons:[], topics:["international"]},
+  {id:"kpmg", outlet:"KPMG", title:"Digitalabgabe: Entschließung des Bundesrats", date:"8.4.2026", time:"", url:"https://kpmg.com/de/de/themen/2025/12/Digitalabgabe-entschliessung-br.html", flags:["Anderes Instrument"], note:"Bundesrat, 19.12.2025: nichtsteuerliche Abgabe für große Online-Plattformen (Medienabgabe).", persons:[], topics:["international"]},
+  {id:"adhoc", outlet:"ad-hoc-news", title:"Digitalsteuer: EU-Kommission bremst nationale Alleingänge", date:"19.9.2026", time:"", url:"https://www.ad-hoc-news.de/wirtschaft/digitalsteuer-eu-kommission-bremst-nationale-alleingaenge/70131445", flags:[], note:"Hoekstra lehnt eine eigene EU-Digitalsteuer ab, solange OECD-Optionen nicht ausgeschöpft sind.", persons:["hoekstra"], topics:["international"]},
+  {id:"onvista", outlet:"onvista / Reuters", title:"FT: EU erwägt Großkonzern-Abgabe statt Digitalsteuer", date:"7.10.2026", time:"", url:"https://www.onvista.de/news/2026/10-07-ft-eu-erwaegt-grosskonzern-abgabe-statt-digitalsteuer-0-20-26561357", flags:[], note:"Bericht der Financial Times; die Bundesregierung lehne zusätzliche EU-Abgaben ab.", persons:[], topics:["international"]},
+  {id:"taxf", outlet:"Tax Foundation", title:"Digital Services Taxes in Europe", date:"4.5.2026", time:"", url:"https://taxfoundation.org/data/all/eu/digital-services-taxes-europe/", flags:[], note:"Bestehende Digital Services Taxes in Europa, Sätze von 1,5 Prozent (Polen) bis 7,5 Prozent (Ungarn). Deutschland hat erwogen, aber nicht eingeführt.", persons:[], topics:["international"]},
+  {id:"gates", outlet:"Gates Notes", title:"The turbulent AI era (Essay)", date:"August 2026", time:"", url:"https://www.gatesnotes.com/work/make-ai-work-for-everyone/reader/a-turbulent-ai-era-and-critical-choices-to-make", flags:[], note:"Steuer auf KI-Tokens und Roboter. Zitat auch in der FAZ vom 13.10.2026 mit Verweis auf den FAZ-Abdruck vom 1.9.2026.", persons:["gates"], topics:["international","basis"]},
+  {id:"thestreet", outlet:"TheStreet", title:"Bill Gates says some jobs should be reserved for humans", date:"12.10.2026", time:"", url:"https://www.thestreet.com/technology/bill-gates-says-some-jobs-should-be-reserved-for-humans", flags:[], note:"Gates auf CNN am 11.10.2026.", persons:["gates"], topics:["international"]},
+  {id:"iab", outlet:"IAB-Forum", title:"KI als Jobkiller für Berufseinsteiger? Entwarnung mit Vorbehalt", date:"13.10.2026", time:"", url:"https://iab-forum.de/ki-als-jobkiller-fuer-berufseinsteiger-entwarnung-mit-vorbehalt/", flags:[], note:"Monatliche Daten von rund 22,3 Millionen Vollzeitbeschäftigten, 2022 bis 2025.", persons:["iab"], topics:["arbeitsmarkt"]},
+  {id:"zeit2", outlet:"DIE ZEIT", title:"KI und Arbeitsmarkt: IAB-Studie", date:"13.10.2026", time:"11:30 Uhr", url:"https://www.zeit.de/wirtschaft/2026-10/ki-arbeitsmarkt-beschaeftigung-stellenabbau-iab-studie-deutschland-gxe", flags:[], note:"Bericht zur IAB-Studie.", persons:["iab"], topics:["arbeitsmarkt"]},
+  {id:"iabfb", outlet:"IAB-Forschungsbericht 23/2025 (PDF)", title:"Ältere Szenariorechnung zu KI", date:"2025", time:"", url:"https://doku.iab.de/forschungsbericht/2025/fb2325.pdf", flags:["Projektion, kein Ist"], note:"KI-Szenario über 15 Jahre.", persons:["iab"], topics:["arbeitsmarkt"]},
+  {id:"iw1", outlet:"IW Köln", title:"Stagnation statt Boom (Gutachten, Bertelsmann-Stiftung)", date:"3.6.2025", time:"", url:"https://www.iwkoeln.de/studien/jan-buechel-jan-felix-engler-armin-mertens-stagnation-statt-boom.html", flags:[], note:"KI-Stellenanzeigen 2019 bis 2024.", persons:["iw"], topics:["arbeitsmarkt"]},
+  {id:"iw2", outlet:"IW Köln", title:"Erwähnung des IW-Kurzberichts Nr. 70", date:"13.10.2026", time:"", url:"https://www.iwkoeln.de/studien/barbara-engels-andrea-hammermann-schatten-ki-beschaeftigte-sind-schneller-als-ihre-betriebe.html", flags:["Vollzahlen nicht frei"], note:"Kurzbericht „KI-Nähe des Berufs bisher kein Nachteil auf dem Arbeitsmarkt“ von Stefanie Seele.", persons:["iw"], topics:["arbeitsmarkt"]},
+  {id:"deloitte", outlet:"Deloitte Tax-News", title:"BMF: aktualisierte DBA-Verhandlungsgrundlage", date:"29.7.2026", time:"", url:"https://www.deloitte-tax-news.de/steuern/internationales-steuerrecht/bmf-aktualisierte-dba-verhandlungsgrundlage.html", flags:[], note:"Betriebsstätten-Grundsätze (18.6.2026) und DBA-Verhandlungsgrundlage (3.7.2026) neu gefasst.", persons:["bmf"], topics:["status","international"]}
+];
+const CLAIMS = [
+  {id:1, text:"Ein Bundesminister will KI-Umsätze besteuern, um den Arbeitsmarktwandel zu finanzieren.", urteil:"Bestätigt, mit Einschränkung", cat:"belegt", beleg:"Wildberger, Tagesspiegel 13.10.2026; dpa/ZEIT 6:34 Uhr. Am selben Tag gegenüber RTL/ntv: jetzt keine neue Steuer, erst Wachstum.", persons:["wildberger"], topics:["vorschlag","verwendung"], sources:["ts1","zeit1","yahoo"]},
+  {id:2, text:"Der Minister ist Karsten Wildberger (CDU), Digitalminister.", urteil:"Bestätigt", cat:"belegt", beleg:"Alle genannten Meldungen vom 13.10.2026.", persons:["wildberger"], topics:["vorschlag"], sources:["zeit1","spiegel","faz1","ntv"]},
+  {id:3, text:"Es gibt einen konkreten Steuersatz.", urteil:"Falsch", cat:"widerlegt", beleg:"In keiner Quelle eine Zahl.", persons:["wildberger"], topics:["basis"], sources:["zeit1","faz2"]},
+  {id:4, text:"Bemessungsgrundlage ist der Umsatz, nicht der Gewinn.", urteil:"Teilweise", cat:"teils", beleg:"Leitzitat sagt Umsatz. Parallel „Wertschöpfung“ und gewöhnliche Steuerzahlung. Gewinnsteuer ist die Linie von Südekum und dem SPD-Papier, nicht Wildbergers Satz.", persons:["wildberger","suedekum","spd"], topics:["basis"], sources:["zeit1","faz2","spd"]},
+  {id:5, text:"Das Geld soll Weiterbildung finanzieren.", urteil:"Teilweise", cat:"teils", beleg:"Umschulungen, Handwerk, Pflege: ja, als Zielbild. Kein Programm, keine Zweckbindung, kein Volumen.", persons:["wildberger"], topics:["verwendung"], sources:["zeit1"]},
+  {id:6, text:"Das Geld soll in die Arbeitslosenversicherung fließen.", urteil:"Unbelegt", cat:"offen", beleg:"Weder Wildberger noch Klingbeil nennen die Arbeitslosenversicherung. Klingbeil spricht allgemein von sozialen Sicherungssystemen.", persons:["wildberger","klingbeil"], topics:["verwendung"], sources:["zeit1","faz2"]},
+  {id:7, text:"Das ist Koalitionslinie oder ein Gesetzentwurf.", urteil:"Falsch", cat:"widerlegt", beleg:"Interviewidee. BMF: keine fertigen Pläne. SPD-Beschluss vom 4.9.2026 ist ein anderes, ebenfalls unbeziffertes Paket.", persons:["wildberger","bmf","spd"], topics:["status"], sources:["faz2","spd"]},
+  {id:8, text:"Klingbeil unterstützt eine KI-Steuer.", urteil:"Teilweise", cat:"teils", beleg:"Er begrüßt die Debatte und kündigt Prüfung durch drei Ministerien an. Keine Zustimmung zu Satz oder Basis.", persons:["klingbeil","bmf"], topics:["reaktionen","status"], sources:["faz2"]},
+  {id:9, text:"Bill Gates hat denselben Plan vorgelegt, Wildberger übernimmt ihn.", urteil:"Teilweise", cat:"teils", beleg:"Gates will Tokens und Roboter besteuern bzw. Maschinen wie Arbeit mit Lohnnebenkosten belegen (August 2026 / CNN 11.10.2026). Nicht eine deutsche Umsatzsteuer. Wildberger hat sich darauf bezogen.", persons:["gates","wildberger"], topics:["international","basis"], sources:["gates","thestreet","zeit1"]},
+  {id:10, text:"KI hat in Deutschland bereits breit Jobs vernichtet.", urteil:"Falsch nach aktuellem IAB-Befund", cat:"widerlegt", beleg:"IAB-Forum, 13.10.2026: exponierte Berufe +1 Prozent seit 2022, weniger exponierte gut −3 Prozent. Bei unter 30 ein Abstand von −1,2 Punkten, nach Kontrolle nicht signifikant. Konjunktur wiegt schwerer.", persons:["iab"], topics:["arbeitsmarkt"], sources:["iab","zeit2"]},
+  {id:11, text:"Bitkom und BDI haben die KI-Steuer abgelehnt.", urteil:"Unbelegt", cat:"offen", beleg:"Keine Stellungnahme zum Vorschlag vom 13.10. gefunden. Bitkom lehnt eine andere Abgabe ab, die Digitalabgabe für Medien.", persons:["bitkom","bdi"], topics:["reaktionen"], sources:["bitkom1","bitkom2","bitkom3"]},
+  {id:12, text:"Die USA würden mit Zöllen reagieren.", urteil:"Teilweise", cat:"teils", beleg:"Für Digitalabgaben hat Trump Ende Juni 2026 100-Prozent-Zölle angedroht (Bitkom, Okt. 2026). Für diese noch nicht existierende KI-Steuer gibt es keine konkrete US-Reaktion. Wildberger ließ die Frage offen.", persons:["trump","wildberger","bitkom"], topics:["international"], sources:["bitkom2"]}
+];
+/* Chronologisch. Am 13.10. nach belegten Uhrzeiten; Einträge ohne belegte Uhrzeit zeigen keine Uhrzeit. */
+const EVENTS = [
+  {when:"3.6.2025", time:"", title:"IW-Gutachten zu KI-Stellenanzeigen", text:"Anteil der Stellenanzeigen mit KI-Bezug 1,1 Prozent (2019) auf 1,5 Prozent (2024); absolut 97.000 (2019), 181.000 (2022), 152.000 (2024). Nur etwa jedes fünfte Unternehmen und jeder fünfte Beschäftigte nutzt KI.", persons:["iw"], topics:["arbeitsmarkt"], sources:["iw1"], flags:[]},
+  {when:"19.12.2025", time:"", title:"Bundesrat verlangt nichtsteuerliche Abgabe für große Online-Plattformen", text:"Für Plattformen, die Medieninhalte nutzen, orientiert an VLOPs des DSA mit mehr als 45 Millionen monatlichen EU-Nutzern. Das ist die Medienabgabe, nicht Wildbergers KI-Umsatzidee.", persons:[], topics:["international"], sources:["kpmg"], flags:["Anderes Instrument"]},
+  {when:"21.3.2026", time:"", title:"Vorgeschichte: Wildberger in der Neuen Osnabrücker Zeitung", text:"„Wir brauchen deutlich höhere Steuereinnahmen, damit wir mit dem Geld den Jobmarkt umbauen können.“ Ein Argument über Wachstum und vorhandenes Steueraufkommen, keine Sondersteuer auf KI-Umsatz.", persons:["wildberger"], topics:["vorschlag"], sources:["ts2"], flags:["Vorgeschichte"]},
+  {when:"18.6.2026", time:"", title:"BMF fasst Betriebsstätten-Grundsätze neu", text:"Relevant für die Frage, wann Deutschland Gewinne ausländischer Konzerne besteuern darf.", persons:["bmf"], topics:["status","international"], sources:["deloitte"], flags:[]},
+  {when:"24.6.2026", time:"", title:"Finanzausschuss lehnt Grünen-Antrag zur Digitalsteuer ab", text:"10 Prozent auf in Deutschland erzielte digitale Umsätze, ab 750 Millionen Euro Weltumsatz und 50 Millionen Euro Inlandsumsatz. Die Union erinnerte an eine im Koalitionsvertrag vereinbarte Digitalabgabe.", persons:[], topics:["international"], sources:["hib"], flags:["Andere Abgabe"]},
+  {when:"Ende Juni 2026", time:"", title:"Trump droht mit 100-Prozent-Zöllen", text:"Auf Warenexporte von Staaten, die eine Digitalabgabe beschließen, unabhängig von schon unterschriebenen Handelsabkommen – dokumentiert in der Bitkom-Stellungnahme vom Oktober 2026.", persons:["trump","bitkom"], topics:["international"], sources:["bitkom2"], flags:[]},
+  {when:"3.7.2026", time:"", title:"BMF fasst die deutsche DBA-Verhandlungsgrundlage neu", text:"Nach dem OECD-Muster darf Deutschland Unternehmensgewinne eines ausländischen Konzerns nur besteuern, wenn eine Betriebsstätte besteht.", persons:["bmf"], topics:["status","international"], sources:["deloitte"], flags:[]},
+  {when:"August 2026", time:"", title:"Gates-Essay auf Gates Notes", text:"Gates fordert eine Steuer auf KI-Tokens und Roboter, damit Umschulung und soziales Netz finanziert werden. Keine deutsche Umsatzsteuer auf KI-Firmen.", persons:["gates"], topics:["international","basis"], sources:["gates"], flags:[]},
+  {when:"4.9.2026", time:"", title:"SPD-Bundestagsfraktion beschließt eigenes Papier", text:"Ein anderes Papier als Wildbergers Idee: große Tech-Konzerne „fair besteuern“, Gewerbesteuer für Rechenzentrumsstandorte anders bemessen, „angepasste Unternehmensbesteuerung“ prüfen. Kein Satz, keine KI-Umsatzsteuer.", persons:["spd"], topics:["status","basis"], sources:["spd","cb"], flags:["Anderes Papier"]},
+  {when:"19.9.2026", time:"", title:"EU-Kommissar Hoekstra gegen eigene EU-Digitalsteuer", text:"Solange OECD-Optionen nicht ausgeschöpft sind.", persons:["hoekstra"], topics:["international"], sources:["adhoc"], flags:[]},
+  {when:"5.10.2026", time:"", title:"Bitkom lehnt Digitalabgabe für den Mediensektor ab", text:"Stellungnahme zur Digitalabgabe des Kulturstaatsministers. Ein anderes Instrument als die KI-Steuer.", persons:["bitkom"], topics:["international","reaktionen"], sources:["bitkom3","bitkom2"], flags:["Anderes Instrument"]},
+  {when:"7.10.2026", time:"", title:"FT: EU erwägt Großkonzern-Abgabe statt Digitalsteuer", text:"Ausweitung der „Corporate Resource for Europe“: pauschal 100.000 bis 750.000 Euro für Unternehmen mit mehr als 100 Millionen Euro Jahresumsatz in der EU. Die Bundesregierung lehne zusätzliche EU-Abgaben ab.", persons:[], topics:["international"], sources:["onvista"], flags:[]},
+  {when:"11.10.2026", time:"", title:"Gates auf CNN", text:"Die Gesellschaft müsse entscheiden, „how do we tax AI usage or robot usage?“", persons:["gates"], topics:["international"], sources:["thestreet"], flags:[]},
+  {when:"13.10.2026", time:"Dienstagsausgabe", title:"Tagesspiegel-Interview mit Wildberger erscheint", text:"Erste Quelle der Zitate. Online-Stand 7:59 Uhr; der Steuerpassus ist hinter der Bezahlschranke nicht frei lesbar.", persons:["wildberger"], topics:["vorschlag","basis","verwendung"], sources:["ts1"], flags:["Erstquelle","Bezahlschranke"]},
+  {when:"13.10.2026", time:"6:34 Uhr", title:"ZEIT/dpa: früheste frei lesbare Fassung", text:"dpa übernimmt die Stelle am Morgen. Wildberger bezieht sich laut dpa und FAZ auf den Gates-Text.", persons:["wildberger","gates"], topics:["vorschlag"], sources:["zeit1"], flags:[]},
+  {when:"13.10.2026", time:"7:12 Uhr", title:"n-tv meldet die Forderung", text:"Im selben Stück wird Fratzscher zitiert – aus dem SZ Dossier und zu einem anderen Vorschlag.", persons:["wildberger","fratzscher"], topics:["vorschlag"], sources:["ntv"], flags:[]},
+  {when:"13.10.2026", time:"8:07 Uhr", title:"FAZ meldet gleichlautend, ebenso SPIEGEL", text:"Weitere Verbreitung der Interview-Zitate (SPIEGEL ohne belegte Uhrzeit).", persons:["wildberger"], topics:["vorschlag"], sources:["faz1","spiegel"], flags:[]},
+  {when:"13.10.2026", time:"", title:"IAB-Forum: Entwarnung mit Vorbehalt", text:"Stark KI-exponierte Berufe rund 1 Prozent über 2022, weniger exponierte gut 3 Prozent darunter. Bei den Jüngeren nach Kontrolle schwach und statistisch nicht signifikant.", persons:["iab"], topics:["arbeitsmarkt"], sources:["iab"], flags:[]},
+  {when:"13.10.2026", time:"11:30 Uhr", title:"ZEIT berichtet über die IAB-Studie", text:"Das IAB: Der negative Zusammenhang mit der Rezession sei „mehr als doppelt so stark“.", persons:["iab"], topics:["arbeitsmarkt"], sources:["zeit2"], flags:[]},
+  {when:"13.10.2026", time:"", title:"IW-Kurzbericht Nr. 70 erscheint", text:"Titel „KI-Nähe des Berufs bisher kein Nachteil auf dem Arbeitsmarkt“, von Stefanie Seele. Die Vollzahlen waren nicht frei abrufbar.", persons:["iw"], topics:["arbeitsmarkt"], sources:["iw2"], flags:["Vollzahlen nicht frei"]},
+  {when:"13.10.2026", time:"", title:"Rücknahme im Interview mit RTL/ntv", text:"„Ich will Wachstum durch KI und rede nicht über neue Steuern.“ Eine spätere Besteuerung schloss er nicht aus.", persons:["wildberger"], topics:["vorschlag"], sources:["yahoo"], flags:[]},
+  {when:"13.10.2026", time:"16:13 Uhr", title:"regionalHeute: Wachstum statt zusätzlicher KI-Steuer", text:"Ergänzende Zitate zur Rücknahme, darunter die Antwort auf die Frage nach Tech-Giganten.", persons:["wildberger"], topics:["vorschlag"], sources:["regio"], flags:[]},
+  {when:"13.10.2026", time:"18:40 Uhr", title:"ComputerBase ordnet das SPD-Papier ein", text:"In zwei von elf Punkten „faire Steuer“, konkret nur die Gewerbesteuer der Rechenzentren.", persons:["spd","wildberger"], topics:["status"], sources:["cb"], flags:[]},
+  {when:"13.10.2026", time:"23:23 Uhr", title:"FAZ: Klingbeil kündigt Prüfung an, Ökonomen uneins", text:"Die Häuser Finanzen, Arbeit und Digitales sollen das Thema in der Regierung voranbringen. BMF: „Es gibt allerdings noch keine fertigen Pläne.“ Dazu Südekum, Langenmayr, Fuest und ein Sprecher des Digitalministeriums.", persons:["klingbeil","bmf","suedekum","langenmayr","fuest","wildberger"], topics:["reaktionen","status"], sources:["faz2"], flags:[]},
+  {when:"14.10.2026", time:"", title:"Bitkom-Pressemitteilung – nicht zur Steuer", text:"Betrifft das Social-Media-Verbot und ein „KI-Seepferdchen“. Eine Stellungnahme zur Wildberger-KI-Steuer wurde nicht gefunden.", persons:["bitkom"], topics:["reaktionen"], sources:["bitkom1"], flags:["Nicht zur Steuer"]}
+];
+/* quote: wörtlich, nur wenn im Faktencheck in Anführungszeichen; je Eintrag genau ein Zitat. para: Wiedergabe, kein Direktzitat. */
+const VOICES = [
+  {who:"Karsten Wildberger", role:"CDU, Bundesminister für Digitalisierung und Staatsmodernisierung", stance:"Urheber der Idee", ctx:"Tagesspiegel-Interview, 13.10.2026, übereinstimmend zitiert", quote:"Den extrem hohen Umsatz mit dieser Technologie müssen wir besteuern, und mit dem Geld können wir den Umbau finanzieren, das ist auch mein Ansatz.", para:"", persons:["wildberger"], topics:["vorschlag","basis","verwendung"], sources:["ts1","zeit1"]},
+  {who:"Karsten Wildberger", role:"CDU, Bundesdigitalminister", stance:"Urheber der Idee", ctx:"Tagesspiegel-Interview, 13.10.2026, übereinstimmend zitiert", quote:"Wenn hierzulande Wachstum und Wertschöpfung entstehen, müssen hierzulande auch Steuern gezahlt werden.", para:"", persons:["wildberger"], topics:["vorschlag","basis"], sources:["ts1","zeit1"]},
+  {who:"Karsten Wildberger", role:"CDU, Bundesdigitalminister", stance:"Einordnung", ctx:"Einordnung der Redaktionen, 13.10.2026 – nicht als Direktzitat gesichert", quote:"", para:"Langfristig entstehe mehr Beschäftigung, aber in anderen Jobs. Umschulungen und neue Tätigkeiten, etwa im Handwerk oder in der Pflege, müssten finanziert werden. Dafür brauche es Wachstum und Offenheit „für andere Instrumente“.", persons:["wildberger"], topics:["verwendung"], sources:["zeit1"]},
+  {who:"Karsten Wildberger", role:"CDU, Bundesdigitalminister", stance:"Zurückgestellt", ctx:"Interview mit RTL/ntv, 13.10.2026, laut dpa-Roundup", quote:"Ich will Wachstum durch KI und rede nicht über neue Steuern.", para:"", persons:["wildberger"], topics:["vorschlag"], sources:["yahoo"]},
+  {who:"Karsten Wildberger", role:"CDU, Bundesdigitalminister", stance:"Zurückgestellt", ctx:"Interview mit RTL/ntv, 13.10.2026, laut dpa-Roundup", quote:"Mein Vorschlag ist: Lassen wir doch erst mal das Wachstum kommen.", para:"Eine spätere Besteuerung schloss er nicht aus.", persons:["wildberger"], topics:["vorschlag"], sources:["yahoo"]},
+  {who:"Karsten Wildberger", role:"CDU, Bundesdigitalminister", stance:"Zurückgestellt", ctx:"regionalHeute, 13.10.2026, 16:13 Uhr", quote:"Mit dem großen Wachstum kommen mehr Einnahmen. Den werden wir brauchen. Und das andere diskutieren wir dann.", para:"", persons:["wildberger"], topics:["vorschlag"], sources:["regio"]},
+  {who:"Karsten Wildberger", role:"CDU, Bundesdigitalminister", stance:"Offen", ctx:"regionalHeute, 13.10.2026 – auf die Frage, ob vor allem Tech-Giganten besteuert werden sollten", quote:"Das ist eine Diskussion, die können wir führen.", para:"", persons:["wildberger"], topics:["vorschlag","basis"], sources:["regio"]},
+  {who:"Karsten Wildberger", role:"CDU, Bundesdigitalminister", stance:"Offen", ctx:"regionalHeute, 13.10.2026", quote:"Wie können wir etwas besteuern, was wir selber in der Wertschöpfung nicht beherrschen?", para:"", persons:["wildberger"], topics:["basis"], sources:["regio"]},
+  {who:"Karsten Wildberger", role:"CDU, Bundesdigitalminister", stance:"Ausweichend", ctx:"Antwort auf Trumps mögliche Strafzölle (Kontext dpa/FAZ, im Faktencheck ohne eigenen Link)", quote:"Natürlich brauchen wir auch global ein gerechtes System.", para:"", persons:["wildberger","trump"], topics:["international"], sources:[]},
+  {who:"Karsten Wildberger", role:"CDU, Bundesdigitalminister", stance:"Vorgeschichte", ctx:"Neue Osnabrücker Zeitung, 21.3.2026, zitiert vom Tagesspiegel", quote:"Wir brauchen deutlich höhere Steuereinnahmen, damit wir mit dem Geld den Jobmarkt umbauen können.", para:"Ein Argument über Wachstum und das vorhandene Steueraufkommen, keine Sondersteuer auf KI-Umsatz.", persons:["wildberger"], topics:["vorschlag"], sources:["ts2"]},
+  {who:"Sprecher des Digitalministeriums", role:"Bundesministerium für Digitalisierung und Staatsmodernisierung", stance:"Erst Wachstum", ctx:"FAZ, 13.10.2026, 23:23 Uhr", quote:"Entscheidend ist aus seiner Sicht aber die Reihenfolge: erst Wachstum, dann Steuern.", para:"", persons:["wildberger"], topics:["vorschlag"], sources:["faz2"]},
+  {who:"Lars Klingbeil", role:"SPD, Bundesfinanzminister", stance:"Prüfankündigung", ctx:"FAZ, 13.10.2026, 23:23 Uhr", quote:"Wir sind der festen Überzeugung, wir können in unserem Land Wachstum schaffen durch Künstliche Intelligenz.", para:"Er sei Wildberger dankbar, dass das Thema auf der Tagesordnung stehe. Eine Prüfankündigung, keine Zustimmung zu einer Umsatzsteuer auf KI.", persons:["klingbeil","bmf"], topics:["reaktionen"], sources:["faz2"]},
+  {who:"Lars Klingbeil", role:"SPD, Bundesfinanzminister", stance:"Prüfankündigung", ctx:"FAZ, 13.10.2026, 23:23 Uhr – Folgefragen", quote:"Wie ist die Zukunft der sozialen Sicherungssysteme in Zeiten der KI? Wie verändern sich Arbeitsplätze? Wie sieht die Zukunft der Besteuerung aus?", para:"Die Häuser Finanzen, Arbeit und Digitales sollten das in der Regierung voranbringen.", persons:["klingbeil","bmf"], topics:["reaktionen","status","verwendung"], sources:["faz2"]},
+  {who:"Bundesfinanzministerium", role:"nach FAZ-Informationen", stance:"Keine fertigen Pläne", ctx:"FAZ, 13.10.2026, 23:23 Uhr", quote:"Es gibt allerdings noch keine fertigen Pläne.", para:"Die Abteilungen für Grundsätzliches und Steuern befassen sich mit KI.", persons:["bmf"], topics:["status"], sources:["faz2"]},
+  {who:"Jens Südekum", role:"Universität Düsseldorf, persönlicher Berater Klingbeils", stance:"Für Ansätze bei Gewinnen", ctx:"FAZ, 13.10.2026, 23:23 Uhr", quote:"Ich halte es für richtig, dass Finanzminister Klingbeil und Digitalminister Wildberger Ansätze entwickeln, wie Gewinne aus KI besteuert werden.", para:"KI könne die Lohnquote drücken und Einkommen von Arbeit zu Kapital verschieben. Ein Umbau, der Umsätze und Kapitaleinkommen stärker heranzieht, sei sinnvoll. Offen: Abgrenzung der KI-Umsätze, Zurechnung nach Deutschland, internationale Koordinierung.", persons:["suedekum"], topics:["reaktionen","basis"], sources:["faz2"]},
+  {who:"Dominika Langenmayr", role:"KU Eichstätt-Ingolstadt", stance:"Falsches Instrument", ctx:"FAZ, 13.10.2026, 23:23 Uhr", quote:"Ich halte das daher für das völlig falsche Instrument.", para:"Ein großer Teil würde auf deutsche Nutzer überwälzt. Deutschland hinke bei der KI-Nutzung schon hinterher. Eher Kapitaleinkünfte höher und Arbeit niedriger besteuern. Sie verweist auf eigene Arbeit zu Amazons Digitalsteuern: Die Last werde über Gebühren an Händler und weitgehend an Verbraucher weitergegeben.", persons:["langenmayr"], topics:["reaktionen","basis"], sources:["faz2"]},
+  {who:"Clemens Fuest", role:"ifo", stance:"Nicht jetzt", ctx:"FAZ, 13.10.2026, 23:23 Uhr", quote:"Jetzt ist dafür nicht der richtige Zeitpunkt.", para:"Eine Steuer speziell auf die Nutzung von KI sei nicht empfehlenswert. Wenn Arbeitseinkommen sinken und Gewinne steigen, könne man über höhere Unternehmensteuern nachdenken. Eine solche Steuer würde in den USA Gegenmaßnahmen auslösen, „ähnlich wie im Fall der Digitalsteuer“.", persons:["fuest"], topics:["reaktionen","international"], sources:["faz2"]},
+  {who:"SPD-Bundestagsfraktion", role:"Beschluss vom 4.9.2026 – ein anderes Papier", stance:"Anderes Papier", ctx:"Damit Fortschritt bei allen ankommt: gute Arbeit im KI-Zeitalter", quote:"Gewinne aus Produktivitätssteigerungen durch KI, eine mögliche KI-Dividende oder die stärkere Einbeziehung von Kapitaleinkünften", para:"Nicht Wildbergers Vorschlag. Auch dort: kein Satz, keine KI-Umsatzsteuer.", persons:["spd"], topics:["status","basis"], sources:["spd"]},
+  {who:"Bill Gates", role:"Gates Notes / CNN", stance:"Tokens und Roboter", ctx:"CNN, 11.10.2026, laut TheStreet", quote:"how do we tax AI usage or robot usage?", lang:"en", para:"Im Essay vom August 2026: Steuer auf KI-Tokens und Roboter, damit Umschulung und soziales Netz finanziert werden. Eine Nutzungs- bzw. Lohnsteuer-Analogie, keine deutsche Umsatzsteuer auf KI-Firmen.", persons:["gates"], topics:["international","basis"], sources:["thestreet","gates"]}
+];
+const GAPS = [
+  {kind:"Fehlt", title:"Kein Steuersatz", text:"In keiner Quelle eine Zahl. Kein Satz heißt: nicht genannt – nicht null.", topics:["basis"]},
+  {kind:"Fehlt", title:"Kein Gesetzentwurf, keine Koalitionslinie", text:"Idee in einem Interview. Kein Referentenentwurf, kein Kabinettsbeschluss, keine Koalitionslinie. BMF: noch keine fertigen Pläne.", topics:["status"]},
+  {kind:"Fehlt", title:"Kein Volumen", text:"Kein Programm, keine Zweckbindung, kein Volumen. Eine Einnahmensumme wird nirgends genannt.", topics:["verwendung","basis"]},
+  {kind:"Nicht belegt", title:"Arbeitslosenversicherung", text:"Weder Wildberger noch Klingbeil nennen die Arbeitslosenversicherung. Kein Fonds, keine Zweckbindung.", topics:["verwendung"]},
+  {kind:"Offen", title:"Wer zahlt", text:"Offen. Eine Diskussion über Tech-Giganten sei möglich, aber erst eigene Wertschöpfung aufbauen.", topics:["basis"]},
+  {kind:"Offen", title:"Was ist ein KI-Umsatz?", text:"Abgrenzung, Zurechnung nach Deutschland und internationale Koordinierung sind offen (Südekum).", topics:["basis","international"]},
+  {kind:"Nicht belegt", title:"Konkrete US-Reaktion", text:"Für diese noch nicht existierende KI-Steuer gibt es keine konkrete US-Reaktion. Wildberger ließ die Frage offen.", topics:["international"]},
+  {kind:"Keine Stellungnahme", title:"Kanzleramt, CSU, Unionsfraktion", text:"Keine öffentliche Stellungnahme zum Wildberger-Satz vom 13./14. Oktober gefunden.", topics:["reaktionen"]},
+  {kind:"Keine Stellungnahme", title:"Bitkom", text:"Keine Stellungnahme zur Wildberger-KI-Steuer gefunden. Die Pressemitteilung vom 14.10. betrifft anderes; separat lehnt Bitkom die Digitalabgabe für Medien ab.", topics:["reaktionen"]},
+  {kind:"Keine Stellungnahme", title:"BDI", text:"Keine Stellungnahme zu diesem Vorschlag gefunden.", topics:["reaktionen"]},
+  {kind:"Keine Stellungnahme", title:"Gewerkschaften (DGB, IG Metall, ver.di)", text:"Keine direkte Reaktion auf die Äußerung vom 13. Oktober gefunden.", topics:["reaktionen"]},
+  {kind:"Nicht belegt", title:"Fratzscher (DIW)", text:"Von n-tv im selben Stück zitiert, aber aus dem SZ Dossier und zu einem anderen Vorschlag: Der Staat solle Eigentümer der KI-Frontier-Unternehmen werden. Keine belegte Reaktion auf die Steueridee.", topics:["reaktionen"]},
+  {kind:"Bezahlschranke", title:"Tagesspiegel als Erstquelle", text:"Die Erstquelle vom 13.10.2026 steht hinter der Bezahlschranke; der Steuerpassus ist dort nicht frei lesbar. Die Zitate sind über dpa übereinstimmend verbreitet.", topics:["vorschlag"]},
+  {kind:"Nicht gesichert", title:"Redaktionelle Einordnung", text:"Die Passagen zu Beschäftigung, Umschulung, Handwerk und Pflege sind Einordnung der Redaktionen, nicht als weiteres Direktzitat gesichert.", topics:["verwendung","vorschlag"]},
+  {kind:"Nicht frei abrufbar", title:"IW-Kurzbericht Nr. 70", text:"Die Vollzahlen waren nicht frei abrufbar.", topics:["arbeitsmarkt"]}
+];
+const HURDLES = [
+  {title:"Umsatzsteuerrecht der EU", text:"Eine zusätzliche Steuer mit dem Charakter einer Umsatzsteuer kollidiert mit der harmonisierten Mehrwertsteuer. Digitale Dienstleistungssteuern wurden deshalb bewusst nicht als allgemeine Umsatzsteuer gebaut.", topics:["status","international"], sources:[]},
+  {title:"Doppelbesteuerungsabkommen", text:"Unternehmensgewinne eines ausländischen Konzerns darf Deutschland nach dem OECD-Muster nur besteuern, wenn eine Betriebsstätte besteht. Software oder ein KI-Modell allein begründen keine Betriebsstätte. Eine Brutto-Umsatzsteuer auf KI-Erlöse ohne Betriebsstätte wäre abkommensrechtlich angreifbar oder müsste, wie die DSTs, außerhalb der Einkommensteuer konstruiert werden.", topics:["status","international"], sources:["deloitte"]},
+  {title:"USA", text:"Trump hat Ende Juni 2026 Zölle von 100 Prozent auf Warenexporte von Staaten angedroht, die eine Digitalabgabe beschließen (dokumentiert von Bitkom). Fuest warnt ausdrücklich vor demselben Muster bei einer KI-Steuer.", topics:["international"], sources:["bitkom2","faz2"]},
+  {title:"Abgrenzung", text:"Südekum nennt die drei offenen Punkte: Was ist ein KI-Umsatz, welche Formel rechnet ihn Deutschland zu, wie wird das international abgestimmt.", topics:["basis","status"], sources:["faz2"]}
+];
+const FACTS = [
+  {lab:"Wer", big:"Wildberger", text:"Karsten Wildberger (CDU), Bundesminister für Digitalisierung und Staatsmodernisierung.", tone:"t-coral"},
+  {lab:"Was", big:"KI-Umsatz", text:"Umsatz ist das Wort im Leitzitat, parallel spricht er von Wertschöpfung. Gewinn, Tokens oder Roboter nennt er nicht.", tone:"t-yellow"},
+  {lab:"Satz", big:"Keiner", text:"In keiner Quelle eine Zahl. Nicht genannt heißt nicht null.", tone:"t-red"},
+  {lab:"Wer zahlt", big:"Offen", text:"Diskussion über Tech-Giganten möglich, aber erst eigene Wertschöpfung aufbauen.", tone:"t-gray"},
+  {lab:"Wofür", big:"Umbau", text:"Arbeitsmarkt, Umschulungen, Handwerk, Pflege. Keine Arbeitslosenversicherung, kein Fonds, keine Zweckbindung.", tone:"t-orange"},
+  {lab:"Status", big:"Interview", text:"Kein Referentenentwurf, kein Kabinettsbeschluss, keine Koalitionslinie. Am selben Tag auf erst Wachstum zurückgestuft.", tone:"t-teal"}
+];
+const NUMS = [
+  {b:"+1 %", s:"Beschäftigung in stark KI-exponierten Berufen gegenüber 2022 (rund)", src:"IAB-Forum, 13.10.2026"},
+  {b:"−3 %", s:"in weniger exponierten Berufen (gut 3 Prozent darunter)", src:"IAB-Forum, 13.10.2026"},
+  {b:"−1,2 Pp.", s:"Abstand bei 20- bis 29-Jährigen (−3,8 % zu −2,6 %), nach Kontrolle nicht signifikant", src:"IAB-Forum, 13.10.2026"},
+  {b:"−4,2 %", s:"Konjunktureffekt bei jungen Beschäftigten in anfälligen Sektoren", src:"IAB-Forum / ZEIT, 13.10.2026"},
+  {b:"152.000", s:"KI-Stellenanzeigen 2024 (2019: 97.000; 2022: 181.000)", src:"IW, 3.6.2025"},
+  {b:"1,6 Mio.", s:"Arbeitsplätze im Strukturwandel, auf- oder abgebaut – Projektion, kein Ist", src:"IAB-Forschungsbericht 23/2025"}
+];
+const NUMS2 = [
+  {b:"10 %", s:"abgelehnter Grünen-Antrag auf digitale Inlandsumsätze (Schwellen 750 Mio. Welt / 50 Mio. Deutschland)", src:"hib 513/2026, 24.6.2026"},
+  {b:"100 %", s:"von Trump angedrohte Zölle gegen Staaten mit Digitalabgabe", src:"Bitkom, Oktober 2026"},
+  {b:"100.000 bis 750.000 €", s:"erwogene EU-Pauschale ab 100 Mio. Euro EU-Umsatz, statt einer Digitalsteuer", src:"FT laut onvista/Reuters, 7.10.2026"}
+];
+/* ---------- Hilfen: Daten nur per textContent / Textknoten ---------- */
+const $ = id => document.getElementById(id);
+const SRC = Object.fromEntries(SOURCES.map(s => [s.id, s]));
+const PNAME = Object.fromEntries(PERSONS.map(p => [p.id, p.name]));
+const TNAME = Object.fromEntries(TOPICS.map(t => [t.id, t.name]));
+const VMAP = Object.fromEntries(VERDICTS.map(v => [v.id, v]));
+const state = {urteil:"all", person:"", thema:"", q:"", tab:"lage"};
+
+function el(tag, attrs, ...kids){
+  const n = document.createElement(tag);
+  if (attrs) for (const k in attrs){
+    const v = attrs[k];
+    if (v === null || v === undefined || v === false) continue;
+    if (k === "class") n.className = v; else n.setAttribute(k, v);
+  }
+  for (const c of kids){
+    if (c === null || c === undefined || c === false) continue;
+    n.appendChild(typeof c === "string" ? document.createTextNode(c) : c);
+  }
+  return n;
+}
+const norm = s => String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ß/g, "ss");
+function hl(text){
+  const frag = document.createDocumentFragment();
+  const nq = norm(state.q.trim());
+  if (!nq){ frag.appendChild(document.createTextNode(text)); return frag; }
+  const chars = Array.from(text); const map = []; let flat = "";
+  chars.forEach((ch, i) => { const n = norm(ch); for (let k = 0; k < n.length; k++) map.push(i); flat += n; });
+  let pos = 0, last = 0, idx;
+  while ((idx = flat.indexOf(nq, pos)) !== -1){
+    const a = map[idx], b = map[idx + nq.length - 1] + 1;
+    if (a > last) frag.appendChild(document.createTextNode(chars.slice(last, a).join("")));
+    if (b > a) frag.appendChild(el("mark", null, chars.slice(Math.max(a, last), b).join("")));
+    last = Math.max(last, b); pos = idx + nq.length;
+  }
+  if (last < chars.length) frag.appendChild(document.createTextNode(chars.slice(last).join("")));
+  return frag;
+}
+const srcText = ids => (ids || []).map(id => { const s = SRC[id]; return s ? [s.outlet, s.title, s.date, s.time, s.flags.join(" ")].join(" ") : ""; }).join(" ");
+function matchQ(...parts){ const q = norm(state.q.trim()); return !q || norm(parts.flat().join(" ")).includes(q); }
+const okP = it => !state.person || (it.persons || []).includes(state.person);
+const okT = it => !state.thema || (it.topics || []).includes(state.thema);
+const ext = (href, ...kids) => el("a", {href:href, target:"_blank", rel:"noopener noreferrer"}, ...kids);
+
+function srcList(ids){
+  if (!ids || !ids.length) return null;
+  const ul = el("ul", {class:"srcs", "aria-label":"Belege"});
+  ids.forEach(id => {
+    const s = SRC[id]; if (!s) return;
+    const li = el("li", null, ext(s.url, hl(s.outlet + ", " + s.date + (s.time ? ", " + s.time : ""))));
+    s.flags.filter(f => f === "Erstquelle" || f === "Bezahlschranke").forEach(f => { li.appendChild(document.createTextNode(" ")); li.appendChild(el("span", {class:"flag"}, f)); });
+    ul.appendChild(li);
+  });
+  return ul;
+}
+function tagRow(persons, topics){
+  const d = el("div", {class:"tags"});
+  (persons || []).forEach(p => d.appendChild(el("span", {class:"tag"}, PNAME[p] || p)));
+  (topics || []).forEach(t => d.appendChild(el("span", {class:"tag"}, "# " + (TNAME[t] || t))));
+  return d;
+}
+function emptyBox(what){
+  const r = el("button", {class:"reset", type:"button"}, "Filter zurücksetzen");
+  r.addEventListener("click", resetAll);
+  return el("div", {class:"empty"}, el("p", {style:"margin:0"}, "Keine " + what + " für diese Auswahl."), r);
+}
+function setCount(id, n, total, word){ $(id).textContent = n + " von " + total + " " + word + (n === total ? "" : " · gefiltert"); }
+const flagsBox = fl => fl.length ? el("span", {class:"tags", style:"margin:0"}, ...fl.map(f => el("span", {class:"flag"}, f))) : null;
+
+/* ---------- Lage: feste Übersicht, unabhängig von Filtern ---------- */
+function buildLage(){
+  FACTS.forEach(x => $("facts").appendChild(el("article", {class:"card " + x.tone}, el("p", {class:"lab"}, x.lab), el("p", {class:"big"}, x.big), el("p", null, x.text))));
+  const cnt = {}; VERDICTS.forEach(v => cnt[v.id] = CLAIMS.filter(c => c.cat === v.id).length);
+  $("dist").setAttribute("aria-label", VERDICTS.map(v => v.chip + " " + cnt[v.id]).join(", ") + " von " + CLAIMS.length + " Prüfpunkten");
+  VERDICTS.forEach(v => {
+    $("dist").appendChild(el("span", {class:"d-" + v.id, style:"width:" + (cnt[v.id] / CLAIMS.length * 100) + "%"}));
+    $("legend").appendChild(el("li", null, el("span", {class:"dot d-" + v.id, "aria-hidden":"true"}), v.chip + ": " + cnt[v.id]));
+  });
+  const mk = (box, arr) => arr.forEach(n => $(box).appendChild(el("div", {class:"num"}, el("b", null, n.b), el("span", null, n.s), el("small", null, n.src))));
+  mk("nums", NUMS); mk("nums2", NUMS2);
+}
+
+/* ---------- Filter ---------- */
+function buildFilters(){
+  [{id:"all", chip:"Alle Urteile"}].concat(VERDICTS).forEach(v => {
+    const n = v.id === "all" ? CLAIMS.length : CLAIMS.filter(c => c.cat === v.id).length;
+    const b = el("button", {class:"chip", type:"button", "data-v":v.id, "aria-pressed":String(v.id === "all"), "aria-label":v.chip + ", " + n + " Prüfpunkte"},
+      v.id === "all" ? null : el("span", {class:"dot d-" + v.id, "aria-hidden":"true"}), v.chip, el("span", {class:"n", "aria-hidden":"true"}, String(n)));
+    b.addEventListener("click", () => { state.urteil = v.id; render(); });
+    $("chips").appendChild(b);
+  });
+  const ps = $("person"), ts = $("thema"), q = $("q");
+  ps.appendChild(el("option", {value:""}, "Alle Personen"));
+  ["Personen","Institutionen"].forEach(g => ps.appendChild(el("optgroup", {label:g}, ...PERSONS.filter(p => p.group === g).map(p => el("option", {value:p.id}, p.name)))));
+  ts.appendChild(el("option", {value:""}, "Alle Themen"));
+  TOPICS.forEach(t => ts.appendChild(el("option", {value:t.id}, t.name)));
+  ps.addEventListener("change", () => { state.person = ps.value; render(); });
+  ts.addEventListener("change", () => { state.thema = ts.value; render(); });
+  q.addEventListener("input", () => { state.q = q.value; render(); });
+  $("qclear").addEventListener("click", () => { q.value = ""; state.q = ""; render(); q.focus(); });
+}
+function resetAll(){ state.urteil = "all"; state.person = ""; state.thema = ""; state.q = ""; $("q").value = ""; $("person").value = ""; $("thema").value = ""; render(); }
+function renderActive(){
+  const box = $("active"); box.replaceChildren();
+  const parts = [];
+  if (state.urteil !== "all") parts.push("Urteil: " + VMAP[state.urteil].chip);
+  if (state.person) parts.push("Person: " + PNAME[state.person]);
+  if (state.thema) parts.push("Thema: " + TNAME[state.thema]);
+  if (state.q.trim()) parts.push("Suche: „" + state.q.trim() + "“");
+  box.hidden = !parts.length;
+  if (!parts.length) return;
+  box.appendChild(el("span", null, "Aktiv – " + parts.join(" · ") + (state.tab === "lage" ? " (wirkt nicht auf die Lage)" : "")));
+  const r = el("button", {class:"reset", type:"button"}, "Zurücksetzen");
+  r.addEventListener("click", resetAll);
+  box.appendChild(r);
+}
+
+/* ---------- Bereiche ---------- */
+const TONE = {belegt:"t-teal", teils:"t-orange", offen:"t-gray", widerlegt:"t-red"};
+function renderCheck(){
+  const list = $("l-check"); list.replaceChildren();
+  const items = CLAIMS.filter(c => (state.urteil === "all" || c.cat === state.urteil) && okP(c) && okT(c) &&
+    matchQ(c.text, c.urteil, c.beleg, c.persons.map(p => PNAME[p]), srcText(c.sources)));
+  setCount("c-check", items.length, CLAIMS.length, "Prüfpunkten");
+  if (!items.length){ list.appendChild(emptyBox("Prüfpunkte")); return; }
+  items.forEach(c => list.appendChild(el("article", {class:"card claim " + TONE[c.cat], "data-cat":c.cat},
+    el("div", {class:"row"}, el("span", {class:"no"}, "PRÜFPUNKT " + c.id),
+      el("span", {class:"badge b-" + c.cat}, el("span", {class:"dot d-" + c.cat, "aria-hidden":"true"}), hl(c.urteil))),
+    el("h3", null, hl(c.text)),
+    el("p", {class:"beleg"}, el("strong", null, "Beleg: "), hl(c.beleg)),
+    srcList(c.sources), tagRow(c.persons, c.topics))));
+}
+function renderZeit(){
+  const list = $("l-zeit"); list.replaceChildren();
+  const items = EVENTS.filter(e => okP(e) && okT(e) && matchQ(e.when, e.time, e.title, e.text, e.flags, e.persons.map(p => PNAME[p]), srcText(e.sources)));
+  setCount("c-zeit", items.length, EVENTS.length, "Ereignissen");
+  if (!items.length){ list.appendChild(el("li", {class:"noline"}, emptyBox("Ereignisse"))); return; }
+  items.forEach(e => list.appendChild(el("li", null, el("article", {class:"card t-yellow"},
+    el("div", {class:"row"}, el("span", {class:"when"}, hl(e.when + (e.time ? " · " + e.time : ""))), flagsBox(e.flags)),
+    el("h3", null, hl(e.title)), el("p", null, hl(e.text)), srcList(e.sources)))));
+}
+function renderStimmen(){
+  const list = $("l-stimmen"); list.replaceChildren();
+  const items = VOICES.filter(v => okP(v) && okT(v) && matchQ(v.who, v.role, v.stance, v.ctx, v.quote, v.para, srcText(v.sources)));
+  setCount("c-stimmen", items.length, VOICES.length, "Stimmen");
+  if (!items.length){ list.appendChild(emptyBox("Stimmen")); return; }
+  items.forEach(v => {
+    const card = el("article", {class:"card voice t-coral"},
+      el("div", {class:"row"}, el("span", {class:"who"}, hl(v.who)), el("span", {class:"stance"}, v.stance)),
+      el("div", {class:"role"}, hl(v.role)), el("div", {class:"role"}, hl(v.ctx)));
+    if (v.quote) card.appendChild(el("blockquote", {lang:v.lang || null}, "„", hl(v.quote), "“"));
+    if (v.para) card.appendChild(el("p", {class:"para"}, el("span", {class:"lbl"}, "Wiedergabe, kein Direktzitat"), hl(v.para)));
+    card.appendChild(v.sources.length ? srcList(v.sources) : el("p", {class:"role", style:"margin-top:8px"}, "Im Faktencheck ohne eigenen Link."));
+    list.appendChild(card);
+  });
+}
+function renderLuecken(){
+  const list = $("l-luecken"); list.replaceChildren();
+  const items = GAPS.filter(g => okT(g) && matchQ(g.kind, g.title, g.text));
+  setCount("c-luecken", items.length, GAPS.length, "Lücken");
+  if (!items.length) list.appendChild(emptyBox("Lücken"));
+  items.forEach(g => list.appendChild(el("article", {class:"card gap t-gray"},
+    el("span", {class:"lbl"}, g.kind), el("h3", {style:"margin:2px 0 6px;font-size:1.05rem"}, hl(g.title)), el("p", null, hl(g.text)))));
+  const hb = $("l-huerden"); hb.replaceChildren();
+  const hs = HURDLES.filter(h => okT(h) && matchQ(h.title, h.text, srcText(h.sources)));
+  setCount("c-huerden", hs.length, HURDLES.length, "Hürden");
+  if (!hs.length) hb.appendChild(emptyBox("Hürden"));
+  hs.forEach(h => hb.appendChild(el("article", {class:"card t-red"},
+    el("h3", {style:"margin:0 0 6px;font-size:1.05rem"}, hl(h.title)), el("p", null, hl(h.text)), srcList(h.sources))));
+}
+function renderQuellen(){
+  const list = $("l-quellen"); list.replaceChildren();
+  const items = SOURCES.filter(s => okP(s) && okT(s) && matchQ(s.outlet, s.title, s.date, s.time, s.note, s.flags, s.persons.map(p => PNAME[p])));
+  setCount("c-quellen", items.length, SOURCES.length, "Quellen");
+  if (!items.length){ list.appendChild(emptyBox("Quellen")); return; }
+  items.forEach(s => list.appendChild(el("article", {class:"card src t-teal"},
+    el("div", {class:"row"}, el("span", {class:"outlet"}, hl(s.outlet)), flagsBox(s.flags)),
+    el("div", {class:"when"}, hl(s.date + (s.time ? ", " + s.time : ""))),
+    el("h3", {style:"margin:6px 0 4px;font-size:1rem;line-height:1.35"}, hl(s.title)),
+    el("p", null, hl(s.note)),
+    el("a", {class:"go", href:s.url, target:"_blank", rel:"noopener noreferrer"}, "Quelle öffnen ↗"))));
+}
+
+/* ---------- Tabs ---------- */
+const TABS = ["lage","check","zeit","stimmen","luecken","quellen"];
+function setTab(t, push){
+  if (!TABS.includes(t)) t = "lage";
+  state.tab = t;
+  TABS.forEach(x => {
+    $("p-" + x).hidden = x !== t;
+    const b = $("t-" + x);
+    if (x === t) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
+  });
+  if (push && location.hash !== "#" + t) history.replaceState(null, "", "#" + t);
+  renderActive();
+  window.scrollTo(0, 0);
+}
+document.querySelectorAll(".tabbar button").forEach(b => b.addEventListener("click", () => setTab(b.dataset.tab, true)));
+window.addEventListener("hashchange", () => setTab(location.hash.slice(1), false));
+function render(){
+  document.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", String(c.dataset.v === state.urteil)));
+  $("qclear").hidden = !state.q;
+  renderCheck(); renderZeit(); renderStimmen(); renderLuecken(); renderQuellen(); renderActive();
+}
+buildLage(); buildFilters(); render(); setTab(location.hash.slice(1) || "lage", false);
+</script>
+</body>
+</html>
