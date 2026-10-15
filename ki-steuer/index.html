@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>KI-Steuer-Idee Wildberger – Faktencheck-Dashboard V3 (Stand 14.10.2026)</title>
+<style>
+:root{--pet:#0b3c49;--pet0:#06303a;--tq:#14b8a6;--tql:#5eead4;--tqd:#0f766e;--co:#ff6f59;--cod:#b83a26;--ye:#fcd34d;--yed:#713f12;--ink:#0f2930;--ink2:#26434b;--mut:#4b5f66;--line:#dfe8e6;--card:#fffdf7;--r:18px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:Inter,"Noto Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#f0fdfa;line-height:1.5;font-size:16px;min-height:100vh;overflow-x:hidden;
+background:#0b3c49;background-image:radial-gradient(900px 500px at 100% 0%,rgba(255,111,89,.38),transparent 60%),radial-gradient(800px 520px at 0% 100%,rgba(252,211,77,.22),transparent 60%),linear-gradient(160deg,#062a33 0%,#0e5563 45%,#0b3c49 100%);background-repeat:no-repeat}
+a{color:#0e6b62;font-weight:600}
+button{font:inherit}
+:focus-visible{outline:3px solid var(--ye);outline-offset:2px;border-radius:8px}
+.card :focus-visible,.card:focus-visible{outline-color:#b83a26}
+.ico{display:inline-grid;place-items:center;flex:none;width:34px;height:34px;border-radius:10px;background:var(--c,var(--tq));color:var(--pet0)}
+.ico svg{width:20px;height:20px}
+.app{display:grid;grid-template-columns:262px minmax(0,1fr);min-height:100vh;background:linear-gradient(90deg,rgba(3,28,34,.72) 0 261px,rgba(255,255,255,.16) 261px 262px,transparent 262px)}
+.side{position:sticky;top:0;height:100vh;overflow-y:auto;padding:22px 14px 18px;display:flex;flex-direction:column;gap:18px}
+.brand{display:flex;gap:10px;align-items:center}
+.brand .logo{width:42px;height:42px;border-radius:14px;background:conic-gradient(from 200deg,var(--co),var(--ye),var(--tq),var(--co));display:grid;place-items:center;color:var(--pet0)}
+.brand .logo svg{width:24px;height:24px}
+.brand b{display:block;font-size:16px;line-height:1.2}
+.brand small{display:block;font-size:12.5px;color:#b9ece4}
+.tabs{display:flex;flex-direction:column;gap:6px}
+.tab{display:flex;align-items:center;gap:12px;padding:9px 10px;border-radius:14px;color:#e6fffb;background:transparent;border:1px solid transparent;font-weight:700;font-size:15px;cursor:pointer;text-align:left;width:100%}
+.tab:hover{background:rgba(255,255,255,.08)}
+.tab .ico{background:var(--c)}
+.tab .nr{margin-left:auto;font-size:12px;color:#9fe1d6;font-variant-numeric:tabular-nums}
+.tab .sh{display:none}
+.tab[aria-selected="true"]{background:var(--card);color:var(--pet);border-color:#fff}
+.tab[aria-selected="true"] .nr{color:var(--tqd)}
+.side .meta{margin-top:auto;font-size:12.5px;color:#c4eee7;border-top:1px solid rgba(255,255,255,.15);padding-top:12px}
+.side .meta b{color:#fff}
+main{padding:28px 34px 40px;max-width:1140px;width:100%}
+.panel[hidden]{display:none}
+.panel:focus{outline:none}
+.kick{display:inline-flex;gap:8px;align-items:center;font-size:13px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--pet0);background:var(--ye);padding:4px 12px;border-radius:20px}
+h1,h2.pt{font-size:clamp(26px,4.2vw,44px);line-height:1.08;font-weight:900;letter-spacing:-.6px;margin-top:12px}
+h1 em,h2.pt em{font-style:normal;color:var(--co)}
+.lead{font-size:16.5px;color:#d9f7f2;margin-top:10px;max-width:880px}
+.lead b{color:#fff}
+.sub{font-size:14px;color:#b9ece4;margin-top:4px}
+.card{background:var(--card);color:var(--ink);border-radius:var(--r);padding:18px;box-shadow:0 10px 30px rgba(2,20,25,.28)}
+.card h3{font-size:17px;font-weight:800;line-height:1.25}
+.card .cs{font-size:13.5px;color:var(--mut);margin-top:2px}
+.blk{margin-top:22px}
+.sinn{font-style:italic;color:#7c2d12;font-size:.92em}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:14px;cursor:pointer;border-radius:999px;padding:7px 14px;min-height:40px;border:2px solid rgba(255,255,255,.4);background:rgba(255,255,255,.08);color:#f0fdfa}
+.chip .n{font-size:12px;background:rgba(255,255,255,.2);border-radius:10px;padding:0 7px}
+.chip .dot{width:12px;height:12px;border-radius:50%;background:var(--c);border:2px solid #fff}
+.chip[aria-pressed="true"]{background:#fffdf7;color:var(--pet);border-color:#fff}
+.chip[aria-pressed="true"] .n{background:#d5f5ef}
+.src{font-size:13px;color:var(--mut);margin-top:8px}
+.next{display:flex;justify-content:flex-end;margin-top:26px}
+.next button{background:var(--co);color:#2a0a04;border:0;border-radius:999px;padding:10px 18px;font-weight:800;cursor:pointer;min-height:44px}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:800;border-radius:999px;padding:2px 10px;white-space:nowrap}
+.approx{background:#fff1d6;color:#7c2d12;border:1px dashed #b45309}
+.dist{display:flex;height:42px;border-radius:12px;overflow:hidden;margin-top:12px;border:2px solid var(--ink)}
+.dist div{display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;min-width:0}
+.leg{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px;font-size:14px;color:var(--ink2)}
+.leg span{display:inline-flex;align-items:center;gap:6px}
+.leg i{width:14px;height:14px;border-radius:4px;display:inline-block;border:1px solid rgba(0,0,0,.25)}
+.cgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}
+.ct{position:relative;text-align:left;cursor:pointer;border:0;border-radius:16px;padding:0;background:var(--tint);color:var(--ink);box-shadow:0 6px 18px rgba(2,20,25,.25);display:flex;flex-direction:column;overflow:hidden}
+.ct[hidden]{display:none}
+.ct .vh{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--vc);color:var(--vt);font-weight:800;font-size:14px}
+.ct .vh .sym{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.92);color:var(--vc2);display:grid;place-items:center;font-size:14px;font-weight:900;flex:none}
+.ct .vh .no{margin-left:auto;font-variant-numeric:tabular-nums}
+.ct .tx{padding:10px 12px 4px;font-weight:700;font-size:15.5px;line-height:1.35}
+.ct .mo{padding:2px 12px 10px;font-size:13px;font-weight:700;color:var(--ink2);margin-top:auto}
+.ct .bel{display:none;padding:0 12px 12px;font-size:14px;color:var(--ink2)}
+.ct .bel .go{display:inline-block;margin-top:6px;font-weight:800;color:#0e6b62;text-decoration:underline;cursor:pointer}
+.ct[aria-expanded="true"] .bel{display:block}
+.ct[aria-expanded="true"]{box-shadow:0 0 0 3px var(--vc),0 6px 18px rgba(2,20,25,.25)}
+.qbig{border-left:10px solid var(--co);display:grid;gap:10px}
+.qbig .q{font-size:clamp(18px,2.4vw,24px);font-weight:700;line-height:1.35}
+.qbig .q2{font-size:16.5px;font-weight:600;color:var(--ink2)}
+.qbig .who{font-size:14px;color:var(--mut)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.has li,.hasnt li{list-style:none;display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-top:1px solid var(--line);font-size:15px}
+.has li:first-child,.hasnt li:first-child{border-top:0}
+.mark{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:14px}
+.has .mark{background:var(--tqd);color:#fff}.hasnt .mark{background:var(--cod);color:#fff}
+.steck{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.sf{border-top:8px solid var(--c);padding:14px}
+.sf .k{overflow-wrap:anywhere;hyphens:auto;font-size:12.5px;text-transform:uppercase;letter-spacing:.7px;font-weight:800;color:var(--mut)}
+.sf .v{font-size:20px;font-weight:900;margin:2px 0 6px;color:var(--ink);line-height:1.15}
+.sf p{font-size:14px;color:var(--ink2);overflow-wrap:break-word;hyphens:auto}
+.sf .badge{margin-top:8px;white-space:normal}
+.same{border:3px dashed var(--ye);background:#06303a;color:#f0fdfa}
+.same .qq{font-size:17px;font-weight:700;margin-top:8px}
+.same .src,.same .who{color:#bfeee6}.same .src a{color:var(--tql)}
+.tlwrap{position:relative;margin-top:14px}
+.track{position:relative;display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:26px 4px 16px;scrollbar-color:var(--tq) transparent;-webkit-overflow-scrolling:touch;scroll-padding:0 4px}
+.tlwrap::before{content:"";position:absolute;left:0;right:0;top:34px;height:4px;border-radius:2px;background:linear-gradient(90deg,var(--ye),var(--co),var(--tq))}
+.tlc{position:relative;flex:none;width:250px;scroll-snap-align:start;text-align:left;background:var(--card);color:var(--ink);border:0;border-radius:16px;padding:16px 14px 14px;cursor:pointer;box-shadow:0 8px 22px rgba(2,20,25,.3);border-top:6px solid var(--c);display:flex;flex-direction:column;gap:6px}
+.tlc[hidden]{display:none}
+.tlc::before{content:"";position:absolute;top:-28px;left:18px;width:18px;height:18px;border-radius:50%;background:var(--c);border:3px solid #fff}
+.tlc .d{font-size:13px;font-weight:900;color:var(--d);text-transform:uppercase;letter-spacing:.4px}
+.tlc .t{font-size:15.5px;font-weight:700;line-height:1.3}
+.tlc .cat{align-self:flex-start;margin-top:auto}
+.tlc[aria-pressed="true"]{outline:4px solid var(--ye);outline-offset:0}
+.tlnav{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-top:6px;flex-wrap:wrap}
+.tlnav .arr{display:flex;gap:8px}
+.tlnav .arr button{width:44px;height:44px;border-radius:50%;border:2px solid #fff;background:rgba(255,255,255,.1);color:#fff;font-size:20px;font-weight:900;cursor:pointer}
+.tlnav .hint{font-size:14px;color:#c4eee7}
+#tlDetail{margin-top:10px;border-left:10px solid var(--c,var(--tq))}
+#tlDetail p{margin-top:8px;font-size:15px;color:var(--ink2)}
+.spec{padding:18px}
+.scale{height:16px;border-radius:8px;background:linear-gradient(90deg,#e0533d 0%,#f59e0b 50%,#0f9488 100%);margin:8px 0 4px;position:relative}
+.scale::after{content:"";position:absolute;left:50%;top:-4px;bottom:-4px;width:3px;background:var(--ink);border-radius:2px}
+.zl{display:grid;grid-template-columns:repeat(3,1fr);font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--ink2)}
+.zl span:nth-child(2){text-align:center}.zl span:nth-child(3){text-align:right}
+.zones{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+.zone{border-radius:14px;padding:10px;background:var(--zb);display:flex;flex-direction:column;gap:8px;min-height:120px}
+.zone h4{font-size:14px;font-weight:900;color:var(--zt);display:flex;align-items:center;gap:6px}
+.mk{display:flex;align-items:center;gap:8px;text-align:left;background:#fff;border:2px solid var(--c);border-radius:999px;padding:4px 10px 4px 4px;cursor:pointer;color:var(--ink);font-weight:800;font-size:14px;min-height:44px;width:100%}
+.mk .av{flex:none;width:32px;height:32px;border-radius:50%;background:var(--c);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:900;letter-spacing:-.3px}.mk .av.l3{font-size:10px}
+.mk .nm{min-width:0;overflow-wrap:break-word;line-height:1.15}
+.mk .nm small{display:block;font-weight:600;font-size:12px;color:var(--mut)}
+.mk.dim{opacity:.25}
+.mk[aria-pressed="true"]{box-shadow:0 0 0 3px var(--ink)}
+.gaps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:10px}
+.gaps .mk{border-style:dashed;border-color:#6b7f85;border-radius:14px;padding:8px 10px}
+.gaps .mk .av{background:#52646b}
+#rxDetail{border-left:10px solid var(--c,var(--tq))}
+#rxDetail q{quotes:"„" "“";font-weight:700}
+#rxDetail .zz{margin-top:10px;padding:12px;border-radius:12px;background:#eef8f6;font-size:15.5px}
+.note{font-size:14px;color:#d9f7f2;margin-top:14px;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2)}
+.note b{color:#fff}.note a,#srcJobs a{color:var(--tql)}
+.bento{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px;margin-top:16px}
+.s2{grid-column:span 2}.s3{grid-column:span 3}.s4{grid-column:span 4}.s6{grid-column:span 6}
+.tile{display:flex;flex-direction:column}
+.tile .hd{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
+.tile .ft{font-size:13.5px;color:var(--ink2);margin-top:auto;padding-top:10px;border-top:1px solid var(--line)}
+.tile .ft b{color:var(--cod)}
+.val .big{font-size:clamp(34px,4vw,46px);font-weight:900;letter-spacing:-1px;line-height:1;color:var(--tqd)}
+.val .bl{font-size:14.5px;color:var(--ink2);margin-top:6px}
+.val.co .big{color:var(--cod)}
+.val.dark{background:#06303a;color:#f0fdfa}.val.dark .big{color:var(--ye)}.val.dark .bl,.val.dark .cs{color:#c4eee7}.val.dark .ft{color:#c4eee7;border-color:rgba(255,255,255,.2)}
+.minis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:10px}
+.mini{border-radius:12px;background:#fdf3d0;padding:10px}
+.mini .v{font-size:22px;font-weight:900;color:var(--yed);line-height:1.1}
+.mini .l{font-size:12.5px;color:var(--ink2);margin-top:2px}
+.picto{display:flex;gap:6px;margin:8px 0}
+.picto svg{width:34px;height:34px}
+.chart{width:100%;position:relative;touch-action:manipulation}
+.chart svg{display:block;width:100%;overflow:visible}
+.chart .m{cursor:pointer;outline:none}
+.chart .m:hover .hit,.chart .m:focus .hit,.chart .m.on .hit{stroke:var(--ink);stroke-width:2.5}
+.lg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;color:var(--ink2);margin-bottom:6px}
+.lg span{display:inline-flex;gap:6px;align-items:center}
+.lg i{display:inline-block;width:12px;height:12px;border-radius:50%}
+#tip{position:fixed;z-index:80;pointer-events:none;max-width:290px;background:#06303a;color:#f0fdfa;font-size:14px;line-height:1.4;padding:10px 12px;border-radius:12px;box-shadow:0 10px 26px rgba(0,0,0,.4);opacity:0;transition:opacity .12s;border:2px solid var(--tq);left:0;top:0}
+#tip.show{opacity:1}
+#tip b{color:var(--ye)}
+.mx{display:grid;margin-top:6px}
+.mxr{display:grid;grid-template-columns:1.2fr 2fr 1fr 1.8fr;gap:12px;padding:12px 0;border-top:1px solid var(--line);font-size:14px;color:var(--ink2)}
+.mxr.h{font-size:12.5px;font-weight:900;text-transform:uppercase;letter-spacing:.6px;color:var(--mut);border-top:0;padding-top:0}
+.mxr .n{font-weight:800;color:var(--ink);font-size:15px}
+.mxr.hl{background:#fff1d6;margin:0 -18px;padding:12px 18px;border-top:0;border-radius:12px}
+.mxr .lbl{display:none}
+.mxr .s{font-weight:800;color:var(--ink)}
+.hurd{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;counter-reset:h}
+.card.hu{position:relative;padding-top:50px}
+.hu::before{counter-increment:h;content:counter(h);position:absolute;top:14px;left:18px;width:28px;height:28px;border-radius:8px;background:var(--c);color:var(--pet0);font-weight:900;display:grid;place-items:center}
+.hu h4{font-size:16px;font-weight:800;overflow-wrap:anywhere;hyphens:auto}
+.hu p{font-size:14px;color:var(--ink2);margin-top:6px}
+.sbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}
+.sbox{flex:1 1 280px;display:flex;align-items:center;gap:10px;background:var(--card);border-radius:14px;padding:4px 6px 4px 14px;color:var(--ink)}
+.sbox>span{display:inline-flex}.sbox svg{width:20px;height:20px;flex:none}
+.sbox input{flex:1;min-width:0;border:0;background:transparent;font:inherit;font-size:16px;padding:10px 0;color:var(--ink)}
+.sbox input:focus{outline:none}
+.sbox:focus-within{outline:3px solid var(--ye)}
+.sbox button{border:0;background:#e3efec;color:var(--ink);border-radius:10px;padding:8px 12px;font-weight:700;cursor:pointer;min-height:40px}
+#srcCount{font-size:14px;font-weight:700;color:#d9f7f2}
+.slist{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+.slist li{background:var(--card);color:var(--ink);border-radius:14px;padding:12px 14px;border-left:6px solid var(--c);display:flex;gap:12px;align-items:flex-start}
+.slist li[hidden]{display:none}
+.slist .sn{flex:none;font-size:12px;font-weight:900;color:var(--mut);font-variant-numeric:tabular-nums;width:22px;padding-top:2px}
+.slist a{word-break:break-word;font-size:15px}
+.slist .sd{font-size:13px;color:var(--mut);margin-top:2px}
+.slist mark{background:var(--ye);color:var(--ink);border-radius:3px;padding:0 1px}
+.empty{display:none;margin-top:14px}
+footer{margin-top:28px;font-size:13px;color:#c4eee7;border-top:1px solid rgba(255,255,255,.2);padding-top:12px}
+@media (max-width:1100px){.steck{grid-template-columns:repeat(3,minmax(0,1fr))}.hurd{grid-template-columns:1fr 1fr}.cgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:820px){
+  .app{display:block;background:none}
+  .side{position:static;height:auto;background:none;border:0;padding:14px 14px 0;overflow:visible}
+  .side .meta{display:none}
+  .tabs{position:fixed;left:0;right:0;bottom:0;z-index:60;flex-direction:row;gap:2px;background:#04252d;border-top:2px solid var(--tq);padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+  .tab{flex:1 1 0;min-width:0;flex-direction:column;gap:3px;padding:5px 1px;font-size:11px;border-radius:10px;justify-content:center;text-align:center;letter-spacing:-.1px}
+  .tab .ico{width:30px;height:30px;border-radius:9px}.tab .ico svg{width:18px;height:18px}
+  .tab .nr,.tab .lo{display:none}.tab .sh{display:block}
+  main{padding:12px 12px 100px}
+  .bento{grid-template-columns:minmax(0,1fr)}.s2,.s3,.s4,.s6{grid-column:auto}
+  .two{grid-template-columns:1fr}
+  .mxr{grid-template-columns:1fr;gap:4px}.mxr.h{display:none}.mxr .lbl{display:inline;font-weight:800;color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.5px;margin-right:6px}
+  .mxr.hl{margin:0 -14px;padding:12px 14px}
+  .slist{grid-template-columns:1fr}
+  .gaps{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:560px){
+  .card{padding:14px}
+  .cgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .ct .tx{font-size:14px;padding:8px 10px 2px}.ct .vh{padding:6px 10px;font-size:12.5px;gap:6px}.ct .vh .sym{width:20px;height:20px;font-size:12px}.ct .mo{padding:2px 10px 8px;font-size:12px}.ct .bel{padding:0 10px 10px;font-size:13.5px}
+  .ct[aria-expanded="true"]{grid-column:span 2}
+  .steck{grid-template-columns:repeat(2,minmax(0,1fr))}.sf .k{letter-spacing:.3px;font-size:11.5px}.steck .sf:last-child{grid-column:span 2}
+  .hurd{grid-template-columns:1fr}
+  .zones{gap:6px}.zone{padding:8px 6px}.zone h4{font-size:12px}
+  .zone .mk{flex-direction:column;justify-content:center;text-align:center;border-radius:14px;padding:6px 4px;gap:3px;font-size:12.5px}.mk .av{width:28px;height:28px;font-size:11px}.mk .av.l3{font-size:9.5px}.mk .nm small{display:none}.gaps .mk{font-size:13px}
+  .tlc{width:78vw;max-width:290px}
+  .minis{grid-template-columns:1fr 1fr 1fr;gap:6px}.mini{padding:8px}.mini .v{font-size:17px}.mini .l{font-size:12px}
+  .val .big{font-size:32px}
+}
+/* ===== V3: zentrale Filterleiste ===== */
+[hidden]{display:none!important}
+.tab{position:relative}
+.tab .hc{font-size:12px;font-weight:900;background:var(--ye);color:var(--pet0);border-radius:10px;padding:0 7px;min-width:22px;text-align:center;font-variant-numeric:tabular-nums;margin-left:6px}
+.fbar{position:sticky;top:0;z-index:70;margin:-28px -34px 20px;padding:12px 34px 10px;background:rgba(4,37,45,.97);border-bottom:3px solid transparent;border-image:linear-gradient(90deg,var(--ye),var(--co),var(--tq)) 1;box-shadow:0 10px 24px rgba(2,20,25,.35)}
+.fbar{display:grid;grid-template-columns:minmax(220px,300px) minmax(0,1fr);gap:10px 12px;align-items:center}
+.frow{display:contents}
+.fpanel{grid-column:1/-1}
+.fopen{display:none}
+.fpanel{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.shh,.shf,.fback{display:none}
+.fg{position:relative}
+.fgb{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:5px 11px;border-radius:999px;border:2px solid rgba(255,255,255,.38);background:rgba(255,255,255,.07);color:#f0fdfa;font-weight:700;font-size:14px;cursor:pointer;white-space:nowrap}
+.fgb .gd{width:11px;height:11px;border-radius:50%;background:var(--gc);flex:none}
+.fgb .fn:empty{display:none}
+.fgb .fn{font-size:12px;font-weight:900;background:var(--pet0);color:#fff;border-radius:9px;padding:0 6px}
+.fgb .car{font-size:11px;opacity:.85}
+.fgb:hover{background:rgba(255,255,255,.14)}
+.fgb.on{background:var(--gc);border-color:var(--gc);color:var(--pet0)}
+.fgb.on .gd{background:var(--pet0)}
+.fgb[aria-expanded="true"]{border-color:#fff;box-shadow:0 0 0 2px var(--gc)}
+.pop{display:none;position:absolute;top:calc(100% + 8px);left:0;z-index:5;width:max-content;max-width:min(400px,calc(100vw - 24px));background:var(--card);color:var(--ink);border-radius:16px;padding:14px;box-shadow:0 16px 40px rgba(0,0,0,.45);border-top:6px solid var(--gc)}
+.fg.open .pop{display:block}
+.fgh{font-size:15px;font-weight:900;color:var(--ink);display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.fgh i{width:12px;height:12px;border-radius:50%;background:var(--gc);display:inline-block;border:1px solid rgba(0,0,0,.3)}
+.fsub{font-size:12.5px;font-weight:900;text-transform:uppercase;letter-spacing:.6px;color:var(--mut);margin:10px 0 6px}
+.fcs{display:flex;flex-wrap:wrap;gap:6px}
+.fc,.fp{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:5px 12px;border-radius:999px;border:2px solid #9fb6b1;background:#fff;color:var(--ink);font-weight:700;font-size:14px;cursor:pointer;text-align:left}
+.fc .dot{width:12px;height:12px;border-radius:50%;background:var(--c);border:1px solid rgba(0,0,0,.3);flex:none}
+.fc[aria-pressed="true"]{background:var(--pet);border-color:var(--pet);color:#fff}
+.fc[aria-pressed="true"]::before{content:"✓";font-weight:900;color:var(--ye)}
+.fc[aria-pressed="true"] .dot{border-color:#fff}
+.fp{border-style:dashed;font-size:13.5px}
+.fp[aria-pressed="true"]{background:#fef3c7;border-color:#92400e;border-style:solid}
+.fnote{font-size:12.5px;color:var(--mut);margin-top:10px;line-height:1.4}
+.fclr{margin-top:8px;border:0;background:none;color:#0e6b62;font-weight:800;text-decoration:underline;cursor:pointer;font-size:13.5px;padding:4px 0}
+.rng{position:relative;height:44px;margin:4px 2px 0}
+.rng .rt,.rng .rf{position:absolute;top:19px;height:6px;border-radius:3px}
+.rng .rt{left:12px;right:12px;background:#cfe0dc}
+.rng .rf{background:linear-gradient(90deg,var(--ye),var(--co),var(--tq))}
+.rng input{position:absolute;left:0;top:10px;width:100%;height:24px;margin:0;background:none;pointer-events:none;-webkit-appearance:none;appearance:none}
+.rng input::-webkit-slider-runnable-track{background:none;height:24px}
+.rng input::-webkit-slider-thumb{pointer-events:auto;-webkit-appearance:none;appearance:none;width:24px;height:24px;border-radius:50%;background:var(--co);border:3px solid #fff;box-shadow:0 0 0 2px var(--pet);cursor:grab}
+.rng input#rBis::-webkit-slider-thumb{background:var(--tqd)}
+.rng input::-moz-range-thumb{pointer-events:auto;width:20px;height:20px;border-radius:50%;background:var(--co);border:3px solid #fff;box-shadow:0 0 0 2px var(--pet)}
+.rng input::-moz-range-track{background:none}
+.rng input:focus-visible{outline:none}
+.rng input:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 3px var(--ink),0 0 0 6px var(--ye)}
+.rlab{display:flex;justify-content:space-between;gap:10px;font-size:14px;font-weight:800;color:var(--ink)}
+.rlab small{display:block;font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--mut)}
+.rlab span:last-child{text-align:right}
+.fsearch{flex:1 1 200px;display:flex;align-items:center;gap:8px;background:var(--card);color:var(--ink);border-radius:999px;padding:0 5px 0 14px;min-height:42px;min-width:0}
+.fsearch>span{display:inline-flex}.fsearch svg{width:18px;height:18px}
+.fsearch input{flex:1;min-width:0;border:0;background:transparent;font:inherit;font-size:15px;padding:8px 0;color:var(--ink)}
+.fsearch input:focus{outline:none}
+.fsearch:focus-within{outline:3px solid var(--ye)}
+.fsearch input::-webkit-search-cancel-button{display:none}
+.fsearch button{border:0;background:#e3efec;color:var(--ink);border-radius:50%;width:32px;height:32px;font-weight:900;cursor:pointer;flex:none}
+.fact{display:flex;align-items:center;gap:6px 8px;flex-wrap:wrap;min-width:0}
+.fal{font-size:12.5px;font-weight:900;text-transform:uppercase;letter-spacing:.6px;color:#9fe1d6}
+.fchips{display:flex;flex-wrap:wrap;gap:6px;flex:1 1 auto;min-width:0}
+.fchips .none{font-size:13.5px;color:#c4eee7}
+.ach{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:3px 5px 3px 12px;border-radius:999px;border:0;background:var(--gc);color:var(--pet0);font-weight:800;font-size:13.5px;cursor:pointer;white-space:nowrap}
+.ach .x{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:rgba(6,48,58,.16);font-size:16px;line-height:1}
+.ach:hover .x{background:rgba(6,48,58,.32)}
+.fsum{font-size:13px;color:#d9f7f2;font-variant-numeric:tabular-nums}
+.fsum b{color:var(--ye)}
+.freset{border:0;border-radius:999px;background:var(--co);color:#2a0a04;font-weight:800;font-size:14px;padding:6px 14px;min-height:36px;cursor:pointer;white-space:nowrap}
+.freset:disabled{background:rgba(255,255,255,.12);color:#9fe1d6;cursor:default}
+.hits{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin-top:12px;font-size:14px;color:#d9f7f2}
+.hits .hn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:3px 12px}
+.hits b{color:var(--ye);font-size:15px}
+.hits .hf{background:var(--ye);color:var(--pet0);font-weight:800;border-radius:999px;padding:2px 10px;font-size:12.5px}
+.hits .hx{font-size:13px;color:#c4eee7;font-style:italic}
+.emp{margin-top:14px;border-left:10px solid var(--co)}
+.emp b{font-size:17px}
+.emp p{font-size:14.5px;color:var(--ink2);margin:6px 0 10px}
+.seg{display:inline-flex;gap:4px;margin-top:8px}
+.seg .fc{min-height:36px;font-size:13px;padding:4px 10px}
+.chEmpty{font-size:14px;color:var(--ink2);background:#fff1d6;border:1px dashed #b45309;border-radius:12px;padding:12px;margin:6px 0}
+@media (max-width:820px){
+  .tab .hc{position:absolute;top:0;left:calc(50% + 6px);margin:0;font-size:10.5px;padding:0 5px;min-width:18px;border:2px solid #04252d}
+  .fbar{display:block;margin:-12px -12px 14px;padding:10px 12px 8px}
+  .frow{display:flex;gap:8px;align-items:center}
+  .fopen{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:6px 14px;border-radius:999px;border:0;background:var(--co);color:#2a0a04;font-weight:900;font-size:15px;cursor:pointer;flex:none}
+  .fopen svg{width:18px;height:18px}
+  .fbadge{background:var(--pet0);color:#fff;border-radius:10px;font-size:12px;padding:0 7px}
+  .fpanel{position:fixed;left:0;right:0;bottom:0;z-index:2;max-height:86vh;overflow-y:auto;overscroll-behavior:contain;background:var(--card);color:var(--ink);border-radius:22px 22px 0 0;padding:0 16px;display:none;flex-direction:column;flex-wrap:nowrap;align-items:stretch;gap:0;box-shadow:0 -14px 40px rgba(0,0,0,.5)}
+  .fbar.open .fpanel{display:flex}
+  .fbar.open .fback{display:block;position:fixed;inset:0;z-index:1;background:rgba(2,20,25,.62)}
+  .shh{display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:3;background:var(--card);padding:16px 0 10px;border-bottom:2px solid var(--line)}
+  .shh::before{content:"";position:absolute;top:6px;left:50%;width:44px;height:5px;margin-left:-22px;border-radius:3px;background:#b7cbc7}
+  .shh b{font-size:19px;font-weight:900;flex:1}
+  .shx{width:44px;height:44px;border-radius:50%;border:0;background:#e3efec;color:var(--ink);font-size:18px;font-weight:900;cursor:pointer}
+  .shf{display:flex;gap:10px;position:sticky;bottom:0;z-index:3;background:var(--card);padding:12px 0 calc(12px + env(safe-area-inset-bottom));border-top:2px solid var(--line)}
+  .shf .freset{flex:1;min-height:48px;background:#fff;border:2px solid var(--cod);color:var(--cod)}
+  .shf .freset:disabled{background:#fff;color:#4b5f66;border-color:#9fb6b1}
+  .shf .done{flex:1.4;min-height:48px;border:0;border-radius:999px;background:var(--pet);color:#fff;font-weight:900;font-size:15px;cursor:pointer}
+  .fgb{display:none}
+  .fg{position:static;padding:14px 0 12px;border-top:1px solid var(--line)}
+  .shh+.fg{border-top:0}
+  .pop{display:block;position:static;width:auto;max-width:none;box-shadow:none;padding:0;border-top:0;background:none}
+  .fsearch{flex:1 1 0}
+  .fsearch input{font-size:16px}
+  .fact{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-top:8px;padding-bottom:2px}
+  .fact::-webkit-scrollbar{display:none}
+  .fbar:not(.has) .fact{display:none}
+  .fchips{flex-wrap:nowrap;flex:none}
+  .fal,.fsum{display:none}
+  .fact .freset{flex:none;min-height:34px;font-size:13px}
+}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side">
+  <div class="brand"><span class="logo" data-i="chip"></span><div><b>KI-Steuer-Check</b><small>Stand 14.10.2026 · privat</small></div></div>
+  <nav class="tabs" role="tablist" aria-label="Kapitel" aria-orientation="vertical" id="tabs"></nav>
+  <div class="meta"><b>Einzige Faktenbasis:</b> Faktencheck „KI-Steuer Wildberger“, Stand 14.10.2026. Zitate in Anführungszeichen sind wörtlich, Paraphrasen als <i>sinngemäß</i> markiert. Nicht zur Veröffentlichung. Läuft offline.</div>
+</aside>
+<main id="main">
+<div class="fbar" id="fbar" role="search" aria-label="Globale Filter"></div>
+
+<section class="panel" id="p-urteil" role="tabpanel" aria-labelledby="t-urteil" tabindex="-1">
+  <span class="kick">01 · Faktencheck-Urteil zuerst</span>
+  <h1>Im Kern richtig, <em>aber überzogen</em></h1>
+  <p class="lead"><b>Karsten Wildberger (CDU)</b>, Bundesminister für Digitalisierung und Staatsmodernisierung, hat am 13.10.2026 im <i>Tagesspiegel</i> gesagt, man müsse den „extrem hohen Umsatz“ mit KI besteuern, um den Umbau des Arbeitsmarkts zu finanzieren. Es gibt <b>keinen Satz, keinen Gesetzentwurf und keine Koalitionslinie</b>. Noch am selben Tag hat er gegenüber RTL/ntv eine neue Steuer zurückgestellt. Eine Zweckbindung an die Arbeitslosenversicherung ist nicht belegt.</p>
+  <div class="card blk" id="distCard">
+    <h3>12 Behauptungen geprüft</h3>
+    <div class="cs">Anteil je Urteil · Breite proportional zur Anzahl</div>
+    <div class="dist" id="dist" role="img"></div>
+    <div class="leg" id="distLeg"></div>
+  </div>
+  <div class="blk">
+    <div class="hits" id="h-claims" aria-live="polite"></div>
+    <div class="cgrid" id="cgrid"></div>
+    <div class="card emp" id="e-claims" hidden><b>Keine Behauptung passt zu diesen Filtern.</b><p>Kein Element erfüllt alle aktiven Filter gleichzeitig. Einzelne Filter oben über das × entfernen oder alles zurücksetzen.</p><button type="button" class="freset">Alle Filter zurücksetzen</button></div>
+    <p class="sub" style="margin-top:10px">Kachel antippen zeigt den Beleg und den Weg zum passenden Kapitel.</p>
+  </div>
+  <div class="next"><button type="button" data-go="vorschlag">Weiter: Was genau vorgeschlagen wird →</button></div>
+</section>
+
+<section class="panel" id="p-vorschlag" role="tabpanel" aria-labelledby="t-vorschlag" tabindex="-1" hidden>
+  <span class="kick">02 · Der Vorschlag</span>
+  <h2 class="pt">Eine Idee im Interview – <em>kein Entwurf</em></h2>
+  <p class="hits" id="h-vorschlag" hidden><span class="hx">Die globalen Filter wirken nicht auf diese Seite – Zitate und Steckbrief bleiben vollständig.</span></p>
+  <div class="card qbig blk">
+    <div class="q">„Den extrem hohen Umsatz mit dieser Technologie müssen wir besteuern, und mit dem Geld können wir den Umbau finanzieren, das ist auch mein Ansatz.“</div>
+    <div class="q2">„Wenn hierzulande Wachstum und Wertschöpfung entstehen, müssen hierzulande auch Steuern gezahlt werden.“</div>
+    <div class="who">Wildberger im <i>Tagesspiegel</i>, Dienstagsausgabe 13.10.2026 · wörtlich, übereinstimmend zitiert (dpa, ZEIT, SPIEGEL, FAZ, n-tv)</div>
+    <div style="font-size:15px;color:var(--ink2);border-top:1px solid var(--line);padding-top:10px"><span class="sinn">Sinngemäß (Einordnung der Redaktionen, kein gesichertes Direktzitat):</span> Langfristig entstehe mehr Beschäftigung, aber in anderen Jobs. Umschulungen und neue Tätigkeiten, etwa im Handwerk oder in der Pflege, müssten finanziert werden. Dafür brauche es Wachstum und Offenheit „für andere Instrumente“.</div>
+    <div class="src" id="srcLead"></div>
+  </div>
+  <div class="blk"><h3 style="font-size:19px">Steckbrief der Idee</h3><p class="sub">Stand 14.10.2026</p></div>
+  <div class="steck" style="margin-top:10px">
+    <div class="card sf" style="--c:var(--co)"><div class="k">Bemessungs&shy;grundlage</div><div class="v">Umsatz</div><p>Wort im Leitzitat. Parallel spricht er von Wertschöpfung und davon, dass in Deutschland Steuern gezahlt werden müssten. Gewinn, Tokens oder Roboter nennt er nicht.</p><span class="badge" style="background:#fff1d6;color:#7c2d12">genannt, mit Einschränkung</span></div>
+    <div class="card sf" style="--c:#b83a26"><div class="k">Satz</div><div class="v">keiner</div><p>In keiner Quelle eine Zahl.</p><span class="badge" style="background:#ffe4de;color:#8a2a1a">fehlt</span></div>
+    <div class="card sf" style="--c:var(--ye)"><div class="k">Wer zahlt</div><div class="v">offen</div><p>Später: Diskussion über Tech-Giganten möglich, aber erst eigene Wertschöpfung aufbauen.</p><span class="badge" style="background:#fef3c7;color:#713f12">offen</span></div>
+    <div class="card sf" style="--c:var(--tq)"><div class="k">Verwendung</div><div class="v">Umbau Arbeits&shy;markt</div><p>Umschulungen, neue Tätigkeiten in Handwerk und Pflege. Keine Nennung der Arbeitslosenversicherung, kein Fonds, keine Zweckbindung.</p><span class="badge" style="background:#ccfbf1;color:#115e59">Zielbild, kein Programm</span></div>
+    <div class="card sf" style="--c:#0e5563"><div class="k">Rechtsform</div><div class="v">Interview-Idee</div><p>Kein Referentenentwurf, kein Kabinettsbeschluss, keine Koalitionslinie.</p><span class="badge" style="background:#e3efec;color:#26434b">persönliche Äußerung</span></div>
+  </div>
+  <div class="two blk">
+    <div class="card"><h3>Was es gibt</h3><ul class="has" style="margin-top:8px">
+      <li><span class="mark">✓</span><span>Die Äußerung im <i>Tagesspiegel</i>-Interview vom 13.10.2026</span></li>
+      <li><span class="mark">✓</span><span>Klingbeils Ankündigung: Finanzen, Arbeit und Digitales sollen das Thema in der Regierung voranbringen (Prüfung, keine Zustimmung)</span></li>
+      <li><span class="mark">✓</span><span>Im BMF befassen sich nach FAZ-Informationen die Abteilungen für Grundsätzliches und Steuern mit KI</span></li>
+    </ul></div>
+    <div class="card"><h3>Was es nicht gibt</h3><ul class="hasnt" style="margin-top:8px">
+      <li><span class="mark">✕</span><span>Steuersatz</span></li>
+      <li><span class="mark">✕</span><span>Referentenentwurf, Kabinettsbeschluss, Koalitionslinie</span></li>
+      <li><span class="mark">✕</span><span>Fonds oder Zweckbindung – auch keine Nennung der Arbeitslosenversicherung</span></li>
+      <li><span class="mark">✕</span><span>Fertige Pläne im BMF: „Es gibt allerdings noch keine fertigen Pläne.“ (FAZ)</span></li>
+    </ul></div>
+  </div>
+  <div class="card same blk">
+    <span class="badge" style="background:var(--ye);color:var(--pet0)">Am selben Tag relativiert · RTL/ntv</span>
+    <div class="qq">„Ich will Wachstum durch KI und rede nicht über neue Steuern.“</div>
+    <div class="qq">„Mein Vorschlag ist: Lassen wir doch erst mal das Wachstum kommen.“</div>
+    <div class="qq" style="font-weight:600;font-size:16px">„Mit dem großen Wachstum kommen mehr Einnahmen. Den werden wir brauchen. Und das andere diskutieren wir dann.“</div>
+    <div class="who" style="margin-top:8px;font-size:14px">Eine spätere Besteuerung schloss er nicht aus. Sprecher des Digitalministeriums (FAZ, 23:23 Uhr): „Entscheidend ist aus seiner Sicht aber die Reihenfolge: erst Wachstum, dann Steuern.“</div>
+    <div class="src" id="srcSame"></div>
+  </div>
+  <div class="card blk" style="border-left:10px solid var(--tq)">
+    <span class="badge" style="background:#ccfbf1;color:#115e59">Vorgeschichte · 21.3.2026, anderer Ton</span>
+    <p style="margin-top:8px;font-size:16px;font-weight:600">„Wir brauchen deutlich höhere Steuereinnahmen, damit wir mit dem Geld den Jobmarkt umbauen können.“</p>
+    <p style="margin-top:6px;font-size:14px;color:var(--ink2)">Wildberger zur <i>Neuen Osnabrücker Zeitung</i>, zitiert vom <i>Tagesspiegel</i>. Einordnung des Faktenchecks: ein Argument über Wachstum und das vorhandene Steueraufkommen, keine Sondersteuer auf KI-Umsatz.</p>
+    <div class="src" id="srcNoz"></div>
+  </div>
+  <div class="next"><button type="button" data-go="zeit">Weiter: Zeitleiste →</button></div>
+</section>
+
+<section class="panel" id="p-zeit" role="tabpanel" aria-labelledby="t-zeit" tabindex="-1" hidden>
+  <span class="kick">03 · Chronik</span>
+  <h2 class="pt">Von März bis zum <em>14. Oktober</em></h2>
+  <p class="lead">Horizontal wischen oder Pfeile nutzen · Karte antippen öffnet Details und Quellen. Zeitraum oben in der Filterleiste eingrenzen.</p>
+  <div class="hits" id="h-tl" aria-live="polite"></div>
+  <div class="card emp" id="e-tl" hidden><b>Kein Eintrag der Zeitleiste passt zu diesen Filtern.</b><p>Kein Element erfüllt alle aktiven Filter gleichzeitig. Einzelne Filter oben über das × entfernen oder alles zurücksetzen.</p><button type="button" class="freset">Alle Filter zurücksetzen</button></div>
+  <div class="tlwrap"><div class="track" id="tlTrack" tabindex="0" aria-label="Zeitleiste, horizontal scrollbar"></div></div>
+  <div class="tlnav"><span class="hint" id="tlPos"></span><div class="arr"><button type="button" id="tlPrev" aria-label="Vorheriger Eintrag">←</button><button type="button" id="tlNext" aria-label="Nächster Eintrag">→</button></div></div>
+  <div class="card" id="tlDetail" aria-live="polite"></div>
+  <div class="next"><button type="button" data-go="stimmen">Weiter: Reaktionen →</button></div>
+</section>
+
+<section class="panel" id="p-stimmen" role="tabpanel" aria-labelledby="t-stimmen" tabindex="-1" hidden>
+  <span class="kick">04 · Reaktionen</span>
+  <h2 class="pt">Wer steht wo – <em>und wer schweigt</em></h2>
+  <p class="lead">Positions-Skala von dagegen bis dafür. Die Einordnung folgt dem Faktencheck; sie ist ordinal (drei Zonen), keine gemessene Stärke. Person antippen zeigt Zitat und Quelle.</p>
+  <div class="hits" id="h-rx" aria-live="polite"></div>
+  <div class="card emp" id="e-rx" hidden><b>Keine Reaktion passt zu diesen Filtern.</b><p>Kein Element erfüllt alle aktiven Filter gleichzeitig. Einzelne Filter oben über das × entfernen oder alles zurücksetzen.</p><button type="button" class="freset">Alle Filter zurücksetzen</button></div>
+  <div class="card spec" id="spec" style="margin-top:14px">
+    <div class="zl"><span>dagegen</span><span>prüft</span><span>dafür</span></div>
+    <div class="scale" aria-hidden="true"></div>
+    <div class="zones" id="zones"></div>
+    <div id="gapsWrap"><h3 style="margin-top:18px;font-size:16px">Keine Stellungnahme gefunden</h3>
+    <div class="cs">Zum Vorschlag vom 13./14.10.2026 in der Recherche keine öffentliche Reaktion</div>
+    <div class="gaps" id="gaps"></div></div>
+  </div>
+  <div class="card blk" id="rxDetail" aria-live="polite"></div>
+  <p class="note"><b>Nicht als Reaktion gewertet:</b> Marcel Fratzscher (DIW) wird bei n-tv aus dem <i>SZ Dossier</i> zu einem anderen Vorschlag zitiert – der Staat solle Eigentümer der KI-Frontier-Unternehmen werden. Das ist keine belegte Reaktion auf die Steueridee. <span id="srcFr"></span></p>
+  <div class="next"><button type="button" data-go="jobs">Weiter: Arbeitsmarkt →</button></div>
+</section>
+
+<section class="panel" id="p-jobs" role="tabpanel" aria-labelledby="t-jobs" tabindex="-1" hidden>
+  <span class="kick">05 · Arbeitsmarkt</span>
+  <h2 class="pt">Bisher <em>kein breiter KI-Jobabbau</em></h2>
+  <p class="lead">IAB-Forum (13.10.2026), IAB-Szenario und IW. Punkte, Stiele und Balken antippen oder überfahren für Details. Alle Balken und Stiele beginnen bei 0.</p>
+  <div class="hits" id="h-jobs" aria-live="polite"></div>
+  <div class="card emp" id="e-jobs" hidden><b>Keine Arbeitsmarkt-Kachel passt zu diesen Filtern.</b><p>Kein Element erfüllt alle aktiven Filter gleichzeitig. Einzelne Filter oben über das × entfernen oder alles zurücksetzen.</p><button type="button" class="freset">Alle Filter zurücksetzen</button></div>
+  <div class="bento">
+    <div class="card tile s4 jc" data-akt="med" data-thm="arbeit" data-ds="iab" data-d0="2026-10-13" data-src="iab zeit2"><div class="hd"><span class="ico" style="--c:var(--co)" data-i="people"></span><div><h3>Beschäftigung 2025 ggü. 2022</h3><div class="cs">IAB-Forum · Veränderung in % · Punkt-Diagramm (Dumbbell)</div></div></div>
+      <div class="lg"><span><i style="background:#e0533d"></i>stark KI-exponierte Berufe</span><span><i style="background:#0f766e"></i>weniger exponierte Berufe</span></div>
+      <div class="chart" id="chDb" role="img" aria-label="Alle: stark exponiert rund plus 1 Prozent, weniger exponiert gut minus 3 Prozent. 20 bis 29 Jahre: minus 3,8 und minus 2,6 Prozent."></div>
+      <div class="ft">Exponierte Berufe liegen <b>über</b> 2022, weniger exponierte <b>darunter</b>. Nur bei 20- bis 29-Jährigen schneiden exponierte schlechter ab: Abstand <b>−1,2 Prozentpunkte</b>.</div></div>
+    <div class="card tile val dark s2 jc" data-akt="med" data-thm="arbeit" data-ds="iab" data-d0="2026-10-13" data-src="iab zeit2"><div class="hd"><span class="ico" style="--c:var(--ye)" data-i="users"></span><div><h3>Datenbasis IAB</h3><div class="cs">Monatsdaten 2022–2025</div></div></div>
+      <div class="big">22,3 Mio.</div><div class="bl">rund 22,3 Millionen sozialversicherungspflichtige Vollzeitbeschäftigte</div>
+      <div class="ft">IAB-Forum, 13.10.2026: „Entwarnung mit Vorbehalt“</div></div>
+    <div class="card tile s3 jc" data-akt="med" data-thm="arbeit" data-ds="iab" data-d0="2026-10-13" data-src="iab zeit2"><div class="hd"><span class="ico" style="--c:var(--tq)" data-i="pin"></span><div><h3>Abstand nach Altersgruppe</h3><div class="cs">Wachstum exponierter minus weniger exponierter Berufe, Prozentpunkte · Lollipop</div></div></div>
+      <div class="chart" id="chLp" role="img" aria-label="20 bis 29 Jahre minus 1,2 Punkte; 30 bis 39 fast plus 6 Punkte, ungefähr; 40 bis 64 rund plus 5 Punkte, ungefähr"></div>
+      <div class="ft"><span class="badge approx">≈ ungefähr</span> Für 30–39 und 40–64 nennt das IAB nur ungefähre Abstände („fast 6“ bzw. „rund 5“ Punkte), keine Einzelwerte. Hohle Punkte und gestrichelte Stiele, gezeichnet bei 6 bzw. 5.</div></div>
+    <div class="card tile s3 jc" data-akt="med" data-thm="arbeit" data-ds="iab" data-d0="2026-10-13" data-src="iab zeit2"><div class="hd"><span class="ico" style="--c:var(--ye)" data-i="scale"></span><div><h3>Was wiegt schwerer? Junge Beschäftigte 2025</h3><div class="cs">IAB, nach Kontrolle von Homeoffice und Konjunktur · divergierende Balken</div></div></div>
+      <div class="chart" id="chDv" role="img" aria-label="Eine Standardabweichung mehr KI-Exposition: schätzungsweise minus 1,8 Prozent, nicht signifikant. Konjunkturschwäche: minus 4,2 Prozent."></div>
+      <div class="ft">IAB: Der negative Zusammenhang mit der Rezession ist „mehr als doppelt so stark“. KI-Zusammenhang bei Jüngeren <b>schwach und statistisch nicht signifikant</b> (schraffiert).</div></div>
+    <div class="card tile s4 jc" data-akt="med" data-thm="arbeit" data-ds="iw" data-d0="2025-06-03" data-src="iw1"><div class="hd"><span class="ico" style="--c:#7dd3fc" data-i="bars"></span><div><h3>Stellenanzeigen mit KI-Bezug</h3><div class="cs" id="colSub">IW-Gutachten für die Bertelsmann-Stiftung, 3.6.2025 · absolut · Säulen ab 0</div><div class="seg" role="group" aria-label="Einheit Stellenanzeigen"><button type="button" class="fc" data-g="einh" data-v="abs" aria-pressed="true">absolut</button><button type="button" class="fc" data-g="einh" data-v="pct" aria-pressed="false">Prozent</button></div></div></div>
+      <div class="chart" id="chCol" role="img" aria-label="KI-Stellenanzeigen: 2019 97.000, 2022 181.000, 2024 152.000"></div>
+      <div class="ft">Neu am 13.10.2026: IW-Kurzbericht Nr. 70 (Stefanie Seele), „KI-Nähe des Berufs bisher kein Nachteil auf dem Arbeitsmarkt“ – Vollzahlen nicht frei abrufbar.</div></div>
+    <div class="card tile val s2 jc" data-akt="med" data-thm="arbeit" data-ds="iw" data-d0="2025-06-03" data-src="iw1"><div class="hd"><span class="ico" style="--c:var(--tq)" data-i="trend"></span><div><h3>Anteil an allen Anzeigen</h3><div class="cs">IW, 2019 → 2024</div></div></div>
+      <div class="big">1,1&nbsp;% → 1,5&nbsp;%</div>
+      <div class="bl" style="margin-top:12px"><b>KI-Nutzung:</b> etwa jedes fünfte Unternehmen und jeder fünfte Beschäftigte</div>
+      <div class="picto" id="picto" role="img" aria-label="Etwa eins von fünf"></div>
+      <div class="ft">IW, 3.6.2025</div></div>
+    <div class="card tile s4 jc" data-akt="med" data-thm="arbeit" data-ds="iab" data-d0="2025-01-01" data-d1="2025-12-31" data-src="iabfb"><div class="hd"><span class="ico" style="--c:var(--co)" data-i="trend"></span><div><h3>Szenario: KI über 15 Jahre</h3><div class="cs">IAB-Forschungsbericht 23/2025 · gegenüber Referenzszenario</div><span class="badge" style="background:#fff1d6;color:#7c2d12;margin-top:6px">Projektion, kein Ist-Befund</span> <span class="badge approx" id="szNote" hidden>nur absolute Werte belegt</span></div></div>
+      <div class="minis"><div class="mini"><div class="v">+0,8&nbsp;Pp.</div><div class="l">Wachstum pro Jahr</div></div><div class="mini"><div class="v">4,5&nbsp;Bio.&nbsp;€</div><div class="l">zusätzliche Wertschöpfung, kumuliert</div></div><div class="mini"><div class="v">1,6&nbsp;Mio.</div><div class="l">Arbeitsplätze im Strukturwandel</div></div></div>
+      <div class="chart" id="chSz" role="img" aria-label="IT-Dienstleister etwa plus 110.000, Unternehmensdienstleister etwa minus 120.000 Arbeitsplätze gegenüber Referenz"></div>
+      <div class="ft">Beschäftigung am Ende <b>ähnlich wie im Referenzszenario</b>; rund 1,6 Mio. Arbeitsplätze werden auf- oder abgebaut.</div></div>
+    <div class="card tile val co s2 jc" data-akt="med int" data-thm="arbeit" data-ds="iab" data-d0="2026-10-13" data-src="iab"><div class="hd"><span class="ico" style="--c:#cbd5e1" data-i="globe"></span><div><h3>Zum Vergleich: USA</h3><div class="cs">nicht Deutschland</div></div></div>
+      <div class="big">19&nbsp;%</div><div class="bl">stärkerer Rückgang bei 22- bis 25-Jährigen in stark exponierten Berufen (Brynjolfsson u. a., im IAB-Text zitiert)</div>
+      <div class="ft">US-Daten zum Vergleich – kein Befund für Deutschland.</div></div>
+  </div>
+  <p class="src" id="srcJobs" style="color:#c4eee7"></p>
+  <div class="next"><button type="button" data-go="kontext">Weiter: Kontext →</button></div>
+</section>
+
+<section class="panel" id="p-kontext" role="tabpanel" aria-labelledby="t-kontext" tabindex="-1" hidden>
+  <span class="kick">06 · Kontext</span>
+  <h2 class="pt">Nachbar-Instrumente – <em>nicht dasselbe</em></h2>
+  <p class="lead">Digitalsteuer, Medienabgabe, EU-Pauschale, Robotersteuer: was es schon gibt, was diskutiert wird – und welche Hürden eine echte KI-Abgabe hätte.</p>
+  <div class="hits" id="h-ctx" aria-live="polite"></div>
+  <div class="card emp" id="e-ctx" hidden><b>Kein Kontext-Element passt zu diesen Filtern.</b><p>Kein Element erfüllt alle aktiven Filter gleichzeitig. Einzelne Filter oben über das × entfernen oder alles zurücksetzen.</p><button type="button" class="freset">Alle Filter zurücksetzen</button></div>
+  <div class="card blk cx" data-akt="int par" data-thm="steuer kontext" data-src="tf hib"><h3>Steuersätze im Umfeld</h3><div class="cs">Prozent auf digitale Umsätze · Skala ab 0 · Punkte antippen</div>
+    <div class="chart" id="chRate" role="img" aria-label="Polen 1,5 Prozent, Türkei 5 Prozent, Ungarn 7,5 Prozent, Grünen-Antrag 10 Prozent abgelehnt; Wildberger: kein Satz" style="margin-top:8px"></div>
+    <div class="src" id="srcRate"></div></div>
+  <div class="card blk" data-wrap><h3>Vergleich der Instrumente</h3><div class="cs">Basis, Satz und Status laut Faktencheck</div>
+    <div class="mx" id="mx" style="margin-top:10px"></div></div>
+  <div data-wrap><div class="blk"><h3 style="font-size:19px">Hürden, falls daraus eine echte Abgabe würde</h3></div>
+  <div class="hurd" style="margin-top:10px">
+    <div class="card hu cx" data-thm="recht" style="--c:var(--co)"><h4>EU-Umsatzsteuerrecht</h4><p>Eine zusätzliche Steuer mit dem Charakter einer Umsatzsteuer kollidiert mit der harmonisierten Mehrwertsteuer. Digitale Dienstleistungssteuern wurden deshalb bewusst nicht als allgemeine Umsatzsteuer gebaut.</p></div>
+    <div class="card hu cx" data-akt="reg" data-thm="recht" data-src="del" style="--c:var(--ye)"><h4>Doppelbesteuerungsabkommen</h4><p>Gewinne eines ausländischen Konzerns darf Deutschland nach OECD-Muster nur bei einer Betriebsstätte besteuern; Software oder ein KI-Modell allein begründen nach der einschlägigen Einordnung keine. BMF-Neufassungen: Betriebsstätten-Grundsätze 18.6.2026, DBA-Verhandlungsgrundlage 3.7.2026. Eine Brutto-Umsatzsteuer ohne Betriebsstätte wäre abkommensrechtlich angreifbar oder müsste, wie die DSTs, außerhalb der Einkommensteuer konstruiert werden.</p><div class="src" id="srcDel"></div></div>
+    <div class="card hu cx" data-akt="int ver oek" data-thm="recht kontext" data-src="bk2 faz2" style="--c:var(--tq)"><h4>USA</h4><p>Laut Bitkom-Stellungnahme (Oktober 2026) drohte Trump Ende Juni 2026 Zölle von 100 % auf Warenexporte von Staaten an, die eine Digitalabgabe beschließen. Fuest warnt ausdrücklich vor demselben Muster bei einer KI-Steuer. Für die noch nicht existierende KI-Steuer gibt es keine konkrete US-Reaktion.</p><div class="src" id="srcUs"></div></div>
+    <div class="card hu cx" data-akt="oek" data-thm="recht steuer" data-src="faz2" style="--c:#7dd3fc"><h4>Abgrenzung</h4><p>Südekum nennt drei offene Punkte: Was ist ein „KI-Umsatz“, welche Formel rechnet ihn Deutschland zu, wie wird das international abgestimmt.</p><div class="src" id="srcAbg"></div></div>
+  </div></div>
+  <div class="card blk cx" data-akt="int reg" data-thm="steuer arbeit kontext" data-src="gates ts3 faz2" style="border-left:10px solid var(--ye)"><h3>Bill Gates und die Robotersteuer</h3>
+    <p style="margin-top:6px;font-size:15px;color:var(--ink2)">Gates fordert seit Jahren eine Robotersteuer und im Essay vom August 2026 auf Gates Notes eine Steuer auf <b>KI-Tokens und Roboter</b>, damit Umschulung und soziales Netz finanziert werden. Der Steueranreiz heute: Lohnnebenkosten auf menschliche Arbeit, sofortige Abschreibung eines Roboters. Am 11.10.2026 auf CNN: Die Gesellschaft müsse entscheiden, „how do we tax AI usage or robot usage?“ Das ist eine Nutzungs- bzw. Lohnsteuer-Analogie, keine deutsche Umsatzsteuer auf KI-Firmen. Wildberger hat sich laut dpa und FAZ auf diesen Text bezogen. Auf Trumps mögliche Strafzölle antwortete er ausweichend: „Natürlich brauchen wir auch global ein gerechtes System.“</p>
+    <div class="src" id="srcGates"></div></div>
+  <div class="next"><button type="button" data-go="quellen">Weiter: Quellen →</button></div>
+</section>
+
+<section class="panel" id="p-quellen" role="tabpanel" aria-labelledby="t-quellen" tabindex="-1" hidden>
+  <span class="kick">07 · Quellen</span>
+  <h2 class="pt">Alle <em>27 Links</em> durchsuchbar</h2>
+  <p class="lead">Alle Links aus dem Faktencheck vom 14.10.2026. Die Freitextsuche oben findet Medium, Thema, Datum oder Domain.</p>
+  <div class="hits" id="h-src" aria-live="polite"></div>
+  <p class="sub" style="margin-top:6px">Freitextsuche, Quellenart, Zeitraum und alle weiteren Filter: oben in der Filterleiste. <span id="srcCount"></span></p>
+  <ol class="slist" id="srcList"></ol>
+  <div class="card emp" id="e-src" hidden><b>Keine Quelle passt zu diesen Filtern.</b><p>Kein Element erfüllt alle aktiven Filter gleichzeitig. Einzelne Filter oben über das × entfernen oder alles zurücksetzen.</p><button type="button" class="freset">Alle Filter zurücksetzen</button></div>
+  <footer>Einzige Faktenbasis: Faktencheck „KI-Steuer Wildberger“, Stand 14.10.2026. Zitate in Anführungszeichen sind wörtlich; Paraphrasen sind als „sinngemäß“ markiert. Darstellung: eigene, privat, nicht zur Veröffentlichung. Offline lauffähig, ohne externe Ressourcen. Version 3 mit globaler Filterleiste.</footer>
+</section>
+</main>
+</div>
+<div id="tip" role="tooltip" aria-hidden="true"></div>
+<script>
+(function(){
+"use strict";
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s).replace(/&/g,"&").replace(/</g,"<").replace(/>/g,">").replace(/"/g,""");
+const W='stroke="currentColor" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"';
+const I={
+chip:`<svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2" ${W}/><rect x="9.5" y="9.5" width="5" height="5" fill="currentColor"/><path d="M9 2.5v3M15 2.5v3M9 18.5v3M15 18.5v3M2.5 9h3M2.5 15h3M18.5 9h3M18.5 15h3" ${W}/></svg>`,
+check:`<svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11" ${W} stroke-width="2.8"/></svg>`,
+doc:`<svg viewBox="0 0 24 24"><path d="M6 2.5h8l4 4v15H6z" ${W}/><path d="M14 2.5v4h4M9 12h6M9 16h6" ${W}/></svg>`,
+clock:`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" ${W}/><path d="M12 7v5.5l3.5 2.2" ${W}/></svg>`,
+chat:`<svg viewBox="0 0 24 24"><path d="M3 5.5A2.5 2.5 0 0 1 5.5 3h13A2.5 2.5 0 0 1 21 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-5 4.5V16h.5A2.5 2.5 0 0 1 3 13.5z" ${W}/></svg>`,
+bars:`<svg viewBox="0 0 24 24"><path d="M3.5 3.5v17h17" ${W}/><path d="M8.5 17v-5M13 17V8M17.5 17v-9" ${W} stroke-width="3"/></svg>`,
+globe:`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" ${W}/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z" ${W}/></svg>`,
+link:`<svg viewBox="0 0 24 24"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1" ${W}/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1" ${W}/></svg>`,
+people:`<svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" ${W}/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6" ${W}/><circle cx="17" cy="9" r="2.5" ${W}/><path d="M16.5 14c2.8 0 4.5 2.2 4.5 5" ${W}/></svg>`,
+users:`<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5" ${W}/><path d="M5 20c0-4 3-6.5 7-6.5s7 2.5 7 6.5" ${W}/></svg>`,
+trend:`<svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8" ${W}/><path d="M15 7h6v6" ${W}/></svg>`,
+scale:`<svg viewBox="0 0 24 24"><path d="M12 3v18M7 21h10M5 7h14M5 7l-3 6a3 3 0 0 0 6 0zM19 7l-3 6a3 3 0 0 0 6 0z" ${W}/></svg>`,
+pin:`<svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4" ${W}/><path d="M12 11v10" ${W}/></svg>`,
+search:`<svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" ${W}/><path d="M15.5 15.5L21 21" ${W}/></svg>`
+};
+function icons(root){(root||document).querySelectorAll("[data-i]").forEach(e=>{if(!e.firstChild){e.innerHTML=I[e.dataset.i]||"";e.setAttribute("aria-hidden","true");}});}
+
+/* Quellen: alle 27 Links aus dem Faktencheck */
+const S={
+ts:["Tagesspiegel: Interview Wildberger (Bezahlschranke)","13.10.2026, 7:59 Uhr","https://www.tagesspiegel.de/wissen/digitalminister-karsten-wildberger-im-gesprach-ich-hoffe-dass-openai-und-google-die-welt-nicht-als-testlabor-benutzen-16150738.html","med"],
+zeit:["DIE ZEIT (ZEIT/dpa): KI-Steuer Wildberger","13.10.2026, 6:34 Uhr","https://www.zeit.de/digital/2026-10/ki-steuer-karsten-wildberger-cdu-bill-gates-arbeitsmarkt","med"],
+spiegel:["SPIEGEL: Wildberger will KI-Umsätze besteuern","13.10.2026","https://www.spiegel.de/wirtschaft/unternehmen/digitalminister-karsten-wildberger-will-ki-umsaetze-in-deutschland-besteuern-a-a10bfd19-847f-4d49-b0ee-f32a5ea1a285","med"],
+faz1:["FAZ: Wildberger will KI-Umsätze besteuern","13.10.2026, 8:07 Uhr","https://www.faz.net/aktuell/wirtschaft/mehr-wirtschaft/wildberger-will-ki-umsaetze-in-deutschland-besteuern-accg-201312507.html","med"],
+ntv:["n-tv: Wildberger fordert Steuer auf KI-Umsätze","13.10.2026, 7:12 Uhr","https://www.n-tv.de/wirtschaft/Wildberger-fordert-Steuer-auf-KI-Umsaetze-id31410948.html","med"],
+yahoo:["Yahoo Finance (dpa-Roundup): Rücknahme bei RTL/ntv","13.10.2026","https://de.finance.yahoo.com/nachrichten/roundup-wildberger-will-ki-ums%C3%A4tze-152339530.html","med"],
+rh:["regionalHeute: Wildberger setzt auf KI-Wachstum statt zusätzlicher KI-Steuer","13.10.2026, 16:13 Uhr","https://regionalheute.de/wildberger-setzt-auf-ki-wachstum-statt-zusaetzlicher-ki-steuer-1791900782/","med"],
+faz2:["FAZ: Klingbeil und Wildberger prüfen neue Abgaben (inkl. Ökonomen)","13.10.2026, 23:23 Uhr","https://www.faz.net/aktuell/wirtschaft/kuenstliche-intelligenz/ki-steuer-klingbeil-und-wildberger-pruefen-neue-abgaben-201313058.html","med"],
+ts2:["Tagesspiegel: Wildberger erwartet massive Jobverluste durch KI (NOZ-Interview)","21.3.2026","https://www.tagesspiegel.de/wirtschaft/wir-mussen-uns-zusammenraufen-digitalminister-wildberger-erwartet-massive-jobverluste-durch-ki-15385483.html","med"],
+spd:["SPD-Bundestagsfraktion: „Damit Fortschritt bei allen ankommt: gute Arbeit im KI-Zeitalter“ (PDF)","4.9.2026","https://www.spdfraktion.de/system/files/documents/beschluss_gute_arbeit_im_ki_zeitalter.pdf","pol"],
+cb:["ComputerBase: Digitalminister will Steuer für KI-Umsätze","13.10.2026, 18:40 Uhr","https://www.computerbase.de/news/netzpolitik/umbau-des-arbeitsmarktes-finanzieren-digitalminister-will-steuer-fuer-ki-umsaetze.99802/","med"],
+bk1:["Bitkom: Presseinformation zum KI-Seepferdchen","14.10.2026","https://www.bitkom.org/Presse/Presseinformation/Bitkom-zum-KI-Seepferdchen","ver"],
+bk2:["Bitkom: Stellungnahme zu einer möglichen Digitalabgabe (PDF)","Oktober 2026","https://www.bitkom.org/sites/main/files/2026-10/bitkom-stellungnahme-zu-einer-moeglichen-digitalabgabe.pdf","ver"],
+bk3:["Bitkom: Übersichtsseite Stellungnahme Digitalabgabe","5.10.2026","https://www.bitkom.org/Bitkom/Publikationen/Stellungnahme-Bitkom-zu-Digitalabgabe","ver"],
+hib:["Bundestag, hib 513/2026: Finanzausschuss lehnt Digitalsteuer-Antrag ab","24.6.2026","https://www.bundestag.de/presse/hib/kurzmeldungen-1191994","pol"],
+kpmg:["KPMG: Digitalabgabe – Entschließung des Bundesrats","8.4.2026","https://kpmg.com/de/de/themen/2025/12/Digitalabgabe-entschliessung-br.html","fach"],
+adhoc:["ad-hoc-news: EU-Kommission bremst nationale Alleingänge (Hoekstra)","19.9.2026","https://www.ad-hoc-news.de/wirtschaft/digitalsteuer-eu-kommission-bremst-nationale-alleingaenge/70131445","med"],
+onv:["onvista/Reuters: FT – EU erwägt Großkonzern-Abgabe statt Digitalsteuer","7.10.2026","https://www.onvista.de/news/2026/10-07-ft-eu-erwaegt-grosskonzern-abgabe-statt-digitalsteuer-0-20-26561357","med"],
+tf:["Tax Foundation: Digital Services Taxes in Europe","4.5.2026","https://taxfoundation.org/data/all/eu/digital-services-taxes-europe/","fach"],
+gates:["Gates Notes: „The turbulent AI era“","August 2026","https://www.gatesnotes.com/work/make-ai-work-for-everyone/reader/a-turbulent-ai-era-and-critical-choices-to-make","stu"],
+ts3:["TheStreet: Bill Gates says some jobs should be reserved for humans (CNN)","12.10.2026","https://www.thestreet.com/technology/bill-gates-says-some-jobs-should-be-reserved-for-humans","med"],
+iab:["IAB-Forum: KI als Jobkiller für Berufseinsteiger? Entwarnung mit Vorbehalt","13.10.2026","https://iab-forum.de/ki-als-jobkiller-fuer-berufseinsteiger-entwarnung-mit-vorbehalt/","stu"],
+zeit2:["DIE ZEIT: IAB-Studie KI und Arbeitsmarkt","13.10.2026, 11:30 Uhr","https://www.zeit.de/wirtschaft/2026-10/ki-arbeitsmarkt-beschaeftigung-stellenabbau-iab-studie-deutschland-gxe","med"],
+iabfb:["IAB-Forschungsbericht 23/2025 (PDF, Szenario)","2025","https://doku.iab.de/forschungsbericht/2025/fb2325.pdf","stu"],
+iw1:["IW Köln: Stagnation statt Boom (Gutachten für Bertelsmann-Stiftung)","3.6.2025","https://www.iwkoeln.de/studien/jan-buechel-jan-felix-engler-armin-mertens-stagnation-statt-boom.html","stu"],
+iw2:["IW Köln: Erwähnung IW-Kurzbericht Nr. 70 (Seele)","13.10.2026","https://www.iwkoeln.de/studien/barbara-engels-andrea-hammermann-schatten-ki-beschaeftigte-sind-schneller-als-ihre-betriebe.html","stu"],
+del:["Deloitte Tax-News: BMF aktualisierte DBA-Verhandlungsgrundlage","29.7.2026","https://www.deloitte-tax-news.de/steuern/internationales-steuerrecht/bmf-aktualisierte-dba-verhandlungsgrundlage.html","fach"]
+};
+const SK=Object.keys(S);
+const STYP={med:{l:"Medien",c:"#ff6f59"},pol:{l:"Politik",c:"#fcd34d"},ver:{l:"Verbände",c:"#7dd3fc"},fach:{l:"Fachdienste",c:"#c4b5fd"},stu:{l:"Studien & Essays",c:"#14b8a6"}};
+const src=ids=>ids.map(k=>`<a href="${S[k][2]}" target="_blank" rel="noopener noreferrer">${esc(S[k][0].split(":")[0])}, ${esc(S[k][1])}</a>`).join(" · ");
+const setSrc=(id,ids)=>{const e=document.getElementById(id);if(e)e.innerHTML="Quelle"+(ids.length>1?"n":"")+": "+src(ids);};
+setSrc("srcLead",["ts","zeit","spiegel","faz1","ntv"]);setSrc("srcSame",["yahoo","rh","faz2"]);setSrc("srcNoz",["ts2"]);
+setSrc("srcFr",["ntv"]);setSrc("srcJobs",["iab","zeit2","iabfb","iw1","iw2"]);setSrc("srcRate",["tf","hib"]);
+setSrc("srcDel",["del"]);setSrc("srcUs",["bk2","faz2"]);setSrc("srcAbg",["faz2"]);setSrc("srcGates",["gates","ts3","faz2"]);
+
+/* Tabs */
+const TABS=[
+{k:"urteil",l:"Urteil",sh:"Urteil",i:"check",c:"#ff6f59"},
+{k:"vorschlag",l:"Vorschlag",sh:"Vorschlag",i:"doc",c:"#fcd34d"},
+{k:"zeit",l:"Zeitleiste",sh:"Chronik",i:"clock",c:"#2dd4bf"},
+{k:"stimmen",l:"Reaktionen",sh:"Stimmen",i:"chat",c:"#ff8a73"},
+{k:"jobs",l:"Arbeitsmarkt",sh:"Jobs",i:"bars",c:"#fde68a"},
+{k:"kontext",l:"Kontext",sh:"Kontext",i:"globe",c:"#5eead4"},
+{k:"quellen",l:"Quellen",sh:"Quellen",i:"link",c:"#7dd3fc"}];
+const tabs=$("#tabs");
+tabs.innerHTML=TABS.map((t,n)=>`<button type="button" role="tab" class="tab" id="t-${t.k}" data-tab="${t.k}" aria-controls="p-${t.k}" aria-selected="false" tabindex="-1"><span class="ico" style="--c:${t.c}" data-i="${t.i}"></span><span class="lo">${t.l}</span><span class="sh">${t.sh}</span><span class="nr">0${n+1}</span><span class="hc" hidden></span></button>`).join("");
+const mq=window.matchMedia("(max-width:820px)");
+const setOrient=()=>tabs.setAttribute("aria-orientation",mq.matches?"horizontal":"vertical");setOrient();mq.addEventListener("change",setOrient);
+let curTab=null;
+function show(k,focus){
+  if(!TABS.some(t=>t.k===k))k="urteil";
+  hideTip();
+  TABS.forEach(t=>{const b=$("#t-"+t.k),p=$("#p-"+t.k),on=t.k===k;b.setAttribute("aria-selected",on);b.tabIndex=on?0:-1;p.hidden=!on;});
+  curTab=k;writeURL();
+  window.scrollTo(0,0);
+  drawAll();
+  if(focus==="panel")$("#p-"+k).focus({preventScroll:true});
+}
+tabs.addEventListener("click",e=>{const b=e.target.closest(".tab");if(b)show(b.dataset.tab);});
+tabs.addEventListener("keydown",e=>{const i=TABS.findIndex(t=>t.k===curTab);let j=null;
+  if(e.key==="ArrowDown"||e.key==="ArrowRight")j=(i+1)%TABS.length;else if(e.key==="ArrowUp"||e.key==="ArrowLeft")j=(i-1+TABS.length)%TABS.length;else if(e.key==="Home")j=0;else if(e.key==="End")j=TABS.length-1;
+  if(j!==null){e.preventDefault();show(TABS[j].k);$("#t-"+TABS[j].k).focus();}});
+document.addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(g){e.preventDefault();e.stopPropagation();show(g.dataset.go,"panel");}},true);
+
+function chips(el,opts,items,onSel){
+  el.innerHTML=opts.map((o,i)=>{const n=o.k==="all"?items.length:items.filter(x=>x.f===o.k).length;
+    return `<button type="button" class="chip" data-k="${o.k}" aria-pressed="${i===0}">${o.c?`<span class="dot" style="--c:${o.c}"></span>`:""}${esc(o.l)}<span class="n">${n}</span></button>`;}).join("");
+  el.addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;el.querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed",x===b));onSel(b.dataset.k);});
+}
+
+/* 01 Claims */
+const VD={best:{l:"Bestätigt",s:"✓",c:"#0f766e",c2:"#0f766e",t:"#fff",tint:"#d6f7f0"},teil:{l:"Teilweise",s:"◐",c:"#fcd34d",c2:"#713f12",t:"#3b1d04",tint:"#fff6d6"},falsch:{l:"Falsch",s:"✕",c:"#b83a26",c2:"#b83a26",t:"#fff",tint:"#ffe6df"},unbel:{l:"Unbelegt",s:"?",c:"#52646b",c2:"#52646b",t:"#fff",tint:"#e7eef0"}};
+const CL=[
+{c:"Ein Bundesminister will KI-Umsätze besteuern, um den Arbeitsmarktwandel zu finanzieren.",f:"best",v:"Bestätigt, mit Einschränkung",b:"Wildberger, Tagesspiegel 13.10.2026; dpa/ZEIT 6:34 Uhr. Am selben Tag gegenüber RTL/ntv: jetzt keine neue Steuer, erst Wachstum.",go:"vorschlag"},
+{c:"Der Minister ist Karsten Wildberger (CDU), Digitalminister.",f:"best",b:"Alle genannten Meldungen vom 13.10.2026.",go:"vorschlag"},
+{c:"Es gibt einen konkreten Steuersatz.",f:"falsch",b:"In keiner Quelle eine Zahl.",go:"vorschlag"},
+{c:"Bemessungsgrundlage ist der Umsatz, nicht der Gewinn.",f:"teil",b:"Leitzitat sagt Umsatz. Parallel „Wertschöpfung“ und gewöhnliche Steuerzahlung. Gewinnsteuer ist die Linie von Südekum und dem SPD-Papier, nicht Wildbergers Satz.",go:"vorschlag"},
+{c:"Das Geld soll Weiterbildung finanzieren.",f:"teil",b:"Umschulungen, Handwerk, Pflege: ja, als Zielbild. Kein Programm, keine Zweckbindung, kein Volumen.",go:"vorschlag"},
+{c:"Das Geld soll in die Arbeitslosenversicherung fließen.",f:"unbel",b:"Weder Wildberger noch Klingbeil nennen die Arbeitslosenversicherung. Klingbeil spricht allgemein von sozialen Sicherungssystemen.",go:"stimmen"},
+{c:"Das ist Koalitionslinie oder ein Gesetzentwurf.",f:"falsch",b:"Interviewidee. BMF: keine fertigen Pläne. SPD-Beschluss vom 4.9.2026 ist ein anderes, ebenfalls unbeziffertes Paket.",go:"kontext"},
+{c:"Klingbeil unterstützt eine KI-Steuer.",f:"teil",b:"Er begrüßt die Debatte und kündigt Prüfung durch drei Ministerien an. Keine Zustimmung zu Satz oder Basis.",go:"stimmen"},
+{c:"Bill Gates hat denselben Plan vorgelegt, Wildberger übernimmt ihn.",f:"teil",b:"Gates will Tokens und Roboter besteuern bzw. Maschinen wie Arbeit mit Lohnnebenkosten belegen (August 2026 / CNN 11.10.2026). Nicht eine deutsche Umsatzsteuer. Wildberger hat sich darauf bezogen.",go:"kontext"},
+{c:"KI hat in Deutschland bereits breit Jobs vernichtet.",f:"falsch",v:"Falsch nach aktuellem IAB-Befund",b:"IAB-Forum, 13.10.2026: exponierte Berufe +1 % seit 2022, weniger exponierte gut −3 %. Bei unter 30 ein Abstand von −1,2 Punkten, nach Kontrolle nicht signifikant. Konjunktur wiegt schwerer.",go:"jobs"},
+{c:"Bitkom und BDI haben die KI-Steuer abgelehnt.",f:"unbel",b:"Keine Stellungnahme zum Vorschlag vom 13.10. gefunden. Bitkom lehnt eine andere Abgabe ab, die Digitalabgabe für Medien.",go:"stimmen"},
+{c:"Die USA würden mit Zöllen reagieren.",f:"teil",b:"Für Digitalabgaben hat Trump Ende Juni 2026 100-Prozent-Zölle angedroht (Bitkom, Okt. 2026). Für diese noch nicht existierende KI-Steuer gibt es keine konkrete US-Reaktion. Wildberger ließ die Frage offen.",go:"kontext"}];
+const TABL=Object.fromEntries(TABS.map(t=>[t.k,t.l]));
+const order=["best","teil","falsch","unbel"];
+const cnt=k=>CL.filter(x=>x.f===k).length;
+$("#dist").innerHTML=order.map(k=>`<div style="flex:${cnt(k)} 1 0;background:${VD[k].c};color:${VD[k].t}">${cnt(k)}</div>`).join("");
+$("#dist").setAttribute("aria-label",order.map(k=>VD[k].l+" "+cnt(k)).join(", ")+" von 12");
+$("#distLeg").innerHTML=order.map(k=>`<span><i style="background:${VD[k].c}"></i>${VD[k].s} ${VD[k].l}: <b>${cnt(k)}</b></span>`).join("");
+const cg=$("#cgrid");
+cg.innerHTML=CL.map((x,i)=>{const v=VD[x.f];return `<button type="button" class="ct" data-f="${x.f}" aria-expanded="false" style="--vc:${v.c};--vc2:${v.c2};--vt:${v.t};--tint:${v.tint}"><span class="vh"><span class="sym" aria-hidden="true">${v.s}</span>${esc(x.v||v.l)}<span class="no">#${String(i+1).padStart(2,"0")}</span></span><span class="tx">${esc(x.c)}</span><span class="bel"><b>Beleg:</b> ${esc(x.b)}<br><span class="go" data-go="${x.go}" role="link" tabindex="0">→ Kapitel ${esc(TABL[x.go])}</span></span><span class="mo">Beleg ▾</span></button>`;}).join("");
+cg.addEventListener("click",e=>{const t=e.target.closest(".ct");if(!t)return;const o=t.getAttribute("aria-expanded")==="true";t.setAttribute("aria-expanded",!o);t.querySelector(".mo").textContent=o?"Beleg ▾":"Beleg ausblenden ▴";});
+cg.addEventListener("keydown",e=>{const g=e.target.closest(".go");if(g&&(e.key==="Enter"||e.key===" ")){e.preventDefault();e.stopPropagation();show(g.dataset.go,"panel");}});
+
+/* 03 Zeitleiste */
+const CAT={w:{l:"Wildberger & Regierung",c:"#ff6f59",d:"#b83a26",bg:"#ffe6df",fg:"#8a2a1a"},m:{l:"Medien & Studien",c:"#14b8a6",d:"#0f766e",bg:"#d6f7f0",fg:"#115e59"},k:{l:"Vorgeschichte & Kontext",c:"#f59e0b",d:"#92400e",bg:"#fff1d6",fg:"#7c2d12"}};
+const TL=[
+{d:"21.3.2026",t:"Wildberger in der NOZ: „deutlich höhere Steuereinnahmen“",f:"k",x:`<p>Zitat (wörtlich, laut Tagesspiegel): „Wir brauchen deutlich höhere Steuereinnahmen, damit wir mit dem Geld den Jobmarkt umbauen können.“</p><p>Einordnung des Faktenchecks: Das war ein Argument über Wachstum und das vorhandene Steueraufkommen, keine Sondersteuer auf KI-Umsatz.</p>`,s:["ts2"]},
+{d:"18.6. / 3.7.2026",t:"BMF fasst Betriebsstätten-Grundsätze und DBA-Verhandlungsgrundlage neu",f:"k",x:`<p>Relevant für jede Abgabe auf ausländische KI-Konzerne: Unternehmensgewinne darf Deutschland nach OECD-Muster nur bei einer Betriebsstätte besteuern; Software oder ein KI-Modell allein begründen nach der einschlägigen Einordnung keine.</p>`,s:["del"]},
+{d:"24.6.2026",t:"Finanzausschuss lehnt Grünen-Antrag für Digitalsteuer ab",f:"k",x:`<p>Antrag: 10 % auf in Deutschland erzielte digitale Umsätze, ab 750 Mio. € Weltumsatz und 50 Mio. € Inlandsumsatz. Die Union erinnerte an eine im Koalitionsvertrag vereinbarte Digitalabgabe.</p>`,s:["hib"]},
+{d:"Ende Juni 2026",t:"Trump droht Staaten mit Digitalabgabe 100-Prozent-Zölle an",f:"k",x:`<p>Dokumentiert von Bitkom (Stellungnahme Oktober 2026): Zölle von 100 % auf Warenexporte von Staaten, die eine Digitalabgabe beschließen, unabhängig von schon unterschriebenen Handelsabkommen.</p>`,s:["bk2"]},
+{d:"August 2026",t:"Bill Gates: Steuer auf KI-Tokens und Roboter",f:"k",x:`<p>Essay auf Gates Notes: Steuer auf KI-Tokens und Roboter, um Umschulung und soziales Netz zu finanzieren. Der Steueranreiz heute: Lohnnebenkosten auf menschliche Arbeit, sofortige Abschreibung eines Roboters. FAZ-Abdruck am 1.9.2026.</p>`,s:["gates"]},
+{d:"4.9.2026",t:"SPD-Fraktion beschließt Papier „gute Arbeit im KI-Zeitalter“",f:"k",x:`<p>Tech-Konzerne „fair besteuern“, Gewerbesteuer für Rechenzentrumsstandorte anders bemessen, „angepasste Unternehmensbesteuerung“ prüfen, Sozialstaat breiter finanzieren, wenn Lohnsteuer wegbricht. Kein Satz, keine KI-Umsatzsteuer. ComputerBase: in zwei von elf Punkten „faire Steuer“, konkret nur die Gewerbesteuer der Rechenzentren.</p>`,s:["spd","cb"]},
+{d:"19.9.2026",t:"EU-Kommissar Hoekstra lehnt eigene EU-Digitalsteuer ab",f:"k",x:`<p>Solange OECD-Optionen nicht ausgeschöpft sind.</p>`,s:["adhoc"]},
+{d:"7.10.2026",t:"FT: EU erwägt Großkonzern-Pauschale statt Digitalsteuer",f:"k",x:`<p>Ausweitung der „Corporate Resource for Europe“: pauschal 100.000 bis 750.000 € für Unternehmen mit mehr als 100 Mio. € EU-Jahresumsatz. Die Bundesregierung lehne zusätzliche EU-Abgaben ab.</p>`,s:["onv"]},
+{d:"11.10.2026",t:"Gates auf CNN: „how do we tax AI usage or robot usage?“",f:"k",x:`<p>Die Gesellschaft müsse entscheiden, „how do we tax AI usage or robot usage?“ Laut dpa und FAZ hat sich Wildberger auf Gates’ Text bezogen.</p>`,s:["ts3"]},
+{d:"13.10.2026, Print",t:"Tagesspiegel-Interview: „Den extrem hohen Umsatz … müssen wir besteuern“",f:"w",x:`<p>„Den extrem hohen Umsatz mit dieser Technologie müssen wir besteuern, und mit dem Geld können wir den Umbau finanzieren, das ist auch mein Ansatz.“</p><p>„Wenn hierzulande Wachstum und Wertschöpfung entstehen, müssen hierzulande auch Steuern gezahlt werden.“</p><p><span class="sinn">Sinngemäß (Einordnung der Redaktionen):</span> Langfristig entstehe mehr Beschäftigung, aber in anderen Jobs; Umschulungen und neue Tätigkeiten etwa im Handwerk oder in der Pflege müssten finanziert werden. Dafür brauche es Wachstum und Offenheit „für andere Instrumente“.</p><p>Zu möglichen Strafzöllen Trumps ausweichend: „Natürlich brauchen wir auch global ein gerechtes System.“</p>`,s:["ts"]},
+{d:"13.10., 6:34 Uhr",t:"dpa verbreitet die Stelle – ZEIT, n-tv, FAZ, SPIEGEL",f:"m",x:`<p>Früheste frei lesbare Fassung: ZEIT/dpa um 6:34 Uhr. Danach n-tv (7:12 Uhr), Tagesspiegel online (7:59 Uhr), FAZ (8:07 Uhr), SPIEGEL.</p>`,s:["zeit","ntv","faz1","spiegel"]},
+{d:"13.10., 11:30 Uhr",t:"IAB-Studie: Entwarnung mit Vorbehalt",f:"m",x:`<p>IAB-Forum: Stark KI-exponierte Berufe rund 1 % über 2022, weniger exponierte gut 3 % darunter. Bei Jüngeren KI-Zusammenhang nach Kontrolle nicht signifikant; ZEIT-Bericht um 11:30 Uhr. Am selben Tag: IW-Kurzbericht Nr. 70.</p>`,s:["iab","zeit2","iw2"]},
+{d:"13.10., tagsüber",t:"RTL/ntv: „rede nicht über neue Steuern“",f:"w",x:`<p>„Ich will Wachstum durch KI und rede nicht über neue Steuern.“ – „Mein Vorschlag ist: Lassen wir doch erst mal das Wachstum kommen.“ – „Mit dem großen Wachstum kommen mehr Einnahmen. Den werden wir brauchen. Und das andere diskutieren wir dann.“</p><p>Zu Tech-Giganten: „Das ist eine Diskussion, die können wir führen.“ – „Wie können wir etwas besteuern, was wir selber in der Wertschöpfung nicht beherrschen?“ Eine spätere Besteuerung schloss er nicht aus.</p>`,s:["yahoo","rh"]},
+{d:"13.10., 18:40 Uhr",t:"ComputerBase ordnet SPD-Papier ein",f:"m",x:`<p>Im SPD-Beschluss vom 4.9.2026 in zwei von elf Punkten „faire Steuer“, konkret nur die Gewerbesteuer der Rechenzentren.</p>`,s:["cb"]},
+{d:"13.10., 23:23 Uhr",t:"FAZ: Klingbeil kündigt Prüfung an, BMF „noch keine fertigen Pläne“",f:"w",x:`<p>Klingbeil (SPD) ist Wildberger dankbar, dass das Thema auf der Tagesordnung steht; Finanzen, Arbeit und Digitales sollen es in der Regierung voranbringen. Im BMF befassen sich die Abteilungen für Grundsätzliches und Steuern mit KI: „Es gibt allerdings noch keine fertigen Pläne.“</p><p>Sprecher des Digitalministeriums: „Entscheidend ist aus seiner Sicht aber die Reihenfolge: erst Wachstum, dann Steuern.“ Dazu Stimmen von Südekum, Langenmayr und Fuest.</p>`,s:["faz2"]},
+{d:"14.10.2026",t:"Stand: kein Entwurf, keine Stellungnahmen von Bitkom/BDI",f:"w",x:`<p>Weiter kein Satz, kein Gesetzentwurf, keine Koalitionslinie. Die Bitkom-Pressemitteilung vom 14.10. betrifft Social-Media-Verbot und „KI-Seepferdchen“, nicht die Steuer.</p>`,s:["bk1"]}];
+const tr=$("#tlTrack"),tld=$("#tlDetail");
+tr.innerHTML=TL.map((e,i)=>{const c=CAT[e.f];return `<button type="button" class="tlc" data-n="${i}" data-f="${e.f}" aria-pressed="false" style="--c:${c.c};--d:${c.d}"><span class="d">${esc(e.d)}</span><span class="t">${esc(e.t)}</span><span class="badge cat" style="background:${c.bg};color:${c.fg}">${esc(c.l)}</span></button>`;}).join("");
+const vis=()=>[...tr.querySelectorAll(".tlc")].filter(b=>!b.hidden);
+function selTl(i,scroll){const e=TL[i],c=CAT[e.f];tr.querySelectorAll(".tlc").forEach(b=>b.setAttribute("aria-pressed",String(+b.dataset.n===i)));
+  tld.style.setProperty("--c",c.c);
+  tld.innerHTML=`<span class="badge" style="background:${c.bg};color:${c.fg}">${esc(e.d)} · ${esc(c.l)}</span><h3 style="margin-top:8px">${esc(e.t)}</h3>${e.x}<div class="src">Quelle${e.s.length>1?"n":""}: ${src(e.s)}</div>`;
+  const b=tr.querySelector(`.tlc[data-n="${i}"]`);if(scroll&&b)tr.scrollTo({left:b.offsetLeft-4,behavior:"smooth"});
+  $("#tlPos").textContent=`Eintrag ${vis().indexOf(b)+1} von ${vis().length} · seitlich wischen`;}
+tr.addEventListener("click",e=>{const b=e.target.closest(".tlc");if(b)selTl(+b.dataset.n,false);});
+function step(d){const v=vis(),cur=v.findIndex(b=>b.getAttribute("aria-pressed")==="true");const n=Math.min(v.length-1,Math.max(0,cur<0?0:cur+d));selTl(+v[n].dataset.n,true);}
+$("#tlPrev").addEventListener("click",()=>step(-1));$("#tlNext").addEventListener("click",()=>step(1));
+tr.addEventListener("keydown",e=>{if(e.key==="ArrowRight"){e.preventDefault();step(1);}else if(e.key==="ArrowLeft"){e.preventDefault();step(-1);}});
+selTl(9,false);
+
+/* 04 Reaktionen */
+const ST={dagegen:{l:"dagegen",c:"#c2412d",zb:"#ffe6df",zt:"#8a2a1a"},prueft:{l:"prüft",c:"#a35208",zb:"#fff1d6",zt:"#713f12"},dafuer:{l:"dafür",c:"#0f766e",zb:"#d6f7f0",zt:"#115e59"},keine:{l:"keine Stellungnahme",c:"#52646b",zb:"#e7eef0",zt:"#26434b"}};
+const RX=[
+{id:"lm",n:"Dominika Langenmayr",sn:"Langenmayr",av:"DL",r:"KU Eichstätt-Ingolstadt",f:"dagegen",sum:"Ein großer Teil würde auf deutsche Nutzer überwälzt; Deutschland hinke bei der KI-Nutzung schon hinterher. Eher Kapitaleinkünfte höher und Arbeit niedriger besteuern.",
+ z:`<q>Ich halte das daher für das völlig falsche Instrument.</q><br><br><span class="sinn">Sinngemäß:</span> Eigene Arbeit zu Amazons Digitalsteuern zeige, dass die Last über Gebühren an Händler und weitgehend an Verbraucher weitergegeben werde.`,s:["faz2"]},
+{id:"cf",n:"Clemens Fuest",sn:"Fuest",av:"CF",r:"ifo Institut",f:"dagegen",sum:"Eine Steuer speziell auf die Nutzung von KI sei nicht empfehlenswert. Wenn Arbeitseinkommen sinken und Gewinne steigen, könne man über höhere Unternehmensteuern nachdenken.",
+ z:`<q>Jetzt ist dafür nicht der richtige Zeitpunkt.</q><br><br>Eine solche Steuer würde in den USA Gegenmaßnahmen auslösen, <q>ähnlich wie im Fall der Digitalsteuer</q>.`,s:["faz2"]},
+{id:"lk",n:"Lars Klingbeil",sn:"Klingbeil",av:"LK",r:"SPD, Bundesfinanzminister",f:"prueft",sum:"Dankbar, dass das Thema auf der Tagesordnung steht; Finanzen, Arbeit und Digitales sollen es in der Regierung voranbringen. Prüfankündigung, keine Zustimmung zu einer Umsatzsteuer auf KI.",
+ z:`<q>Wir sind der festen Überzeugung, wir können in unserem Land Wachstum schaffen durch Künstliche Intelligenz.</q><br><br><q>Wie ist die Zukunft der sozialen Sicherungssysteme in Zeiten der KI? Wie verändern sich Arbeitsplätze? Wie sieht die Zukunft der Besteuerung aus?</q>`,s:["faz2"]},
+{id:"bmf",n:"Bundesfinanzministerium",sn:"BMF",av:"BMF",r:"Abteilungen Grundsätzliches und Steuern",f:"prueft",sum:"Befasst sich nach FAZ-Informationen mit KI – fertige Pläne gibt es nicht.",z:`<q>Es gibt allerdings noch keine fertigen Pläne.</q>`,s:["faz2"]},
+{id:"js",n:"Jens Südekum",sn:"Südekum",av:"JS",r:"Universität Düsseldorf, persönlicher Berater Klingbeils",f:"dafuer",sum:"Hält es für richtig, Ansätze zur Besteuerung von KI-Gewinnen zu entwickeln. Offen: Abgrenzung der KI-Umsätze, Zurechnung nach Deutschland, internationale Koordinierung.",
+ z:`<q>Ich halte es für richtig, dass Finanzminister Klingbeil und Digitalminister Wildberger Ansätze entwickeln, wie Gewinne aus KI besteuert werden.</q><br><br><span class="sinn">Sinngemäß:</span> KI könne die Lohnquote drücken und Einkommen von Arbeit zu Kapital verschieben; ein Umbau, der Umsätze und Kapitaleinkommen stärker heranzieht, sei sinnvoll.`,s:["faz2"]},
+{id:"un",n:"Kanzleramt, CSU, Unionsfraktion",sn:"Union",av:"U",r:"Union",f:"keine",sum:"In der Recherche keine öffentliche Stellungnahme zum Wildberger-Satz vom 13./14. Oktober gefunden.",z:"Kein Zitat vorhanden.",s:[]},
+{id:"bk",n:"Bitkom",sn:"Bitkom",av:"B",r:"Digitalverband",f:"keine",sum:"Keine Stellungnahme zur KI-Steuer gefunden. Lehnt separat im Oktober 2026 eine Digitalabgabe des Kulturstaatsministers für den Mediensektor ab – ein anderes Instrument.",z:"Kein Zitat zur KI-Steuer. Die Pressemitteilung vom 14.10. betrifft Social-Media-Verbot und „KI-Seepferdchen“.",s:["bk1","bk2","bk3"]},
+{id:"bdi",n:"BDI",sn:"BDI",av:"BDI",r:"Industrieverband",f:"keine",sum:"Keine Stellungnahme zu diesem Vorschlag gefunden.",z:"Kein Zitat vorhanden.",s:[]},
+{id:"gw",n:"DGB, IG Metall, ver.di",sn:"Gewerkschaften",av:"G",r:"DGB, IG Metall, ver.di",f:"keine",sum:"Keine direkte Reaktion auf die Äußerung vom 13. Oktober gefunden.",z:"Kein Zitat vorhanden.",s:[]}];
+const mkBtn=r=>{const s=ST[r.f];return `<button type="button" class="mk" data-id="${r.id}" data-f="${r.f}" aria-pressed="false" style="--c:${s.c}"><span class="av${r.av.length>2?" l3":""}" aria-hidden="true">${esc(r.av)}</span><span class="nm">${esc(r.sn)}<small>${esc(r.r.split(",")[0])}</small></span></button>`;};
+$("#zones").innerHTML=["dagegen","prueft","dafuer"].map(z=>{const s=ST[z];return `<div class="zone" style="--zb:${s.zb};--zt:${s.zt}"><h4 data-z="${z}">${esc(s.l)} (${RX.filter(r=>r.f===z).length})</h4>${RX.filter(r=>r.f===z).map(mkBtn).join("")}</div>`;}).join("");
+$("#gaps").innerHTML=RX.filter(r=>r.f==="keine").map(mkBtn).join("");
+const rxd=$("#rxDetail");
+function selRx(id){const r=RX.find(x=>x.id===id),s=ST[r.f];$$("#spec .mk").forEach(m=>m.setAttribute("aria-pressed",String(m.dataset.id===id)));
+  rxd.style.setProperty("--c",s.c);
+  rxd.innerHTML=`<span class="badge" style="background:${s.zb};color:${s.zt}">${esc(s.l)}</span><h3 style="margin-top:8px;font-size:19px">${esc(r.n)}</h3><div class="cs">${esc(r.r)}</div><p style="margin-top:8px;font-size:15px;color:var(--ink2)">${esc(r.sum)}</p><div class="zz">${r.z}</div>${r.s.length?`<div class="src">Quelle${r.s.length>1?"n":""}: ${src(r.s)}</div>`:""}`;}
+$("#spec").addEventListener("click",e=>{const m=e.target.closest(".mk");if(m)selRx(m.dataset.id);});
+function rxDefault(){$$("#spec .mk").forEach(m=>m.setAttribute("aria-pressed","false"));rxd.style.removeProperty("--c");rxd.innerHTML=`<h3>Person oder Institution auf der Skala antippen</h3><p class="cs" style="margin-top:4px">Zitat, Einordnung und Quelle erscheinen hier. Ausgangspunkt der Debatte ist Wildberger selbst – laut Sprecher seines Ministeriums gilt: „erst Wachstum, dann Steuern“ (FAZ).</p>`;}
+rxDefault();
+
+/* Tooltip */
+const tip=$("#tip");let pinned=null,sy=0;
+function showTip(html,x,y){tip.innerHTML=html;tip.classList.add("show");tip.setAttribute("aria-hidden","false");const w=tip.offsetWidth,h=tip.offsetHeight;
+  const L=Math.min(Math.max(8,x-w/2),window.innerWidth-w-8);let Tp=y-h-14;if(Tp<8)Tp=y+22;tip.style.left=L+"px";tip.style.top=Tp+"px";}
+function hideTip(){tip.classList.remove("show");tip.setAttribute("aria-hidden","true");if(pinned){pinned.classList.remove("on");pinned=null;}}
+const mOf=e=>e.target&&e.target.closest?e.target.closest(".chart .m"):null;
+const anchor=m=>{const r=(m.querySelector(".hit")||m).getBoundingClientRect();return [r.left+r.width/2,r.top];};
+document.addEventListener("pointermove",e=>{if(e.pointerType!=="mouse"||pinned)return;const m=mOf(e);if(m)showTip(m.dataset.tip,e.clientX,e.clientY);else if(tip.classList.contains("show"))hideTip();});
+document.addEventListener("click",e=>{const m=mOf(e);if(m){if(pinned&&pinned!==m)pinned.classList.remove("on");pinned=m;m.classList.add("on");const [x,y]=anchor(m);showTip(m.dataset.tip,x,y);sy=window.scrollY;}else if(pinned)hideTip();});
+document.addEventListener("focusin",e=>{const m=mOf(e);if(m){const [x,y]=anchor(m);showTip(m.dataset.tip,x,y);}});
+document.addEventListener("focusout",e=>{if(mOf(e)&&!pinned)hideTip();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")hideTip();const m=mOf(e);if(m&&(e.key==="Enter"||e.key===" ")){e.preventDefault();m.dispatchEvent(new MouseEvent("click",{bubbles:true}));}});
+window.addEventListener("scroll",()=>{if(pinned&&Math.abs(window.scrollY-sy)>60)hideTip();},{passive:true});
+
+/* Diagramme (Inline-SVG) */
+const INK="#0f2930",MUT="#4b5f66",GRID="#dfe8e6",CO="#e0533d",COD="#b83a26",TQ="#0f766e";
+const fmtDe=v=>(v<0?"−":v>0?"+":"")+String(Math.abs(v)).replace(".",",");
+const T=(x,y,t,o={})=>`<text x="${x}" y="${y}" font-size="${o.fs||13}" font-weight="${o.fw||600}" fill="${o.c||INK}" text-anchor="${o.a||"start"}">${esc(t)}</text>`;
+const mk=(lab,tipH,inner)=>`<g class="m" tabindex="0" role="button" aria-label="${esc(lab)}" data-tip="${esc(tipH)}">${inner}</g>`;
+const svg=(w,h,b,id)=>`<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><defs><pattern id="hatch${id||""}" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="7" height="7" fill="#f6e1da"/><line x1="0" y1="0" x2="0" y2="7" stroke="${COD}" stroke-width="3"/></pattern></defs>${b}</svg>`;
+const axisX=(x,ticks,y0,y1,lab)=>ticks.map(t=>`<line x1="${x(t)}" x2="${x(t)}" y1="${y0}" y2="${y1}" stroke="${t===0?INK:GRID}" stroke-width="${t===0?2.5:1}"/>`+T(x(t),y1+15,lab(t),{a:"middle",fs:12,c:MUT,fw:500})).join("");
+
+function dumbbell(el){const Wd=el.clientWidth;if(!Wd)return;const pl=10,pr=10,d0=-5,d1=2.5,x=v=>pl+(v-d0)/(d1-d0)*(Wd-pl-pr);
+  const rows=[{a:"alle",l:"Alle Altersgruppen",k:"Alle",e:1,et:"rund +1 %",w:-3,wt:"gut −3 %"},{a:"a20",l:"20–29 Jahre · Abstand −1,2 Pp.",k:"20–29 Jahre",e:-3.8,et:"−3,8 %",w:-2.6,wt:"−2,6 %"}].filter(r=>!F.alt.size||F.alt.has(r.a));
+  if(!rows.length){el.innerHTML=`<p class="chEmpty">Für die gewählte Altersgruppe zeigt dieses Diagramm keine Werte – das IAB nennt hier nur „Alle“ und 20–29 Jahre.</p>`;return;}
+  const rh=74,top=6,H=top+rows.length*rh+22;let b=axisX(x,[-4,-2,0,2],0,H-22,t=>fmtDe(t)+" %");
+  rows.forEach((r,i)=>{const y=top+i*rh,cy=y+46;b+=T(pl,y+16,r.l,{fw:800,fs:14});
+    const lo=Math.min(r.e,r.w),hi=Math.max(r.e,r.w);b+=`<line x1="${x(lo)}" x2="${x(hi)}" y1="${cy}" y2="${cy}" stroke="#a9bcbf" stroke-width="7" stroke-linecap="round"/>`;
+    [[r.e,r.et,CO,COD,"stark KI-exponierte Berufe"],[r.w,r.wt,TQ,TQ,"weniger exponierte Berufe"]].forEach(([v,t,c,cd,nm])=>{const left=v===lo,tx=left?x(v)-15:x(v)+15;
+      b+=mk(`${r.k}, ${nm}: ${t}`,`<b>${r.k} · ${nm}</b><br>Beschäftigung 2025 ggü. 2022: ${t}<br>IAB-Forum, 13.10.2026`,`<rect x="${x(v)-16}" y="${cy-16}" width="32" height="32" fill="transparent"/><circle class="hit" cx="${x(v)}" cy="${cy}" r="10" fill="${c}" stroke="#fff" stroke-width="2"/>`+T(tx,cy+5,t,{a:left?"end":"start",fw:800,c:cd,fs:14}));});});
+  el.innerHTML=svg(Wd,H,b,"db");}
+
+function lollipop(el){const Wd=el.clientWidth;if(!Wd)return;const lw=Wd<420?78:100,d0=-2,d1=8.8,x=v=>lw+(v-d0)/(d1-d0)*(Wd-lw-8);
+  let rows=[{a:"a20",l:"20–29 J.",v:-1.2,t:"−1,2 Pp.",ap:false,tp:"<b>20–29 Jahre</b><br>Abstand −1,2 Prozentpunkte (−3,8 % vs. −2,6 %).<br>Nach Kontrolle von Homeoffice und Konjunktur nicht signifikant."},
+    {a:"a30",l:"30–39 J.",v:6,t:"fast +6",ap:true,tp:"<b>30–39 Jahre · ungefähr</b><br>Wachstum in exponierten Berufen „fast 6 Prozentpunkte“ höher (IAB). Kein Einzelwert; gezeichnet bei 6."},
+    {a:"a40",l:"40–64 J.",v:5,t:"rund +5",ap:true,tp:"<b>40–64 Jahre · ungefähr</b><br>Wachstum in exponierten Berufen „rund 5 Prozentpunkte“ höher (IAB). Kein Einzelwert; gezeichnet bei 5."}];
+  rows=rows.filter(r=>!F.alt.size||F.alt.has(r.a));
+  if(!rows.length){el.innerHTML=`<p class="chEmpty">Für „Alle Altersgruppen“ nennt das IAB keinen Abstand je Altersgruppe – siehe Dumbbell-Diagramm.</p>`;return;}
+  const rh=60,top=4,H=top+rows.length*rh+22;let b=axisX(x,[-2,0,2,4,6,8],0,H-22,t=>fmtDe(t));
+  rows.forEach((r,i)=>{const cy=top+i*rh+28,c=r.v<0?CO:TQ,cd=r.v<0?COD:TQ;
+    b+=T(0,cy+(r.ap?-2:5),r.l,{fw:800,fs:14});if(r.ap)b+=T(0,cy+14,"≈ ungefähr",{fs:12,c:"#7c2d12",fw:700});
+    const tx=r.v>=0?x(r.v)+14:x(0)+8;
+    b+=mk(`${r.l}: ${r.t}${r.ap?" Prozentpunkte (ungefähr)":""}`,r.tp,`<rect x="${Math.min(x(0),x(r.v))-12}" y="${cy-16}" width="${Math.abs(x(r.v)-x(0))+24}" height="32" fill="transparent"/><line x1="${x(0)}" x2="${x(r.v)}" y1="${cy}" y2="${cy}" stroke="${c}" stroke-width="4" ${r.ap?'stroke-dasharray="6 4"':""}/><circle class="hit" cx="${x(r.v)}" cy="${cy}" r="9" fill="${r.ap?"#fff":c}" stroke="${c}" stroke-width="${r.ap?3.5:2}"/>`+T(tx,r.v>=0?cy+5:cy-11,r.t,{fw:800,c:cd,fs:14}));});
+  el.innerHTML=svg(Wd,H,b,"lp")+`<div style="font-size:12px;color:${MUT};text-align:right">Prozentpunkte</div>`;}
+
+function diverge(el,rows,d0,d1,ticks,tl,id){const Wd=el.clientWidth;if(!Wd)return;const pl=8,pr=8,x=v=>pl+(v-d0)/(d1-d0)*(Wd-pl-pr);
+  const rh=62,top=2,H=top+rows.length*rh+22;let b=axisX(x,ticks,0,H-22,tl);
+  rows.forEach((r,i)=>{const y=top+i*rh,by=y+26,xa=x(Math.min(0,r.v)),xb=x(Math.max(0,r.v));
+    b+=T(pl,y+16,r.l,{fw:800,fs:13.5});b+=T(Wd-pr,y+16,r.t,{fw:900,fs:14,c:r.v<0?COD:TQ,a:"end"});
+    b+=mk(`${r.l}: ${r.t}`,r.tip,`<rect x="${xa-4}" y="${by-6}" width="${xb-xa+8}" height="36" fill="transparent"/><rect class="hit" x="${xa}" y="${by}" width="${Math.max(2,xb-xa)}" height="24" rx="5" fill="${r.ns?`url(#hatch${id})`:r.c}" stroke="${r.ns?COD:"none"}" stroke-width="${r.ns?1.5:0}"/>`);});
+  el.innerHTML=svg(Wd,H,b,id);}
+
+function columns(el){const Wd=el.clientWidth;if(!Wd)return;if(F.einh==="pct")return columnsPct(el,Wd);
+  $("#colSub").textContent="IW-Gutachten für die Bertelsmann-Stiftung, 3.6.2025 · absolut · Säulen ab 0";el.setAttribute("aria-label","KI-Stellenanzeigen: 2019 97.000, 2022 181.000, 2024 152.000");
+  const pl=50,pr=8,top=22,ch=170,H=top+ch+28,mx=200000,y=v=>top+ch-v/mx*ch;
+  const rows=[{l:"2019",v:97000,t:"97.000",c:"#7dd3fc",tp:"<b>2019</b><br>97.000 KI-Stellenanzeigen<br>Anteil 1,1 % aller Anzeigen"},{l:"2022",v:181000,t:"181.000",c:"#14b8a6",tp:"<b>2022</b><br>181.000 KI-Stellenanzeigen"},{l:"2024",v:152000,t:"152.000",c:"#0f766e",tp:"<b>2024</b><br>152.000 KI-Stellenanzeigen<br>Anteil 1,5 % aller Anzeigen"}];
+  let b="";[0,50000,100000,150000,200000].forEach(t=>{b+=`<line x1="${pl}" x2="${Wd-pr}" y1="${y(t)}" y2="${y(t)}" stroke="${t?GRID:INK}" stroke-width="${t?1:2.5}"/>`+T(pl-6,y(t)+4,t?(t/1000)+" Tsd.":"0",{a:"end",fs:11.5,c:MUT,fw:500});});
+  const slot=(Wd-pl-pr)/rows.length,bw=Math.min(84,slot*.56);
+  rows.forEach((r,i)=>{const cx=pl+slot*(i+.5);b+=mk(`${r.l}: ${r.t} KI-Stellenanzeigen`,r.tp,`<rect class="hit" x="${cx-bw/2}" y="${y(r.v)}" width="${bw}" height="${y(0)-y(r.v)}" rx="6" fill="${r.c}"/>`+T(cx,y(r.v)-7,r.t,{a:"middle",fw:900,fs:14}))+T(cx,H-6,r.l,{a:"middle",fw:800,fs:13.5});});
+  el.innerHTML=svg(Wd,H,b,"col");}
+
+function columnsPct(el,Wd){$("#colSub").textContent="IW, 3.6.2025 · Anteil an allen Stellenanzeigen in % · Säulen ab 0";el.setAttribute("aria-label","Anteil KI-Stellenanzeigen: 2019 1,1 Prozent, 2024 1,5 Prozent; 2022 kein Anteil belegt");
+  const pl=50,pr=8,top=22,ch=170,H=top+ch+28,mx=2,y=v=>top+ch-v/mx*ch;
+  const rows=[{l:"2019",v:1.1,t:"1,1 %",c:"#7dd3fc",tp:"<b>2019</b><br>Anteil 1,1 % aller Stellenanzeigen (97.000 absolut)"},{l:"2022",v:null,t:"kein Anteil belegt",c:"#fff",tp:"<b>2022</b><br>181.000 KI-Stellenanzeigen absolut – einen Prozentanteil nennt der Faktencheck für 2022 nicht."},{l:"2024",v:1.5,t:"1,5 %",c:"#0f766e",tp:"<b>2024</b><br>Anteil 1,5 % aller Stellenanzeigen (152.000 absolut)"}];
+  let b="";[0,.5,1,1.5,2].forEach(t=>{b+=`<line x1="${pl}" x2="${Wd-pr}" y1="${y(t)}" y2="${y(t)}" stroke="${t?GRID:INK}" stroke-width="${t?1:2.5}"/>`+T(pl-6,y(t)+4,t?String(t).replace(".",",")+" %":"0",{a:"end",fs:11.5,c:MUT,fw:500});});
+  const slot=(Wd-pl-pr)/rows.length,bw=Math.min(84,slot*.56);
+  rows.forEach((r,i)=>{const cx=pl+slot*(i+.5);
+    if(r.v===null)b+=mk(`${r.l}: ${r.t}`,r.tp,`<rect class="hit" x="${cx-bw/2}" y="${y(1)}" width="${bw}" height="${y(0)-y(1)}" rx="6" fill="#fff" stroke="#6b7f85" stroke-width="2" stroke-dasharray="5 4"/>`+T(cx,y(.5)+5,"k. A.",{a:"middle",fw:900,fs:14,c:MUT}));
+    else b+=mk(`${r.l}: ${r.t} aller Stellenanzeigen`,r.tp,`<rect class="hit" x="${cx-bw/2}" y="${y(r.v)}" width="${bw}" height="${y(0)-y(r.v)}" rx="6" fill="${r.c}"/>`+T(cx,y(r.v)-7,r.t,{a:"middle",fw:900,fs:14}));
+    b+=T(cx,H-6,r.l,{a:"middle",fw:800,fs:13.5});});
+  el.innerHTML=svg(Wd,H,b,"colp");}
+function rates(el){const Wd=el.clientWidth;if(!Wd)return;const mob=Wd<560,pl=14,pr=mob?14:170,x=v=>pl+v/10*(Wd-pl-pr),cy=60,H=mob?172:142;
+  let b=`<line x1="${x(0)}" x2="${x(10)}" y1="${cy}" y2="${cy}" stroke="#a9bcbf" stroke-width="6" stroke-linecap="round"/>`;
+  [0,2,4,6,8,10].forEach(t=>{b+=`<line x1="${x(t)}" x2="${x(t)}" y1="${cy-9}" y2="${cy+9}" stroke="${t?MUT:INK}" stroke-width="${t?1:2.5}"/>`;});
+  b+=T(x(0),cy+26,"0 %",{a:"start",fs:12,c:MUT,fw:500});
+  const pts=[{v:1.5,l:"Polen 1,5 %",up:true,c:"#0f766e",tp:"<b>Polen</b><br>Digital Services Tax 1,5 % – unteres Ende der Spanne (Tax Foundation, 4.5.2026)."},
+    {v:5,l:"Türkei 5 %",up:false,c:"#b45309",tp:"<b>Türkei</b><br>Satz zum 1.1.2026 von 7,5 auf 5 % gesenkt (Tax Foundation)."},
+    {v:7.5,l:"Ungarn 7,5 %",up:true,c:"#c2412d",tp:"<b>Ungarn</b><br>7,5 % – oberes Ende der Spanne (Tax Foundation)."},
+    {v:10,l:"Grünen-Antrag 10 %",l2:"abgelehnt 24.6.2026",up:false,c:"#52646b",hollow:true,tp:"<b>Grünen-Antrag (abgelehnt)</b><br>10 % auf in Deutschland erzielte digitale Umsätze, ab 750 Mio. € Welt- und 50 Mio. € Inlandsumsatz. Finanzausschuss, 24.6.2026 (hib 513/2026)."}];
+  pts.forEach(p=>{const px=x(p.v),side=p.v===10&&!mob,a=p.v===10?(mob?"end":"start"):"middle",tx=side?px+16:(p.v===10?px+8:px),ly=side?cy+5:(p.up?cy-20:(p.v===10?cy+54:cy+32));
+    b+=mk(p.l+(p.l2?", "+p.l2:""),p.tp,`<rect x="${px-16}" y="${cy-16}" width="32" height="32" fill="transparent"/><circle class="hit" cx="${px}" cy="${cy}" r="10" fill="${p.hollow?"#fff":p.c}" stroke="${p.c}" stroke-width="3"/>`+T(tx,ly,p.l,{a,fw:800,fs:13.5})+(p.l2?T(tx,ly+16,p.l2,{a,fs:12,c:MUT}):""));});
+  const wy=H-10,ww=mob?Wd-pl-pr:330;
+  b+=mk("Wildbergers KI-Idee: kein Satz","<b>Wildbergers KI-Idee</b><br>Kein Steuersatz – in keiner Quelle eine Zahl. Darum kein Punkt auf der Skala.",`<rect class="hit" x="${pl}" y="${wy-18}" width="${ww}" height="26" rx="13" fill="#fff1d6" stroke="#b45309" stroke-dasharray="5 3"/>`+T(pl+12,wy,"Wildbergers KI-Idee: kein Satz → kein Punkt",{fw:800,fs:13,c:"#7c2d12"}));
+  el.innerHTML=svg(Wd,H,b,"rt");}
+
+const DV1=[{l:"KI-Exposition +1 Std.-Abw. (nicht signifikant)",v:-1.8,t:"ca. −1,8 %",ns:true,tip:"<b>KI-Exposition</b><br>Eine Standardabweichung mehr ging 2025 mit schätzungsweise 1,8 % ungünstigerer Entwicklung einher – schwach und statistisch nicht signifikant."},
+ {l:"Konjunkturschwäche (anfällige Sektoren)",v:-4.2,t:"−4,2 %",c:CO,tip:"<b>Konjunktur</b><br>−4,2 % bei jungen Beschäftigten in anfälligen Sektoren. IAB: Zusammenhang mit der Rezession „mehr als doppelt so stark“."}];
+const DV2=[{l:"IT-Dienstleister",v:110000,t:"ca. +110.000",c:"#14b8a6",tip:"<b>IT-Dienstleister</b><br>etwa +110.000 Arbeitsplätze ggü. Referenz<br>Projektion, IAB-FB 23/2025"},
+ {l:"Unternehmensdienstleister",v:-120000,t:"ca. −120.000",c:CO,tip:"<b>Unternehmensdienstleister</b><br>etwa −120.000 Arbeitsplätze ggü. Referenz<br>Projektion, IAB-FB 23/2025"}];
+function picto(){const p=$("#picto");if(p.firstChild)return;let h="";for(let i=0;i<5;i++)h+=`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7" r="4" fill="${i===0?TQ:"none"}" stroke="${TQ}" stroke-width="2"/><path d="M4 22c0-5 3.5-8 8-8s8 3 8 8z" fill="${i===0?TQ:"none"}" stroke="${TQ}" stroke-width="2"/></svg>`;p.innerHTML=h;}
+function drawAll(){
+  if(curTab==="jobs"){dumbbell($("#chDb"));lollipop($("#chLp"));diverge($("#chDv"),DV1,-5,1.6,[-4,-2,0],t=>fmtDe(t)+" %","dv");columns($("#chCol"));$("#szNote").hidden=F.einh!=="pct";diverge($("#chSz"),DV2,-160000,160000,[-100000,0,100000],t=>t?fmtDe(t/1000)+" Tsd.":"0","sz");picto();}
+  if(curTab==="kontext")rates($("#chRate"));}
+let rt;window.addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(()=>{hideTip();drawAll();},120);});
+
+/* 06 Matrix */
+const MXT=[["reg","steuer"],["par","steuer kontext"],["par ver","kontext"],["int","steuer kontext"],["int reg","kontext"],["int","steuer arbeit kontext"],["par","steuer arbeit"]];
+const MX=[
+{n:"Wildbergers KI-Idee",b:"„Umsatz“ mit KI (Leitzitat), parallel „Wertschöpfung“",s:"keiner",st:"Interview-Idee, am selben Tag relativiert; BMF: keine fertigen Pläne",q:["ts","yahoo","faz2"],hl:1},
+{n:"Grünen-Antrag Digitalsteuer",b:"In Deutschland erzielte digitale Umsätze; ab 750 Mio. € Welt- und 50 Mio. € Inlandsumsatz",s:"10 %",st:"Im Finanzausschuss abgelehnt (24.6.2026); Union verweist auf Digitalabgabe im Koalitionsvertrag",q:["hib"]},
+{n:"Digitalabgabe für Medien",b:"Große Online-Plattformen, die Medieninhalte nutzen; orientiert an VLOPs des DSA (> 45 Mio. monatliche EU-Nutzer)",s:"im Faktencheck nicht genannt",st:"Bundesrat verlangt nichtsteuerliche Abgabe (19.12.2025); Bitkom lehnt die Digitalabgabe des Kulturstaatsministers ab (Okt. 2026)",q:["kpmg","bk2","bk3"]},
+{n:"Digital Services Taxes in Europa",b:"Digitale Dienstleistungen; u. a. Österreich, Frankreich, Italien, Spanien, Polen",s:"1,5 % (Polen) bis 7,5 % (Ungarn)",st:"In Kraft; Türkei senkte zum 1.1.2026 von 7,5 auf 5 %; Deutschland erwogen, nicht eingeführt",q:["tf"]},
+{n:"EU: „Corporate Resource for Europe“",b:"Unternehmen mit mehr als 100 Mio. € EU-Jahresumsatz",s:"pauschal 100.000–750.000 €",st:"Laut FT erwogen (7.10.2026); Bundesregierung lehnt zusätzliche EU-Abgaben ab. Hoekstra: keine eigene EU-Digitalsteuer, solange OECD-Optionen nicht ausgeschöpft",q:["onv","adhoc"]},
+{n:"Bill Gates: Tokens & Roboter",b:"KI-Tokens und Roboter; Maschinen wie Arbeit mit Lohnnebenkosten belegen",s:"im Faktencheck nicht genannt",st:"Essay August 2026, CNN 11.10.2026; Wildberger bezog sich darauf",q:["gates","ts3"]},
+{n:"SPD-Fraktion: „gute Arbeit im KI-Zeitalter“",b:"Tech-Konzerne „fair besteuern“, Gewerbesteuer für Rechenzentren, „Gewinne aus Produktivitätssteigerungen durch KI, eine mögliche KI-Dividende oder die stärkere Einbeziehung von Kapitaleinkünften“",s:"keiner",st:"Fraktionsbeschluss 4.9.2026; benachbart, aber keine KI-Umsatzsteuer",q:["spd","cb"]}];
+$("#mx").innerHTML=`<div class="mxr h"><span>Instrument</span><span>Basis</span><span>Satz</span><span>Status</span></div>`+MX.map((m,i)=>`<div class="mxr cx${m.hl?" hl":""}" data-akt="${MXT[i][0]}" data-thm="${MXT[i][1]}" data-src="${m.q.join(" ")}"><span class="n">${esc(m.n)}</span><span><span class="lbl">Basis</span>${esc(m.b)}</span><span class="s"><span class="lbl">Satz</span>${esc(m.s)}</span><span><span class="lbl">Status</span>${esc(m.st)}<span class="src" style="display:block;margin-top:4px">${src(m.q)}</span></span></div>`).join("");
+
+/* 07 Quellen-Suche */
+const host=u=>u.split("/")[2].replace(/^www\./,"");
+const SL=$("#srcList");
+const SI=SK.map((k,i)=>({k,f:S[k][3],i}));
+SL.innerHTML=SI.map(o=>{const s=S[o.k];return `<li data-k="${o.k}" data-f="${o.f}" style="--c:${STYP[o.f].c}"><span class="sn">${String(o.i+1).padStart(2,"0")}</span><div><a href="${s[2]}" target="_blank" rel="noopener noreferrer">${esc(s[0])}</a><div class="sd"><span class="dt">${esc(s[1])}</span> · <span class="hs">${esc(host(s[2]))}</span> · ${esc(STYP[o.f].l)}</div></div></li>`;}).join("");
+const norm=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+function hl(text,q){if(!q)return esc(text);const n=norm(text);if(n.length!==text.length)return esc(text);const i=n.indexOf(q);if(i<0)return esc(text);return esc(text.slice(0,i))+"<mark>"+esc(text.slice(i,i+q.length))+"</mark>"+esc(text.slice(i+q.length));}
+/* ===== V3: zentrale, globale Filter ===== */
+const GC={zeit:"#fcd34d",akt:"#ff8a73",hal:"#5eead4",urt:"#fdba74",thm:"#7dd3fc",qa:"#c4b5fd",dia:"#a7f3d0",q:"#ffffff"};
+const FD={
+ akt:{l:"Akteur/Gruppe",s:"Akteur",o:{reg:["Regierung","#ff6f59"],par:["Parteien & Parlament","#fcd34d"],oek:["Ökonomen","#14b8a6"],ver:["Verbände","#7dd3fc"],med:["Medien & Studien","#c4b5fd"],int:["International (EU, USA, Gates)","#fda4af"]}},
+ hal:{l:"Haltung",s:"Haltung",o:Object.fromEntries(["dafuer","dagegen","prueft","keine"].map(k=>[k,[ST[k].l,ST[k].c]]))},
+ urt:{l:"Claim-Urteil",s:"Urteil",o:Object.fromEntries(order.map(k=>[k,[VD[k].l,VD[k].c]]))},
+ thm:{l:"Thema",s:"Thema",o:{steuer:["Steuer","#ff6f59"],arbeit:["Arbeitsmarkt","#14b8a6"],kontext:["Kontext/EU","#fcd34d"],recht:["Recht","#7dd3fc"]}},
+ qa:{l:"Quellenart",s:"Quelle",o:Object.fromEntries(Object.keys(STYP).map(k=>[k,[STYP[k].l,STYP[k].c]]))},
+ ds:{l:"Datenquelle",s:"Daten",o:{iab:["IAB","#ff6f59"],iw:["IW","#7dd3fc"]}},
+ alt:{l:"Altersgruppe",s:"Alter",o:{alle:["Alle Altersgruppen","#fcd34d"],a20:["20–29 J.","#ff6f59"],a30:["30–39 J.","#14b8a6"],a40:["40–64 J.","#0f766e"]}}};
+const MULTI=["akt","hal","urt","thm","qa","ds","alt"],ITEMD=["akt","hal","urt","thm","qa","ds"];
+/* Zeitachse = Daten der Zeitleiste (ungefähre Angaben als Zeitraum) */
+const STEPS=[["21.3.2026","2026-03-21"],["18.6.2026","2026-06-18"],["24.6.2026","2026-06-24"],["Ende Juni 2026","2026-06-21","2026-06-30"],["3.7.2026","2026-07-03"],["August 2026","2026-08-01","2026-08-31"],["4.9.2026","2026-09-04"],["19.9.2026","2026-09-19"],["7.10.2026","2026-10-07"],["11.10.2026","2026-10-11"],["13.10.2026","2026-10-13"],["14.10.2026","2026-10-14"]].map(([l,a,b])=>({l,a,b:b||a}));
+const MAXS=STEPS.length-1;
+const F={von:0,bis:MAXS,q:"",einh:"abs"};MULTI.forEach(k=>F[k]=new Set());
+const APPL={claims:["akt","urt","thm","qa","q"],tl:["zeit","akt","hal","thm","qa","q"],rx:["zeit","akt","hal","thm","qa","q"],jobs:["zeit","akt","thm","qa","ds","q"],ctx:["akt","thm","qa","q"],src:["zeit","akt","hal","urt","thm","qa","q"]};
+const SEC={claims:{tab:"urteil",l:"Behauptungen",sh:"Claims",g:()=>$$("#cgrid .ct")},tl:{tab:"zeit",l:"Chronik-Einträgen",sh:"Chronik",g:()=>$$("#tlTrack .tlc")},rx:{tab:"stimmen",l:"Stimmen",sh:"Stimmen",g:()=>$$("#spec .mk")},jobs:{tab:"jobs",l:"Arbeitsmarkt-Kacheln",sh:"Jobs",g:()=>$$("#p-jobs .jc")},ctx:{tab:"kontext",l:"Kontext-Elementen",sh:"Kontext",g:()=>$$("#p-kontext .cx")},src:{tab:"quellen",l:"Quellen",sh:"Quellen",g:()=>$$("#srcList li")}};
+const DL={zeit:"Zeitraum",akt:"Akteur",hal:"Haltung",urt:"Urteil",thm:"Thema",qa:"Quellenart",ds:"Datenquelle",q:"Suche"};
+const SECN={claims:"Behauptungen",tl:"Zeitleiste",rx:"Reaktionen",jobs:"Arbeitsmarkt",ctx:"Kontext",src:"Quellen"};
+const HAY=new WeakMap(),strip=h=>String(h).replace(/<[^>]+>/g," ");
+const uq=a=>[...new Set(a.filter(Boolean))];
+const qaOf=ids=>uq(ids.map(k=>S[k][3])).join(" ");
+function tag(el,o,hay){for(const k in o)if(o[k])el.dataset[k]=o[k];HAY.set(el,norm(hay||el.textContent));}
+/* Behauptungen: [Akteur, Thema, Belegquellen] – Zuordnung laut Claim-Tabelle/Beleg */
+const CLT=[["reg","steuer arbeit","ts zeit yahoo"],["reg","steuer","zeit spiegel faz1 ntv"],["reg","steuer","ts zeit"],["reg oek par","steuer","ts faz2 spd"],["reg","steuer arbeit","ts zeit"],["reg","steuer arbeit","faz2"],["reg par","steuer recht","faz2 spd"],["reg","steuer","faz2"],["reg int","steuer kontext","gates ts3 faz2"],["med","arbeit","iab zeit2"],["ver","steuer kontext","bk1 bk2 bk3"],["int ver reg","kontext recht","bk2 zeit"]];
+CLT.forEach((t,i)=>{CL[i].s=t[2].split(" ");});
+$$("#cgrid .ct").forEach((el,i)=>{const x=CL[i],t=CLT[i];tag(el,{akt:t[0],thm:t[1],urt:x.f,qa:qaOf(x.s)},[x.c,x.b,x.v||"",VD[x.f].l].join(" "));});
+/* Zeitleiste: [Akteur, Haltung, Thema, von, bis] */
+const TLT=[["reg","","steuer arbeit","2026-03-21"],["reg","","recht","2026-06-18","2026-07-03"],["par","","steuer kontext","2026-06-24"],["int","","kontext recht","2026-06-21","2026-06-30"],["int","","steuer arbeit kontext","2026-08-01","2026-08-31"],["par","","steuer arbeit","2026-09-04"],["int","","kontext","2026-09-19"],["int reg","","kontext","2026-10-07"],["int","","steuer kontext","2026-10-11"],["reg","","steuer arbeit","2026-10-13"],["med","","steuer","2026-10-13"],["med","","arbeit","2026-10-13"],["reg","","steuer","2026-10-13"],["med par","","steuer","2026-10-13"],["reg oek","prueft dafuer dagegen","steuer","2026-10-13"],["reg ver","keine","steuer","2026-10-14"]];
+$$("#tlTrack .tlc").forEach(el=>{const i=+el.dataset.n,e=TL[i],t=TLT[i];tag(el,{akt:t[0],hal:t[1],thm:t[2],qa:qaOf(e.s),d0:t[3],d1:t[4]||t[3]},[e.d,e.t,strip(e.x),CAT[e.f].l].join(" "));});
+/* Reaktionen */
+const RXA={lm:"oek",cf:"oek",js:"oek",lk:"reg",bmf:"reg",un:"reg par",bk:"ver",bdi:"ver",gw:"ver"};
+$$("#spec .mk").forEach(el=>{const r=RX.find(x=>x.id===el.dataset.id);tag(el,{akt:RXA[r.id],hal:r.f,thm:"steuer",qa:qaOf(r.s),d0:"2026-10-13",d1:r.f==="keine"?"2026-10-14":"2026-10-13"},[r.n,r.r,r.sum,strip(r.z),ST[r.f].l].join(" "));});
+/* Quellen: Akteure, um die es in der Quelle geht; Thema; Urteil/Haltung abgeleitet aus Claims/Reaktionen, die die Quelle belegen */
+const SA={ts:"reg",zeit:"reg",spiegel:"reg",faz1:"reg",ntv:"reg",yahoo:"reg",rh:"reg",faz2:"reg oek",ts2:"reg",spd:"par",cb:"reg par",bk1:"ver",bk2:"ver int",bk3:"ver",hib:"par",kpmg:"par",adhoc:"int",onv:"int reg",tf:"int",gates:"int",ts3:"int",iab:"med",zeit2:"med",iabfb:"med",iw1:"med",iw2:"med",del:"reg"};
+const STH={ts:"steuer arbeit",zeit:"steuer arbeit",spiegel:"steuer",faz1:"steuer",ntv:"steuer",yahoo:"steuer",rh:"steuer",faz2:"steuer arbeit",ts2:"steuer arbeit",spd:"steuer arbeit",cb:"steuer",bk1:"kontext",bk2:"kontext recht",bk3:"kontext",hib:"steuer kontext",kpmg:"kontext",adhoc:"kontext",onv:"kontext",tf:"kontext steuer",gates:"steuer arbeit kontext",ts3:"kontext arbeit",iab:"arbeit",zeit2:"arbeit",iabfb:"arbeit",iw1:"arbeit",iw2:"arbeit",del:"recht"};
+const MON={januar:1,februar:2,"märz":3,april:4,mai:5,juni:6,juli:7,august:8,september:9,oktober:10,november:11,dezember:12},p2=n=>String(n).padStart(2,"0");
+function pdate(s){let m=s.match(/(\d{1,2})\.(\d{1,2})\.(\d{4})/);if(m){const d=`${m[3]}-${p2(m[2])}-${p2(m[1])}`;return [d,d];}
+  m=s.match(/([A-Za-zäÄ]+) (\d{4})/);if(m&&MON[m[1].toLowerCase()]){const mo=p2(MON[m[1].toLowerCase()]);return [`${m[2]}-${mo}-01`,`${m[2]}-${mo}-31`];}
+  m=s.match(/^(\d{4})$/);if(m)return [m[1]+"-01-01",m[1]+"-12-31"];return [null,null];}
+$$("#srcList li").forEach(el=>{const k=el.dataset.k,s=S[k],[a,b]=pdate(s[1]);
+  tag(el,{akt:SA[k],thm:STH[k],qa:s[3],urt:uq(CL.filter(c=>c.s.includes(k)).map(c=>c.f)).join(" "),hal:uq(RX.filter(r=>r.s.includes(k)).map(r=>r.f)).join(" "),d0:a,d1:b},[s[0],s[1],s[2],STYP[s[3]].l].join(" "));});
+/* Arbeitsmarkt- und Kontext-Kacheln: Tags stehen als data-Attribute im HTML */
+$$("#p-jobs .jc,#p-kontext .cx").forEach(el=>{if(el.dataset.src)el.dataset.qa=qaOf(el.dataset.src.split(" "));HAY.set(el,norm(el.textContent));});
+
+/* Filterleiste aufbauen */
+const fbar=$("#fbar");
+const wirkt=g=>"Wirkt auf: "+Object.keys(APPL).filter(s=>APPL[s].includes(g)).map(s=>SECN[s]).join(", ")+".";
+const fcs=g=>`<div class="fcs">`+Object.entries(FD[g].o).map(([v,[l,c]])=>`<button type="button" class="fc" data-g="${g}" data-v="${v}" aria-pressed="false"><span class="dot" style="--c:${c}"></span>${esc(l)}</button>`).join("")+`</div>`;
+const BL={akt:"Akteur",urt:"Urteil"};
+const grp=(g,l,body)=>`<div class="fg" data-fg="${g}" style="--gc:${GC[g]}"><button type="button" class="fgb" id="fb-${g}" aria-expanded="false" aria-controls="pop-${g}"><span class="gd" aria-hidden="true"></span><span class="fl">${BL[g]||l}</span><span class="fn"></span><span class="car" aria-hidden="true">▾</span></button><div class="pop" id="pop-${g}" role="group" aria-labelledby="fh-${g}"><div class="fgh" id="fh-${g}"><i aria-hidden="true"></i>${l}</div>${body}</div></div>`;
+const NOTE={akt:"Zuordnung: wer spricht bzw. um wen es geht. ",hal:"Haltung zur KI-Steuer-Idee laut Faktencheck. ",urt:"Quellen erben das Urteil der Behauptungen, die sie belegen. ",thm:"",qa:"Elemente zählen über ihre Belegquellen. "};
+const svgF=`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18l-7 8.5V20l-4-2v-4.5z" stroke="currentColor" fill="none" stroke-width="2.2" stroke-linejoin="round"/></svg>`;
+fbar.innerHTML=`<div class="frow">
+<button type="button" class="fopen" id="fOpen" aria-expanded="false" aria-controls="fpanel">${svgF}Filter<span class="fbadge" id="fBadge" hidden></span></button>
+<div class="fpanel" id="fpanel" aria-label="Filter">
+ <div class="shh"><b id="shTitle">Filter</b><button type="button" class="shx" id="fClose" aria-label="Filter schließen">✕</button></div>
+ ${grp("zeit","Zeitraum",`<div class="rlab"><span><small>Von</small><span id="rVonL"></span></span><span><small>Bis</small><span id="rBisL"></span></span></div>
+   <div class="rng"><div class="rt"></div><div class="rf" id="rFill"></div><input type="range" id="rVon" min="0" max="${MAXS}" step="1" value="0" aria-label="Zeitraum von"><input type="range" id="rBis" min="0" max="${MAXS}" step="1" value="${MAXS}" aria-label="Zeitraum bis"></div>
+   <div class="fsub">Schnellwahl</div><div class="fcs"><button type="button" class="fp" data-von="0" data-bis="${MAXS}">Gesamter Zeitraum</button><button type="button" class="fp" data-von="6" data-bis="${MAXS}">ab 4.9.2026</button><button type="button" class="fp" data-von="10" data-bis="${MAXS}">13./14.10.2026</button><button type="button" class="fp" data-von="0" data-bis="9">vor dem Interview</button></div>
+   <p class="fnote">Stufen = Daten der Zeitleiste. Am linken bzw. rechten Ende ist der Bereich offen (ältere Studien und Quellen bleiben dann sichtbar). ${wirkt("zeit")}</p>`)}
+ ${["akt","hal","urt","thm","qa"].map(g=>grp(g,FD[g].l,fcs(g)+`<p class="fnote">${NOTE[g]}${wirkt(g)}</p><button type="button" class="fclr" data-clr="${g}">Auswahl leeren</button>`)).join("")}
+ ${grp("dia","Diagramme",`<div class="fsub" style="margin-top:0">Datenquelle</div>${fcs("ds")}<div class="fsub">Altersgruppe (IAB-Diagramme)</div>${fcs("alt")}<div class="fsub">Einheit</div><div class="fcs" role="group" aria-label="Einheit"><button type="button" class="fc" data-g="einh" data-v="abs" aria-pressed="true">absolut</button><button type="button" class="fc" data-g="einh" data-v="pct" aria-pressed="false">Prozent</button></div><p class="fnote">Datenquelle blendet Arbeitsmarkt-Kacheln von IAB bzw. IW ein/aus. Altersgruppe filtert Dumbbell und Lollipop. Prozent gibt es nur für die IW-Stellenanzeigen (Anteil 2019 und 2024); die übrigen Diagramme sind bereits in Prozent bzw. nur absolut belegt.</p><button type="button" class="fclr" data-clr="dia">Auswahl leeren</button>`)}
+ <div class="shf"><button type="button" class="freset" id="fReset2">Alle zurücksetzen</button><button type="button" class="done" id="fDone">Fertig · <span id="fTot"></span> Treffer</button></div>
+</div>
+<label class="fsearch"><span data-i="search"></span><input id="fq" type="search" placeholder="Freitext in allen Abschnitten, z. B. Fuest, IAB, Zölle" aria-label="Freitextsuche in allen Abschnitten" autocomplete="off"><button type="button" id="fqx" aria-label="Suche leeren" hidden>✕</button></label>
+</div>
+<div class="fact"><span class="fal">Aktiv</span><div class="fchips" id="fChips" aria-live="polite"></div><span class="fsum" id="fSum"></span><button type="button" class="freset" id="fReset">Alle zurücksetzen</button></div>
+<div class="fback" id="fBack"></div>`;
+
+const rVon=$("#rVon"),rBis=$("#rBis"),fq=$("#fq");
+const zOn=()=>F.von>0||F.bis<MAXS;
+const zLabel=()=>F.von===F.bis?STEPS[F.von].l:`${F.von>0?STEPS[F.von].l:"Anfang"} – ${F.bis<MAXS?STEPS[F.bis].l:"14.10.2026"}`;
+function pass(el,sec,q){const ap=APPL[sec];
+  for(const k of ITEMD){if(!F[k].size||!ap.includes(k))continue;const v=(el.dataset[k]||"").split(" ");if(!v.some(x=>F[k].has(x)))return false;}
+  if(zOn()&&ap.includes("zeit")){const a=el.dataset.d0,b=el.dataset.d1||a;if(!a)return false;const lo=F.von>0?STEPS[F.von].a:"0000",hi=F.bis<MAXS?STEPS[F.bis].b:"9999";if(b<lo||a>hi)return false;}
+  if(q&&ap.includes("q")&&!(HAY.get(el)||"").includes(q))return false;
+  return true;}
+function activeDims(){const a=[];if(zOn())a.push("zeit");ITEMD.forEach(k=>{if(F[k].size)a.push(k);});if(F.q.trim())a.push("q");return a;}
+function hlSrc(q){SL.querySelectorAll("li").forEach(li=>{const s=S[li.dataset.k];li.querySelector("a").innerHTML=hl(s[0],q);li.querySelector(".dt").innerHTML=hl(s[1],q);li.querySelector(".hs").innerHTML=hl(host(s[2]),q);});}
+const HITS={};
+function apply(){hideTip();const q=norm(F.q.trim()),act=activeDims();let tot=0;
+  for(const s in SEC){const els=SEC[s].g();let n=0;els.forEach(el=>{const ok=pass(el,s,q);el.hidden=!ok;if(ok)n++;});HITS[s]=n;tot+=n;
+    const app=act.some(d=>APPL[s].includes(d)),na=act.filter(d=>d!=="ds"&&!APPL[s].includes(d)).map(d=>DL[d]);
+    $("#h-"+s).innerHTML=`<span class="hn"><b>${n}</b> von ${els.length} ${SEC[s].l}</span>`+(app?`<span class="hf">gefiltert</span>`:"")+(na.length?`<span class="hx">wirkt hier nicht: ${esc(na.join(", "))}</span>`:"");
+    $("#e-"+s).hidden=n>0;
+    const tb=$(`#t-${SEC[s].tab} .hc`);tb.textContent=n;tb.hidden=!app;tb.setAttribute("aria-label",n+" Treffer");}
+  $$("[data-wrap]").forEach(w=>{w.hidden=!w.querySelector(".cx:not([hidden])");});
+  /* Zeitleiste */
+  const v=vis(),cur=tr.querySelector('.tlc[aria-pressed="true"]');
+  $(".tlwrap").hidden=$(".tlnav").hidden=tld.hidden=!v.length;
+  if(v.length){if(!cur||cur.hidden){tr.scrollTo({left:0});selTl(+v[0].dataset.n,false);}else $("#tlPos").textContent=`Eintrag ${v.indexOf(cur)+1} von ${v.length} · seitlich wischen`;}
+  /* Reaktionen */
+  $$("#zones h4").forEach(h=>{const z=h.dataset.z,all=RX.filter(r=>r.f===z).length,n=$$(`#spec .mk[data-f="${z}"]`).filter(m=>!m.hidden).length;h.textContent=`${ST[z].l} (${n<all?n+" von "+all:all})`;});
+  $("#gapsWrap").hidden=!$$("#gaps .mk").some(m=>!m.hidden);
+  $("#spec").hidden=!HITS.rx;rxd.hidden=!HITS.rx;
+  const sel=$('#spec .mk[aria-pressed="true"]');if(sel&&sel.hidden)rxDefault();
+  /* Quellen */
+  hlSrc(q);$("#srcCount").textContent=`${HITS.src} von ${SK.length} Quellen`;
+  $("#h-vorschlag").hidden=!act.length;
+  renderBar(tot);writeURL();drawAll();}
+function renderBar(tot){
+  const cnt={zeit:zOn()?1:0,akt:F.akt.size,hal:F.hal.size,urt:F.urt.size,thm:F.thm.size,qa:F.qa.size,dia:F.ds.size+F.alt.size+(F.einh!=="abs"?1:0)};
+  for(const g in cnt){const b=$("#fb-"+g);b.classList.toggle("on",cnt[g]>0);b.querySelector(".fn").textContent=cnt[g]?(g==="zeit"?"1":cnt[g]):"";b.setAttribute("aria-label",$("#fh-"+g).textContent+(cnt[g]?`, ${cnt[g]} aktiv`:""));}
+  $$(".fc").forEach(c=>{const g=c.dataset.g,v=c.dataset.v;c.setAttribute("aria-pressed",String(g==="einh"?F.einh===v:F[g].has(v)));});
+  $$(".fp").forEach(p=>p.setAttribute("aria-pressed",String(+p.dataset.von===F.von&&+p.dataset.bis===F.bis)));
+  rVon.value=F.von;rBis.value=F.bis;$("#rVonL").textContent=STEPS[F.von].l;$("#rBisL").textContent=STEPS[F.bis].l;
+  rVon.setAttribute("aria-valuetext","von "+STEPS[F.von].l);rBis.setAttribute("aria-valuetext","bis "+STEPS[F.bis].l);
+  const pc=i=>`calc(12px + (100% - 24px) * ${i/MAXS})`;$("#rFill").style.left=pc(F.von);$("#rFill").style.width=`calc((100% - 24px) * ${(F.bis-F.von)/MAXS})`;
+  const ch=[];
+  if(zOn())ch.push(["zeit","","Zeitraum: "+zLabel(),GC.zeit]);
+  for(const g of MULTI)F[g].forEach(v=>ch.push([g,v,`${FD[g].s}: ${FD[g].o[v][0]}`,GC[g]||GC.dia]));
+  if(F.einh!=="abs")ch.push(["einh","","Einheit: Prozent",GC.dia]);
+  if(F.q.trim())ch.push(["q","",`Suche: „${F.q.trim()}“`,GC.q]);
+  $("#fChips").innerHTML=ch.length?ch.map(([g,v,l,c])=>`<button type="button" class="ach" data-rm="${g}" data-v="${v}" style="--gc:${c}" aria-label="Filter ${esc(l)} entfernen">${esc(l)}<span class="x" aria-hidden="true">×</span></button>`).join(""):`<span class="none">Keine Filter aktiv – alle Inhalte sichtbar.</span>`;
+  $("#fSum").innerHTML=`<b>${tot}</b> Treffer`;$("#fSum").title=Object.keys(SEC).map(s=>`${SECN[s]}: ${HITS[s]}`).join(" · ");
+  $("#fReset").disabled=$("#fReset2").disabled=!ch.length;
+  $("#fBadge").textContent=ch.length;$("#fBadge").hidden=!ch.length;$("#fTot").textContent=tot;
+  fbar.classList.toggle("has",ch.length>0);
+  if(fq.value!==F.q)fq.value=F.q;$("#fqx").hidden=!F.q;}
+function resetAll(){F.von=0;F.bis=MAXS;F.q="";F.einh="abs";MULTI.forEach(k=>F[k].clear());apply();}
+/* URL-Zustand: #tab?von=…&akt=reg,oek&q=… */
+function writeURL(){const p=[];if(F.von>0)p.push("von="+STEPS[F.von].a);if(F.bis<MAXS)p.push("bis="+STEPS[F.bis].a);
+  MULTI.forEach(g=>{if(F[g].size)p.push(g+"="+[...F[g]].join(","));});
+  if(F.einh!=="abs")p.push("einh="+F.einh);if(F.q.trim())p.push("q="+encodeURIComponent(F.q.trim()));
+  const h="#"+(curTab||"urteil")+(p.length?"?"+p.join("&"):"");if(location.hash!==h)history.replaceState(null,"",h);}
+function readURL(){const raw=location.hash.slice(1),i=raw.indexOf("?"),tab=i<0?raw:raw.slice(0,i),qs=new URLSearchParams(i<0?"":raw.slice(i+1));
+  const si=k=>{const x=STEPS.findIndex(s=>s.a===qs.get(k));return x;};
+  let a=si("von"),b=si("bis");F.von=a<0?0:a;F.bis=b<0?MAXS:b;if(F.von>F.bis)[F.von,F.bis]=[F.bis,F.von];
+  MULTI.forEach(g=>{F[g]=new Set((qs.get(g)||"").split(",").filter(v=>FD[g].o[v]));});
+  F.einh=qs.get("einh")==="pct"?"pct":"abs";F.q=(qs.get("q")||"").slice(0,80);
+  return tab||"urteil";}
+
+/* Bedienung */
+const isMob=()=>mq.matches;
+function closePops(except){$$(".fg.open").forEach(g=>{if(g!==except){g.classList.remove("open");g.querySelector(".fgb").setAttribute("aria-expanded","false");}});}
+function openSheet(on){fbar.classList.toggle("open",on);$("#fOpen").setAttribute("aria-expanded",String(on));document.body.style.overflow=on?"hidden":"";
+  const p=$("#fpanel");if(on){p.setAttribute("role","dialog");p.setAttribute("aria-modal","true");$("#fClose").focus();}else{p.removeAttribute("role");p.removeAttribute("aria-modal");}}
+fbar.addEventListener("click",e=>{
+  const gb=e.target.closest(".fgb");
+  if(gb){const g=gb.parentElement,o=!g.classList.contains("open");closePops(g);g.classList.toggle("open",o);gb.setAttribute("aria-expanded",String(o));
+    if(o){const pop=g.querySelector(".pop");pop.style.left="0px";const r=pop.getBoundingClientRect(),lim=document.documentElement.clientWidth-12;if(r.right>lim)pop.style.left=(lim-r.right)+"px";}return;}
+  const c=e.target.closest(".fc");if(c)return;/* global */
+  const p=e.target.closest(".fp");if(p){F.von=+p.dataset.von;F.bis=+p.dataset.bis;apply();return;}
+  const cl=e.target.closest(".fclr");if(cl){const g=cl.dataset.clr;if(g==="dia"){F.ds.clear();F.alt.clear();F.einh="abs";}else F[g].clear();apply();return;}
+  const rm=e.target.closest(".ach");if(rm){const g=rm.dataset.rm,v=rm.dataset.v,idx=$$("#fChips .ach").indexOf(rm);
+    if(g==="zeit"){F.von=0;F.bis=MAXS;}else if(g==="q")F.q="";else if(g==="einh")F.einh="abs";else F[g].delete(v);apply();
+    const left=$$("#fChips .ach");(left[Math.min(idx,left.length-1)]||fq).focus();return;}
+  if(e.target.closest("#fOpen")){openSheet(true);return;}
+  if(e.target.closest("#fClose,#fDone,#fBack")){openSheet(false);$("#fOpen").focus();return;}
+});
+document.addEventListener("click",e=>{const c=e.target.closest(".fc");if(c){const g=c.dataset.g,v=c.dataset.v;if(g==="einh")F.einh=v;else F[g].has(v)?F[g].delete(v):F[g].add(v);apply();}
+  const r=e.target.closest(".freset");if(r&&!r.disabled){resetAll();}
+  if(!e.target.closest(".fg"))closePops();});
+document.addEventListener("keydown",e=>{if(e.key!=="Escape")return;const o=$(".fg.open");if(o){closePops();o.querySelector(".fgb").focus();}if(fbar.classList.contains("open")){openSheet(false);$("#fOpen").focus();}});
+rVon.addEventListener("input",()=>{F.von=Math.min(+rVon.value,F.bis);apply();});
+rBis.addEventListener("input",()=>{F.bis=Math.max(+rBis.value,F.von);apply();});
+fq.addEventListener("input",()=>{F.q=fq.value;apply();});
+$("#fqx").addEventListener("click",()=>{F.q="";apply();fq.focus();});
+const setPh=()=>{fq.placeholder=mq.matches?"Suchen: Fuest, IAB, Zölle …":"Freitext in allen Abschnitten, z. B. Fuest, IAB, Zölle";};setPh();
+mq.addEventListener("change",()=>{if(!mq.matches)openSheet(false);closePops();setPh();});
+
+icons(document);
+show(readURL());apply();
+window.addEventListener("hashchange",()=>{const k=readURL();if(k!==curTab)show(k);apply();});
+})();
+</script>
+</body>
+</html>
