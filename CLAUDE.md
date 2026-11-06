@@ -1,10 +1,20 @@
 # Hinweise für Claude
 
-## Zahlen prüfen
+## Nur Originalquellen
 
-- Zahlen zu Fahrzeugzulassungen in Deutschland immer direkt gegen die Originalquellen des Kraftfahrt-Bundesamts (KBA) prüfen, nicht gegen Presseartikel oder Blogs:
-  - Monatliche Pressemitteilungen „Fahrzeugzulassungen im <Monat> <Jahr>“ inkl. der Excel-Anhänge „Merkmale“ und „Marken“ (kba.de → Presse → Pressemitteilungen → Fahrzeugzulassungen).
-  - Statistik FZ10 „Neuzulassungen nach Marken und Modellreihen“ (kba.de/DE/Statistik/Produktkatalog/produkte/Fahrzeuge/fz10/fz10_gentab.html) für Modellwerte; BEV-Werte stehen in der Spalte „mit Elektroantrieb (BEV)“.
-- Sekundärquellen (electrive, GoingElectric, ADAC usw.) höchstens als Hinweis nutzen; jede übernommene Zahl muss mit einer KBA-Tabelle übereinstimmen.
-- Für europäische Zahlen gilt entsprechend die ACEA-Pressemitteilung (PDF) als Originalquelle.
-- Keine Werte zurückrechnen oder schätzen, wenn das KBA sie veröffentlicht; Abweichungen zwischen Quellen im Dashboard oder in der Antwort benennen.
+Jede Zahl in einem Dashboard muss aus der Originalveröffentlichung der zuständigen Stelle stammen. Presseartikel, Blogs, Nachrichtenagenturen (Reuters, dpa …) und kommerzielle Datenanbieter (JATO, Dataforce …) sind keine Quellen – höchstens ein Hinweis, wo man suchen kann.
+
+Originalquellen für Neuzulassungen:
+
+- **Deutschland:** Kraftfahrt-Bundesamt (KBA)
+  - Monatliche Pressemitteilung „Fahrzeugzulassungen im <Monat> <Jahr>“ mit den Excel-Anhängen „Merkmale“ und „Marken“ (kba.de → Presse → Pressemitteilungen → Fahrzeugzulassungen).
+  - Statistik FZ10 „Neuzulassungen nach Marken und Modellreihen“ (kba.de/DE/Statistik/Produktkatalog/produkte/Fahrzeuge/fz10/fz10_gentab.html); BEV-Werte in der Spalte „mit Elektroantrieb (BEV)“.
+- **EU / EFTA / UK gesamt:** ACEA-Pressemitteilung (PDF).
+- **Andere Länder:** der nationale Verband bzw. die Behörde, z. B. PFA/AAA Data (Frankreich), ANFAC (Spanien), UNRAE (Italien), ACAP (Portugal), Mobility Sweden (Schweden, Monatsbericht als Excel), OFV (Norwegen), Mobility Denmark (Dänemark), SMMT (Vereinigtes Königreich).
+
+Regeln:
+
+- Werte, die die Originalquelle nicht veröffentlicht, nicht zurückrechnen oder schätzen, sondern als „–“ zeigen und kurz erklären. Ausnahme: einfache Anteile oder Summen aus Originalwerten, als „errechnet“ gekennzeichnet.
+- Ist eine Zahl in keiner Originalquelle zu finden, kommt sie nicht ins Dashboard.
+- Abweichungen zwischen Quellen im Dashboard oder in der Antwort benennen.
+- Im Dashboard für jede Zahl die Originalquelle angeben und verlinken.
