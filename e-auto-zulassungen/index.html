@@ -171,6 +171,9 @@ footer{margin-top:24px;font-size:12px;color:var(--muted)}
 .na{color:var(--muted)}
 tr.focus td:first-child{font-weight:650}
 .subnote{font-size:12px;color:var(--muted);margin:10px 0 0}
+.models.wide li{grid-template-columns:22px minmax(0,130px) minmax(0,1fr) 72px 56px}
+.models .ch{text-align:right;font-variant-numeric:tabular-nums;font-size:12.5px}
+@media (max-width:560px){.models.wide li{grid-template-columns:18px minmax(0,96px) minmax(0,1fr) 66px 50px;gap:6px}}
 
 @media (max-width:560px){
   .legend{grid-template-columns:minmax(0,1fr)}
@@ -341,7 +344,23 @@ tr.focus td:first-child{font-weight:650}
       <p class="subnote">Top 15 nach Januar–Oktober 2026, dazu BYD und Tesla. VW = Marke Volkswagen ohne Konzernmarken; „Seat“ enthält laut KBA auch Cupra. BYD bis 2022 ohne eigene Zeile in der KBA-Tabelle (–).</p>
   </section>
 
-  <section class="card">
+  <section class="grid two">
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <h2>Top 10 in Europa (EU + EFTA + UK)</h2>
+          <p class="note">Pkw-Neuzulassungen aller Antriebe, Januar–September 2026 · Quelle: ACEA, 22.10.2026</p>
+        </div>
+        <div class="seg" role="group" aria-label="Europa Ansicht">
+          <button type="button" data-eu="marke" aria-pressed="true">Marken</button>
+          <button type="button" data-eu="konzern" aria-pressed="false">Konzerne</button>
+        </div>
+      </div>
+      <ol class="models wide" id="euList"></ol>
+      <p class="subnote" id="euNote"></p>
+    </div>
+
+    <div class="card">
       <div class="card-head">
         <div>
           <h2>Italien: E-Autos nach Marke und Modell</h2>
@@ -352,8 +371,9 @@ tr.focus td:first-child{font-weight:650}
           <button type="button" data-it="modell" aria-pressed="false">Modelle</button>
         </div>
       </div>
-      <ol class="models" id="itList" style="max-width:720px"></ol>
+      <ol class="models" id="itList"></ol>
       <p class="subnote">Italien gesamt: 110.379 E-Autos (+63,3 %) bei 1.400.991 Pkw. Der Leapmotor T03 allein macht 21,4 % aus.</p>
+    </div>
   </section>
 
   <section class="card" id="pruefung">
@@ -678,6 +698,37 @@ BRANDS.push(["BYD",[0,0,0,4139,2891,23306],5173,54.3,47961,216.1,1.9,1],["TESLA"
     tb.appendChild(tr);
   });
 })();
+
+/* ---------- Top 10 Europa (ACEA, EU + EFTA + UK, Jan–Sep 2026, alle Antriebe) ----------
+   [Name, Jan–Sep 2026, ggü. Jan–Sep 2025 %, Marktanteil %] */
+var EUTOP = {
+  marke:[["Volkswagen",1050077,-3.4,9.9],["Skoda",666798,7.5,6.3],["Toyota",650075,1.0,6.2],["BMW",603722,1.5,5.7],["Renault",554212,1.5,5.3],["Mercedes",519630,3.7,4.9],["Audi",499045,3.1,4.7],["Peugeot",483512,-3.4,4.6],["Kia",421867,6.6,4.0],["Dacia",405768,-9.7,3.8]],
+  konzern:[["Volkswagen Group",2667677,0.5,25.3],["Stellantis",1533540,4.7,14.5],["Renault Group",971760,-3.1,9.2],["Hyundai Group",770795,-3.4,7.3],["BMW Group",744572,3.7,7.1],["Toyota Group",705004,0.5,6.7],["Mercedes-Benz",519630,3.7,4.9],["Geely Group",343875,14.5,3.3],["BYD",283997,134.6,2.7],["Ford",277269,-15.2,2.6]]
+};
+var EUNOTE = {
+  marke:"Gesamtmarkt: 10.555.351 Pkw (+6,3 %). Dahinter: Hyundai 348.928, Opel/Vauxhall 323.452, Citroën 298.367. BYD 283.997 (+134,6 %) und Tesla 260.575 (+50,0 %) weist die ACEA nur als Hersteller aus.",
+  konzern:"Knapp hinter den Top 10: SAIC Motor (MG) 272.251 (+20,3 %), Chery 260.650 (+255,9 %) und Tesla 260.575 (+50,0 %). Geely Group umfasst u. a. Volvo, Polestar, Lynk & Co, Smart und Zeekr."
+};
+function renderEurope(k){
+  var list = EUTOP[k], max = list[0][1], ol = document.getElementById("euList"); ol.innerHTML = "";
+  list.forEach(function(m, i){
+    var li = document.createElement("li");
+    li.innerHTML = "<span class='rk'>" + (i+1) + "</span><span class='nm'>" + m[0] + "</span>" +
+      "<span class='tr'><i style='width:" + (m[1]/max*100).toFixed(1) + "%'></i></span>" +
+      "<span class='nv'>" + fmt.format(m[1]) + "</span>" +
+      "<span class='ch " + (m[2]>=0?"pos":"neg") + "'>" + sgn(m[2]) + " %</span>";
+    li.title = m[0] + ": " + f1.format(m[3]) + " % Marktanteil";
+    ol.appendChild(li);
+  });
+  document.getElementById("euNote").textContent = EUNOTE[k];
+}
+document.querySelectorAll("[data-eu]").forEach(function(b){
+  b.addEventListener("click", function(){
+    document.querySelectorAll("[data-eu]").forEach(function(o){ o.setAttribute("aria-pressed", String(o === b)); });
+    renderEurope(b.dataset.eu);
+  });
+});
+renderEurope("marke");
 
 /* ---------- Italien (UNRAE, Jan–Okt 2026) ---------- */
 var ITALY = {
