@@ -168,6 +168,10 @@ summary{cursor:pointer;font-size:13px;color:var(--ink-2);font-weight:600}
 .src{font-size:13px;color:var(--ink-2);padding-left:18px;margin:8px 0 0}
 .src li{margin:3px 0}
 footer{margin-top:24px;font-size:12px;color:var(--muted)}
+.na{color:var(--muted)}
+tr.focus td:first-child{font-weight:650}
+.subnote{font-size:12px;color:var(--muted);margin:10px 0 0}
+
 @media (max-width:560px){
   .legend{grid-template-columns:minmax(0,1fr)}
   .card{padding:14px}
@@ -305,6 +309,53 @@ footer{margin-top:24px;font-size:12px;color:var(--muted)}
     </div>
   </section>
 
+  <section class="card" id="laender-okt">
+    <div class="card-head">
+      <div>
+        <h2>Oktober 2026 in den großen EU-Märkten</h2>
+        <p class="note">E-Autos (BEV) nach den nationalen Verbänden · geprüft gegen die Originalveröffentlichungen</p>
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table id="octTable">
+        <thead><tr><th>Land</th><th>BEV Okt</th><th>Anteil Okt</th><th>ggü. Okt 2025</th><th>BEV Jan–Okt</th><th>Anteil Jan–Okt</th><th>ggü. Vorjahr</th><th style="text-align:left">Quelle</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="subnote">– = vom Verband nicht als Stückzahl veröffentlicht. Frankreich nennt den Oktober-Anteil nur in einer Grafik (rund 41 %), Portugal nur Anteile. Italien: Anteil Oktober laut UNRAE, Anteil Jan–Okt aus UNRAE-Stückzahlen errechnet.</p>
+  </section>
+
+  <section class="card">
+      <div class="card-head">
+        <div>
+          <h2>Pkw-Marken in Deutschland, alle Antriebe</h2>
+          <p class="note">Neuzulassungen je Jahr und Januar–Oktober 2026 · Quelle: KBA, FZ10 und Pressemitteilung 44/2026</p>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table id="brandTable">
+          <thead><tr><th>Marke</th><th>2020</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th><th>Jan–Okt 26</th><th>ggü. Vj.</th><th>Anteil</th><th>Okt 26</th><th>ggü. Okt 25</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="subnote">Top 15 nach Januar–Oktober 2026, dazu BYD und Tesla. VW = Marke Volkswagen ohne Konzernmarken; „Seat“ enthält laut KBA auch Cupra. BYD bis 2022 ohne eigene Zeile in der KBA-Tabelle (–).</p>
+  </section>
+
+  <section class="card">
+      <div class="card-head">
+        <div>
+          <h2>Italien: E-Autos nach Marke und Modell</h2>
+          <p class="note">Januar–Oktober 2026 · Quelle: UNRAE, Tabellen „BEV per marca“ und „BEV per modello“</p>
+        </div>
+        <div class="seg" role="group" aria-label="Italien Ansicht">
+          <button type="button" data-it="marke" aria-pressed="true">Marken</button>
+          <button type="button" data-it="modell" aria-pressed="false">Modelle</button>
+        </div>
+      </div>
+      <ol class="models" id="itList" style="max-width:720px"></ol>
+      <p class="subnote">Italien gesamt: 110.379 E-Autos (+63,3 %) bei 1.400.991 Pkw. Der Leapmotor T03 allein macht 21,4 % aus.</p>
+  </section>
+
   <section class="card" id="pruefung">
     <div class="card-head">
       <div>
@@ -335,6 +386,10 @@ footer{margin-top:24px;font-size:12px;color:var(--muted)}
         <li><a href="https://www.acea.auto/pc-registrations/new-car-registrations-5-7-in-september-2026-year-to-date-battery-electric-22-7-market-share/">ACEA: New car registrations September 2026 (22.10.2026)</a></li>
         <li><a href="https://www.kba.de/DE/Presse/Pressemitteilungen/Fahrzeugzulassungen/2026/pm44_2026_n_10_26_pm_komplett.html">KBA, Pressemitteilung 44/2026: Fahrzeugzulassungen im Oktober 2026</a></li>
         <li><a href="https://www.kba.de/DE/Statistik/Produktkatalog/produkte/Fahrzeuge/fz10/fz10_gentab.html">KBA, Statistik FZ10: Neuzulassungen nach Marken und Modellreihen, Januar–Oktober 2026</a></li>
+        <li><a href="https://pfa-auto.fr/wp-content/uploads/2026/11/Dossier-de-presse-PFA.pdf">PFA: Le marché automobile français, octobre 2026 (PDF)</a></li>
+        <li><a href="https://anfac.com/las-ventas-de-turismos-electrificados-crecen-un-43-con-una-de-cada-tres-ventas-en-octubre/">ANFAC: Matriculaciones de electrificados, octubre 2026</a></li>
+        <li><a href="https://www.unrae.it/sala-stampa/autovetture/7858/mercato-vetture-italia-ottobre-a-48-131921-ma-la-transizione-resta-ferma-ai-box">UNRAE: Mercato vetture Italia, ottobre 2026</a> sowie <a href="https://www.unrae.it/dati-statistici/immatricolazioni/7851/il-mercato-italiano-delle-autovetture-bev-per-marca-ottobre-2026">BEV per marca</a> und <a href="https://www.unrae.it/dati-statistici/immatricolazioni/7849/immatricolazioni-bev-per-modello-ottobre-2026">BEV per modello</a></li>
+        <li><a href="https://www.acap.pt/pt/noticia/1411/mercado-automovel-em-portugal-com-crescimento-de-24-por-cento-em-outubro-de-2026/7">ACAP: Mercado automóvel em Portugal, outubro de 2026</a></li>
         <li><a href="https://www.jato.com/resources/media-and-press-releases/bevs-account-for-30-of-all-new-cars-sold-in-europe-in-september-2026?hsLang=en">JATO: BEVs account for 30% of all new cars sold in Europe in September 2026</a></li>
         <li><a href="https://www.marketscreener.com/news/tesla-registrations-rise-across-northern-europe-in-october-ce785fd8d188f32d">Reuters via MarketScreener: Tesla registrations rise across Northern Europe in October</a></li>
       </ol>
@@ -583,6 +638,67 @@ document.querySelectorAll("[data-models]").forEach(function(b){
     renderModels(b.dataset.models);
   });
 });
+
+/* ---------- Oktober je Land (nationale Verbände) ----------
+   [Land, BEV Okt, Anteil Okt %, ggü. Okt %, BEV Jan–Okt, Anteil Jan–Okt %, ggü. Vj. %, Quelle]; null = nicht veröffentlicht */
+var OCT = [
+  ["Deutschland",94086,37.0,79.5,698230,28.2,60.7,"KBA, PM 44/2026"],
+  ["Frankreich",null,null,null,449303,32.5,79.2,"PFA / AAA Data, 01.11.2026"],
+  ["Spanien",16425,16.7,81.2,116932,11.6,44.1,"ANFAC, 02.11.2026"],
+  ["Italien",8122,6.1,28.1,110379,7.9,63.3,"UNRAE, 02.11.2026"],
+  ["Portugal",null,44.9,null,null,30.3,null,"ACAP, 02.11.2026"]
+];
+(function(){
+  var tb = document.querySelector("#octTable tbody");
+  function n(v){ return v === null ? "<span class='na'>–</span>" : fmt.format(v); }
+  function p(v){ return v === null ? "<span class='na'>–</span>" : f1.format(v) + " %"; }
+  function d(v){ return v === null ? "<span class='na'>–</span>" : "<span class='" + (v>=0?"pos":"neg") + "'>" + sgn(v) + " %</span>"; }
+  OCT.forEach(function(r){
+    var tr = document.createElement("tr"); if (r[0] === "Deutschland") tr.className = "hl";
+    tr.innerHTML = "<td>" + r[0] + "</td><td>" + n(r[1]) + "</td><td>" + p(r[2]) + "</td><td>" + d(r[3]) + "</td><td>" + n(r[4]) + "</td><td>" + p(r[5]) + "</td><td>" + d(r[6]) + "</td><td style='text-align:left;color:var(--muted)'>" + r[7] + "</td>";
+    tb.appendChild(tr);
+  });
+})();
+
+/* ---------- Marken Deutschland (KBA) ----------
+   [Marke, [2020..2025], Okt 2026, ggü. Okt %, Jan–Okt 2026, ggü. Vj. %, Anteil Jan–Okt %] */
+var BRANDS = [["VW",[525612,489962,480967,519089,536888,560796],46331,-4,442775,-5.6,17.9],["MERCEDES",[303185,225392,243999,277352,257888,260415],26273,8.5,221132,2.7,8.9],["BMW",[240968,222481,209722,233160,232886,253712],23582,0.1,212902,3.8,8.6],["SKODA",[181198,149838,143928,168561,205593,226472],19535,-12.1,206508,9.9,8.3],["AUDI",[213934,181877,213410,246880,202317,205862],17482,-8.4,170502,3.3,6.9],["SEAT",[114564,108726,111646,132624,152334,162566],12093,-8.7,129525,-5,5.2],["OPEL",[146219,161852,144588,144901,147833,136189],10130,-24.1,115505,2.5,4.7],["FORD",[194250,126358,131256,116578,99554,108299],7505,-9.8,82135,-10.1,3.3],["HYUNDAI",[105051,106620,105074,106381,96365,93839],6961,-15.3,78361,-0.8,3.2],["DACIA",[50704,40338,60390,68585,71424,73644],6782,15.4,59958,0.8,2.4],["RENAULT",[125318,105944,79861,68312,54349,59446],5505,7.8,56853,18.2,2.3],["TOYOTA",[77176,71890,78366,75199,95474,87578],6765,-7.5,56787,-18,2.3],["KIA",[64296,65839,76139,74589,68656,60391],6173,19.4,56220,10,2.3],["FIAT",[89150,82783,77771,76535,57561,54243],4307,7.4,55579,20.9,2.2],["PEUGEOT",[55401,52660,45220,46836,67454,57613],4928,-1,51249,5.5,2.1]];
+BRANDS.push(["BYD",[0,0,0,4139,2891,23306],5173,54.3,47961,216.1,1.9,1],["TESLA",[16694,39714,69963,63685,37574,19390],2932,290.9,47742,206.1,1.9,1]);
+(function(){
+  var tb = document.querySelector("#brandTable tbody");
+  function nice(b){ return b === "VW" || b === "BMW" || b === "BYD" ? b : b.charAt(0) + b.slice(1).toLowerCase(); }
+  BRANDS.forEach(function(r){
+    var tr = document.createElement("tr"); if (r[7]) tr.className = "focus";
+    var yrs = r[1].map(function(v){ return "<td>" + (v ? fmt.format(v) : "<span class='na'>–</span>") + "</td>"; }).join("");
+    tr.innerHTML = "<td>" + nice(r[0]) + "</td>" + yrs + "<td><b>" + fmt.format(r[4]) + "</b></td>" +
+      "<td class='" + (r[5]>=0?"pos":"neg") + "'>" + sgn(r[5]) + " %</td><td>" + f1.format(r[6]) + " %</td>" +
+      "<td>" + fmt.format(r[2]) + "</td><td class='" + (r[3]>=0?"pos":"neg") + "'>" + sgn(r[3]) + " %</td>";
+    tb.appendChild(tr);
+  });
+})();
+
+/* ---------- Italien (UNRAE, Jan–Okt 2026) ---------- */
+var ITALY = {
+  marke:[["Leapmotor",26437],["Tesla",10919,1],["BYD",9664],["BMW",5770],["Dacia",5692],["Citroën",5579],["Ford",3715],["Fiat",3692],["Renault",3531],["Audi",3016]],
+  modell:[["Leapmotor T03",23640],["Tesla Model Y",5757,1],["Dacia Spring",5692],["BYD Dolphin Surf",5542],["Tesla Model 3",5101,1],["Citroën C3",4355],["BMW iX1",2602],["Skoda Elroq",1928],["Volvo EX30",1873],["Leapmotor B10",1695]]
+};
+function renderItaly(k){
+  var list = ITALY[k], max = list[0][1], ol = document.getElementById("itList"); ol.innerHTML = "";
+  list.forEach(function(m, i){
+    var li = document.createElement("li");
+    li.innerHTML = "<span class='rk'>" + (i+1) + "</span><span class='nm'>" + m[0] + "</span>" +
+      "<span class='tr'><i class='" + (m[2]?"tesla":"") + "' style='width:" + (m[1]/max*100).toFixed(1) + "%'></i></span>" +
+      "<span class='nv'>" + fmt.format(m[1]) + "</span>";
+    ol.appendChild(li);
+  });
+}
+document.querySelectorAll("[data-it]").forEach(function(b){
+  b.addEventListener("click", function(){
+    document.querySelectorAll("[data-it]").forEach(function(o){ o.setAttribute("aria-pressed", String(o === b)); });
+    renderItaly(b.dataset.it);
+  });
+});
+renderItaly("marke");
 
 /* ---------- Prüfprotokoll ---------- */
 var cb = document.getElementById("checkBody");
