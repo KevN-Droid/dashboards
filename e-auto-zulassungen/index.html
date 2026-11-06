@@ -216,7 +216,7 @@ footer{margin-top:24px;font-size:12px;color:var(--muted)}
       <div class="card-head">
         <div>
           <h2>BEV-Anteil an den Neuzulassungen in Deutschland, pro Monat</h2>
-          <p class="note">Säulenhöhe = Anteil in %, Stückzahl im Tooltip · Quelle: KBA</p>
+          <p class="note">Säulenhöhe = Anteil in %, Stückzahl im Tooltip · Quelle: KBA, Statistik FZ10</p>
         </div>
       </div>
       <div class="chart" id="monthChart"></div>
@@ -263,7 +263,7 @@ footer{margin-top:24px;font-size:12px;color:var(--muted)}
       <div class="card-head">
         <div>
           <h2>Top-10 E-Autos in Deutschland</h2>
-          <p class="note">Neuzulassungen nach Modell · Quelle: KBA via drehmoment.net und electrive</p>
+          <p class="note">Neuzulassungen nach Modell · Quelle: KBA, Statistik FZ10</p>
         </div>
         <div class="seg" role="group" aria-label="Zeitraum Modelle">
           <button type="button" data-models="ytd" aria-pressed="true">Jan–Okt</button>
@@ -334,9 +334,7 @@ footer{margin-top:24px;font-size:12px;color:var(--muted)}
         <li><a href="https://www.kba.de/DE/Presse/Pressemitteilungen/Fahrzeugzulassungen/2026/pm41_2026_n_09_26_pm_komplett.html">KBA, Pressemitteilung 41/2026: Fahrzeugzulassungen im September 2026</a></li>
         <li><a href="https://www.acea.auto/pc-registrations/new-car-registrations-5-7-in-september-2026-year-to-date-battery-electric-22-7-market-share/">ACEA: New car registrations September 2026 (22.10.2026)</a></li>
         <li><a href="https://www.kba.de/DE/Presse/Pressemitteilungen/Fahrzeugzulassungen/2026/pm44_2026_n_10_26_pm_komplett.html">KBA, Pressemitteilung 44/2026: Fahrzeugzulassungen im Oktober 2026</a></li>
-        <li><a href="https://drehmoment.net/top-ten-e-auto-zulassungen-im-oktober-2026-id-7-fuehrt-model-y-faellt-auf-platz-zehn">drehmoment.net: Top-Ten E-Auto-Zulassungen Oktober 2026 (KBA)</a></li>
-        <li><a href="https://www.electrive.net/2026/10/07/kba-model-y-platz-1-september-2026/">electrive: KBA-Modellranking September 2026</a></li>
-        <li><a href="https://www.goingelectric.de/zulassungszahlen/2026/">GoingElectric: BEV-Monatswerte 2026 (KBA)</a></li>
+        <li><a href="https://www.kba.de/DE/Statistik/Produktkatalog/produkte/Fahrzeuge/fz10/fz10_gentab.html">KBA, Statistik FZ10: Neuzulassungen nach Marken und Modellreihen, Januar–Oktober 2026</a></li>
         <li><a href="https://www.jato.com/resources/media-and-press-releases/bevs-account-for-30-of-all-new-cars-sold-in-europe-in-september-2026?hsLang=en">JATO: BEVs account for 30% of all new cars sold in Europe in September 2026</a></li>
         <li><a href="https://www.marketscreener.com/news/tesla-registrations-rise-across-northern-europe-in-october-ce785fd8d188f32d">Reuters via MarketScreener: Tesla registrations rise across Northern Europe in October</a></li>
       </ol>
@@ -360,12 +358,12 @@ function sgn(x){ return (x>0?"+":x<0?"−":"") + f1.format(Math.abs(x)); }
 
 /* ---------- Daten (ACEA Pressemitteilung 22.10.2026, KBA PM 41/2026 und 44/2026) ---------- */
 /* Antriebe kumuliert: [2026, 2025]
-   DE = Jan–Okt: Jan–Sep laut ACEA plus Oktober laut KBA PM 44/2026.
-   Oktober 2025 je Antrieb aus den KBA-Veränderungsraten zurückgerechnet (Rundung ±50 Stück). */
+   DE = Jan–Okt laut KBA PM 44/2026 (Tabelle „Merkmale“); HEV = Hybrid gesamt minus Plug-in,
+   Sonstige = Pkw insgesamt minus übrige Antriebe. EU/Europa = Jan–Sep laut ACEA. */
 var SCOPES = {
   de:  { name:"Deutschland", short:"DE", period:"Jan–Okt", src:"KBA / ACEA",
-         bev:[698230,434627], phev:[275988,248704], hev:[700127,673948], oth:[13133,10160], pet:[494496,654684], die:[294316,338463], tot:[2476290,2360586],
-         last:{name:"Oktober", bev:[94086,52425], tot:[254492,250238]} },
+         bev:[698230,434627], phev:[275988,248706], hev:[700127,673922], oth:[13133,10106], pet:[494496,654657], die:[294316,338463], tot:[2476290,2360481],
+         last:{name:"Oktober", bev:[94086,52425], tot:[254492,250133]} },
   eu:  { name:"EU-27", short:"EU", period:"Jan–Sep", src:"ACEA",
          bev:[1931465,1300288], phev:[860257,725516], hev:[3090530,2792227], oth:[230523,261768], pet:[1802078,2228229], die:[602206,748483], tot:[8517059,8056511],
          last:{name:"September", bev:[290117,167776], tot:[971048,888529]} },
@@ -391,14 +389,14 @@ var COUNTRIES = [
   ["Polen",24404,25828,470497,427908]
 ].map(function(r){ return {name:r[0], bev:r[1], yoy:chg(r[1],r[2]), share:pct(r[1],r[3]), dshare:pct(r[2],r[4])}; });
 
-/* BEV Deutschland pro Monat 2026 (KBA): [Monat, BEV, Anteil %] – Summe = 698.230 */
+/* BEV Deutschland pro Monat 2026 (KBA, FZ10 Jan–Okt): [Monat, BEV, Anteil %] – Summe = 698.230 */
 var MONTHS = [["Jan",42692,22.0],["Feb",46275,21.9],["Mär",70663,24.0],["Apr",64350,25.8],["Mai",59969,25.0],["Jun",84057,28.4],["Jul",78609,29.3],["Aug",68930,32.4],["Sep",88599,34.5],["Okt",94086,37.0]];
 
-/* Top-10 BEV-Modelle Deutschland (KBA) */
+/* Top-10 BEV-Modelle Deutschland (KBA, FZ10 September und Oktober 2026, Spalte „mit Elektroantrieb (BEV)“) */
 var MODELS = {
   ytd:[["Skoda Elroq",34441],["Tesla Model Y",31998,1],["Skoda Enyaq",27226],["VW ID.3",27165],["VW ID.7",26048],["VW ID.4 / ID.5",21772],["BMW iX1",20534],["Mercedes CLA",20231],["Mini Electric",17209],["Audi A6 e-tron",17167]],
   oct:[["VW ID.7",3576],["Skoda Elroq",3542],["Mercedes GLC",3429],["BMW iX1",3215],["VW ID.4 / ID.5",3188],["Skoda Enyaq",2882],["VW ID.3",2813],["Cupra Tavascan",2784],["Mercedes CLA",2772],["Tesla Model Y",2534,1]],
-  sep:[["Tesla Model Y",8038,1],["Tesla Model 3",4512,1],["Skoda Elroq",4128],["Skoda Enyaq",2852],["VW ID.4 / ID.5",2795],["VW ID.3",2425],["Mini Electric",2389],["VW ID.7",2331],["Mercedes GLC",2205],["Mercedes CLA",2164]]
+  sep:[["Tesla Model Y",8038,1],["Tesla Model 3",4512,1],["Skoda Elroq",4182],["Skoda Enyaq",2852],["VW ID.4 / ID.5",2795],["VW ID.3",2425],["Mini Electric",2389],["VW ID.7",2331],["Mercedes GLC",2205],["Mercedes CLA",2164]]
 };
 
 /* Prüfprotokoll: [Angabe, vorher, geprüft, status ok|bad|na] */
@@ -406,7 +404,7 @@ var CHECKS = [
   ["BEV-Neuzulassungen DE, Jan–Sep","604.144 (+58,1 %)","604.144 (+58,1 %)","ok"],
   ["Pkw gesamt (als „DE / EU“ beschriftet)","2.221.798","2.221.798 – nur Deutschland; EU: 8.517.059","bad"],
   ["BEV-Marktanteil DE, Jan–Sep","27,2 %","27,2 %","ok"],
-  ["Top-BEV-Modell DE","Model Y, 38.420","Jan–Sep: Skoda Elroq 30.845 (Model Y 29.464); nur im September Model Y vorn (8.038)","bad"],
+  ["Top-BEV-Modell DE","Model Y, 38.420","Jan–Sep: Skoda Elroq 30.899 (Model Y 29.464); nur im September Model Y vorn (8.038)","bad"],
   ["Tesla Model Y Europa, September","39.141","41.588 (JATO) bzw. 40.971 (Dataforce)","bad"],
   ["Tesla Model 3 Europa, September","22.805","27.132 (JATO)","bad"],
   ["Skoda Elroq Europa, September","10.845 („Neu“)","Platz 3 der BEV laut JATO, keine Stückzahl veröffentlicht; seit 2025 auf dem Markt, also nicht neu","na"],
@@ -467,7 +465,7 @@ var MIX = [["bev","Elektro (BEV)","--s1",0],["phev","Plug-in-Hybrid","--s2",0],[
 function renderMix(key){
   var s = SCOPES[key];
   document.getElementById("mixTitle").textContent = "Antriebsmix " + s.name + ", " + s.period;
-  document.getElementById("mixNote").textContent = "Anteil an allen Pkw-Neuzulassungen · Quelle: " + (key === "de" ? "ACEA bis September, KBA Oktober; Vorjahres-Oktober aus KBA-Raten errechnet" : "ACEA");
+  document.getElementById("mixNote").textContent = "Anteil an allen Pkw-Neuzulassungen · Quelle: " + (key === "de" ? "KBA, Pressemitteilung 44/2026" : "ACEA");
   var host = document.getElementById("mix"); host.innerHTML = "";
   [0,1].forEach(function(yi){
     var row = document.createElement("div"); row.className = "mixrow";
