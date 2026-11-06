@@ -192,9 +192,9 @@ footer{margin-top:24px;font-size:12px;color:var(--muted)}
 
 <header class="top">
   <div>
-    <p class="eyebrow">Stand 2. November 2026 · Daten Januar–September 2026</p>
+    <p class="eyebrow">Stand 6. November 2026 · Deutschland bis Oktober, EU und Europa bis September</p>
     <h1>E-Auto-Neuzulassungen 2026</h1>
-    <p class="sub">Batterieelektrische Pkw (BEV) in Deutschland, der EU-27 und Europa. Alle Werte geprüft gegen KBA und ACEA. Oktober-Zahlen liegen erst ab dem 4. November (KBA) bzw. Ende November (ACEA) vor.</p>
+    <p class="sub">Batterieelektrische Pkw (BEV) in Deutschland, der EU-27 und Europa. Alle Werte geprüft gegen KBA und ACEA. Deutschland enthält bereits die KBA-Oktoberzahlen; die europäischen Oktoberzahlen der ACEA erscheinen Ende November.</p>
   </div>
   <div class="toolbar">
     <div class="seg" role="group" aria-label="Region">
@@ -230,7 +230,7 @@ footer{margin-top:24px;font-size:12px;color:var(--muted)}
       <div class="card-head">
         <div>
           <h2 id="mixTitle">Antriebsmix Jan–Sep</h2>
-          <p class="note">Anteil an allen Pkw-Neuzulassungen · Quelle: ACEA</p>
+          <p class="note" id="mixNote">Anteil an allen Pkw-Neuzulassungen · Quelle: ACEA</p>
         </div>
       </div>
       <div id="mix"></div>
@@ -241,7 +241,7 @@ footer{margin-top:24px;font-size:12px;color:var(--muted)}
     <div class="card-head">
       <div>
         <h2>BEV-Neuzulassungen nach Land, Januar–September 2026</h2>
-        <p class="note">Spaltenkopf anklicken zum Sortieren · Quelle: ACEA, 22.10.2026</p>
+        <p class="note">Spaltenkopf anklicken zum Sortieren · Quelle: ACEA, 22.10.2026 · Deutschland hier ebenfalls Jan–Sep, damit die Länder vergleichbar bleiben</p>
       </div>
     </div>
     <div class="tbl-wrap">
@@ -263,10 +263,11 @@ footer{margin-top:24px;font-size:12px;color:var(--muted)}
       <div class="card-head">
         <div>
           <h2>Top-10 E-Autos in Deutschland</h2>
-          <p class="note">Neuzulassungen nach Modell · Quelle: KBA via electrive</p>
+          <p class="note">Neuzulassungen nach Modell · Quelle: KBA via drehmoment.net und electrive</p>
         </div>
         <div class="seg" role="group" aria-label="Zeitraum Modelle">
-          <button type="button" data-models="ytd" aria-pressed="true">Jan–Sep</button>
+          <button type="button" data-models="ytd" aria-pressed="true">Jan–Okt</button>
+          <button type="button" data-models="oct" aria-pressed="false">Oktober</button>
           <button type="button" data-models="sep" aria-pressed="false">September</button>
         </div>
       </div>
@@ -283,10 +284,11 @@ footer{margin-top:24px;font-size:12px;color:var(--muted)}
       </div>
       <div class="minis">
         <div class="mini"><p class="label">EU + EFTA + UK, Jan–Sep</p><p class="value">260.575</p><p class="meta"><span class="delta up">+50,0 %</span> · 10,2 % aller BEV</p></div>
-        <div class="mini"><p class="label">Deutschland, Jan–Sep</p><p class="value">44.810</p><p class="meta"><span class="delta up">+201,9 %</span> · 7,4 % aller BEV</p></div>
+        <div class="mini"><p class="label">Deutschland, Jan–Okt</p><p class="value">47.742</p><p class="meta"><span class="delta up">+206,1 %</span> · 6,8 % aller BEV</p></div>
         <div class="mini"><p class="label">Europa, nur September</p><p class="value">68.776</p><p class="meta"><span class="delta up">+72,5 %</span> · 5,0 % Marktanteil</p></div>
       </div>
       <p class="callout">Model Y (41.588) und Model 3 (27.132) waren im September die meistverkauften Autos Europas – über alle Antriebe hinweg (JATO, EU-28). Dahinter bei den E-Autos: Skoda Elroq.</p>
+      <p class="callout">Deutschland im Oktober: Tesla fällt von 12.552 (September) auf 2.932 Neuzulassungen, das Model Y rutscht auf Platz 10. BYD liegt seit Jahresbeginn mit 47.961 jetzt knapp vor Tesla (47.742) – BYD inklusive Plug-in-Hybride.</p>
 
       <h2 style="margin-top:18px">Oktober 2026: Nordeuropa (erste Daten)</h2>
       <p class="note">Tesla-Neuzulassungen ggü. Oktober 2025 · Quelle: Reuters, Mobility Sweden, OFV, Mobility Denmark</p>
@@ -331,6 +333,8 @@ footer{margin-top:24px;font-size:12px;color:var(--muted)}
       <ol class="src">
         <li><a href="https://www.kba.de/DE/Presse/Pressemitteilungen/Fahrzeugzulassungen/2026/pm41_2026_n_09_26_pm_komplett.html">KBA, Pressemitteilung 41/2026: Fahrzeugzulassungen im September 2026</a></li>
         <li><a href="https://www.acea.auto/pc-registrations/new-car-registrations-5-7-in-september-2026-year-to-date-battery-electric-22-7-market-share/">ACEA: New car registrations September 2026 (22.10.2026)</a></li>
+        <li><a href="https://www.kba.de/DE/Presse/Pressemitteilungen/Fahrzeugzulassungen/2026/pm44_2026_n_10_26_pm_komplett.html">KBA, Pressemitteilung 44/2026: Fahrzeugzulassungen im Oktober 2026</a></li>
+        <li><a href="https://drehmoment.net/top-ten-e-auto-zulassungen-im-oktober-2026-id-7-fuehrt-model-y-faellt-auf-platz-zehn">drehmoment.net: Top-Ten E-Auto-Zulassungen Oktober 2026 (KBA)</a></li>
         <li><a href="https://www.electrive.net/2026/10/07/kba-model-y-platz-1-september-2026/">electrive: KBA-Modellranking September 2026</a></li>
         <li><a href="https://www.goingelectric.de/zulassungszahlen/2026/">GoingElectric: BEV-Monatswerte 2026 (KBA)</a></li>
         <li><a href="https://www.jato.com/resources/media-and-press-releases/bevs-account-for-30-of-all-new-cars-sold-in-europe-in-september-2026?hsLang=en">JATO: BEVs account for 30% of all new cars sold in Europe in September 2026</a></li>
@@ -354,18 +358,20 @@ function pct(a,b){ return a/b*100; }
 function chg(a,b){ return (a/b-1)*100; }
 function sgn(x){ return (x>0?"+":x<0?"−":"") + f1.format(Math.abs(x)); }
 
-/* ---------- Daten (ACEA Pressemitteilung 22.10.2026, KBA PM 41/2026) ---------- */
-/* Antriebe Jan–Sep: [2026, 2025] */
+/* ---------- Daten (ACEA Pressemitteilung 22.10.2026, KBA PM 41/2026 und 44/2026) ---------- */
+/* Antriebe kumuliert: [2026, 2025]
+   DE = Jan–Okt: Jan–Sep laut ACEA plus Oktober laut KBA PM 44/2026.
+   Oktober 2025 je Antrieb aus den KBA-Veränderungsraten zurückgerechnet (Rundung ±50 Stück). */
 var SCOPES = {
-  de:  { name:"Deutschland", short:"DE", src:"KBA / ACEA",
-         bev:[604144,382202], phev:[247489,217760], hev:[632695,603270], oth:[11056,9164], pet:[455980,589951], die:[270434,308001], tot:[2221798,2110348],
-         sep:{bev:[88599,45495], tot:[256774,235528]} },
-  eu:  { name:"EU-27", short:"EU", src:"ACEA",
+  de:  { name:"Deutschland", short:"DE", period:"Jan–Okt", src:"KBA / ACEA",
+         bev:[698230,434627], phev:[275988,248704], hev:[700127,673948], oth:[13133,10160], pet:[494496,654684], die:[294316,338463], tot:[2476290,2360586],
+         last:{name:"Oktober", bev:[94086,52425], tot:[254492,250238]} },
+  eu:  { name:"EU-27", short:"EU", period:"Jan–Sep", src:"ACEA",
          bev:[1931465,1300288], phev:[860257,725516], hev:[3090530,2792227], oth:[230523,261768], pet:[1802078,2228229], die:[602206,748483], tot:[8517059,8056511],
-         sep:{bev:[290117,167776], tot:[971048,888529]} },
-  eur: { name:"EU + EFTA + UK", short:"Europa", src:"ACEA",
+         last:{name:"September", bev:[290117,167776], tot:[971048,888529]} },
+  eur: { name:"EU + EFTA + UK", short:"Europa", period:"Jan–Sep", src:"ACEA",
          bev:[2549810,1797058], phev:[1128875,922058], hev:[3794062,3453369], oth:[230531,261791], pet:[2208849,2692686], die:[643224,801486], tot:[10555351,9928448],
-         sep:{bev:[416433,260446], tot:[1363210,1236648]} }
+         last:{name:"September", bev:[416433,260446], tot:[1363210,1236648]} }
 };
 
 /* BEV Jan–Sep nach Land: [BEV 2026, BEV 2025, Pkw gesamt 2026, Pkw gesamt 2025] */
@@ -385,12 +391,13 @@ var COUNTRIES = [
   ["Polen",24404,25828,470497,427908]
 ].map(function(r){ return {name:r[0], bev:r[1], yoy:chg(r[1],r[2]), share:pct(r[1],r[3]), dshare:pct(r[2],r[4])}; });
 
-/* BEV Deutschland pro Monat 2026 (KBA): [Monat, BEV, Anteil %] – Summe = 604.144 */
-var MONTHS = [["Jan",42692,22.0],["Feb",46275,21.9],["Mär",70663,24.0],["Apr",64350,25.8],["Mai",59969,25.0],["Jun",84057,28.4],["Jul",78609,29.3],["Aug",68930,32.4],["Sep",88599,34.5]];
+/* BEV Deutschland pro Monat 2026 (KBA): [Monat, BEV, Anteil %] – Summe = 698.230 */
+var MONTHS = [["Jan",42692,22.0],["Feb",46275,21.9],["Mär",70663,24.0],["Apr",64350,25.8],["Mai",59969,25.0],["Jun",84057,28.4],["Jul",78609,29.3],["Aug",68930,32.4],["Sep",88599,34.5],["Okt",94086,37.0]];
 
 /* Top-10 BEV-Modelle Deutschland (KBA) */
 var MODELS = {
-  ytd:[["Skoda Elroq",30845],["Tesla Model Y",29464,1],["VW ID.3",24352],["Skoda Enyaq",24344],["VW ID.7",22472],["VW ID.4 / ID.5",18584],["Mercedes CLA",17459],["BMW iX1",17319],["Audi A6 e-tron",15071],["Tesla Model 3",15069,1]],
+  ytd:[["Skoda Elroq",34441],["Tesla Model Y",31998,1],["Skoda Enyaq",27226],["VW ID.3",27165],["VW ID.7",26048],["VW ID.4 / ID.5",21772],["BMW iX1",20534],["Mercedes CLA",20231],["Mini Electric",17209],["Audi A6 e-tron",17167]],
+  oct:[["VW ID.7",3576],["Skoda Elroq",3542],["Mercedes GLC",3429],["BMW iX1",3215],["VW ID.4 / ID.5",3188],["Skoda Enyaq",2882],["VW ID.3",2813],["Cupra Tavascan",2784],["Mercedes CLA",2772],["Tesla Model Y",2534,1]],
   sep:[["Tesla Model Y",8038,1],["Tesla Model 3",4512,1],["Skoda Elroq",4128],["Skoda Enyaq",2852],["VW ID.4 / ID.5",2795],["VW ID.3",2425],["Mini Electric",2389],["VW ID.7",2331],["Mercedes GLC",2205],["Mercedes CLA",2164]]
 };
 
@@ -436,21 +443,21 @@ function bindTip(el, html){
 function renderKpis(key){
   var s = SCOPES[key];
   var share26 = pct(s.bev[0], s.tot[0]), share25 = pct(s.bev[1], s.tot[1]);
-  var sepShare = pct(s.sep.bev[0], s.sep.tot[0]), sepShare25 = pct(s.sep.bev[1], s.sep.tot[1]);
+  var sepShare = pct(s.last.bev[0], s.last.tot[0]), sepShare25 = pct(s.last.bev[1], s.last.tot[1]);
   var yoy = chg(s.bev[0], s.bev[1]), totYoy = chg(s.tot[0], s.tot[1]);
   document.getElementById("kpis").innerHTML =
-    '<div class="card kpi hero"><p class="label">BEV-Neuzulassungen ' + s.short + ', Jan–Sep</p>' +
+    '<div class="card kpi hero"><p class="label">BEV-Neuzulassungen ' + s.short + ', ' + s.period + '</p>' +
       '<p class="value">' + fmt.format(s.bev[0]) + '</p>' +
-      '<p class="meta"><span class="delta ' + (yoy>=0?"up":"down") + '">' + sgn(yoy) + ' %</span> ggü. Jan–Sep 2025 (' + fmt.format(s.bev[1]) + ')</p></div>' +
-    '<div class="card kpi"><p class="label">BEV-Anteil, Jan–Sep</p>' +
+      '<p class="meta"><span class="delta ' + (yoy>=0?"up":"down") + '">' + sgn(yoy) + ' %</span> ggü. ' + s.period + ' 2025 (' + fmt.format(s.bev[1]) + ')</p></div>' +
+    '<div class="card kpi"><p class="label">BEV-Anteil, ' + s.period + '</p>' +
       '<p class="value">' + f1.format(share26) + ' %</p>' +
       '<p class="meta"><span class="delta up">' + sgn(share26-share25) + ' Pp.</span> ggü. ' + f1.format(share25) + ' % im Vorjahr</p>' +
       '<div class="meter" aria-hidden="true"><i style="width:' + share26.toFixed(1) + '%"></i></div></div>' +
-    '<div class="card kpi"><p class="label">BEV-Anteil im September</p>' +
+    '<div class="card kpi"><p class="label">BEV-Anteil im ' + s.last.name + '</p>' +
       '<p class="value">' + f1.format(sepShare) + ' %</p>' +
-      '<p class="meta">' + fmt.format(s.sep.bev[0]) + ' BEV · Vorjahr ' + f1.format(sepShare25) + ' %</p>' +
+      '<p class="meta">' + fmt.format(s.last.bev[0]) + ' BEV · Vorjahr ' + f1.format(sepShare25) + ' %</p>' +
       '<div class="meter" aria-hidden="true"><i style="width:' + sepShare.toFixed(1) + '%"></i></div></div>' +
-    '<div class="card kpi"><p class="label">Pkw-Neuzulassungen gesamt, Jan–Sep</p>' +
+    '<div class="card kpi"><p class="label">Pkw-Neuzulassungen gesamt, ' + s.period + '</p>' +
       '<p class="value">' + fmt.format(s.tot[0]) + '</p>' +
       '<p class="meta"><span class="delta ' + (totYoy>=0?"up":"down") + '">' + sgn(totYoy) + ' %</span> ggü. Vorjahr · ' + s.name + '</p></div>';
 }
@@ -459,7 +466,8 @@ function renderKpis(key){
 var MIX = [["bev","Elektro (BEV)","--s1",0],["phev","Plug-in-Hybrid","--s2",0],["hev","Hybrid (Voll/Mild)","--s3",0],["pet","Benzin","--s4",1],["die","Diesel","--s5",0],["oth","Sonstige (Gas, H₂ …)","--s6",0]];
 function renderMix(key){
   var s = SCOPES[key];
-  document.getElementById("mixTitle").textContent = "Antriebsmix " + s.name + ", Jan–Sep";
+  document.getElementById("mixTitle").textContent = "Antriebsmix " + s.name + ", " + s.period;
+  document.getElementById("mixNote").textContent = "Anteil an allen Pkw-Neuzulassungen · Quelle: " + (key === "de" ? "ACEA bis September, KBA Oktober; Vorjahres-Oktober aus KBA-Raten errechnet" : "ACEA");
   var host = document.getElementById("mix"); host.innerHTML = "";
   [0,1].forEach(function(yi){
     var row = document.createElement("div"); row.className = "mixrow";
@@ -503,7 +511,7 @@ function renderMonths(){
   var svg = document.createElementNS(NS,"svg");
   svg.setAttribute("viewBox","0 0 " + W + " " + H);
   svg.setAttribute("role","img");
-  svg.setAttribute("aria-label","BEV-Anteil in Deutschland 2026 von 22,0 % im Januar auf 34,5 % im September");
+  svg.setAttribute("aria-label","BEV-Anteil in Deutschland 2026 von 22,0 % im Januar auf 37,0 % im Oktober");
   function el(n, a){ var e = document.createElementNS(NS,n); for (var k in a) e.setAttribute(k,a[k]); return e; }
   ticks.forEach(function(t){
     svg.appendChild(el("line",{x1:padL,x2:W-padR,y1:y(t),y2:y(t),"class":t===0?"bl":"gl"}));
@@ -529,7 +537,7 @@ function renderMonths(){
   var tb = document.querySelector("#monthTable tbody");
   MONTHS.forEach(function(m){ var tr = document.createElement("tr"); tr.innerHTML = "<td>" + m[0] + "</td><td>" + fmt.format(m[1]) + "</td><td>" + f1.format(m[2]) + " %</td>"; tb.appendChild(tr); });
   var tr = document.createElement("tr"); tr.className = "hl";
-  tr.innerHTML = "<td>Jan–Sep</td><td>" + fmt.format(604144) + "</td><td>27,2 %</td>"; tb.appendChild(tr);
+  tr.innerHTML = "<td>Jan–Okt</td><td>" + fmt.format(698230) + "</td><td>28,2 %</td>"; tb.appendChild(tr);
 }
 
 /* ---------- Ländertabelle ---------- */
