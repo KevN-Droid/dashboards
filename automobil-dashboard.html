@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚗 Automobilindustrie Dashboard | Aktualisiert: China-Crash Q3 2026</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #1e293b; line-height: 1.6; }
+        .header { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); color: white; padding: 2rem; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .header p { font-size: 1rem; opacity: 0.9; }
+        .nav-tabs { display: flex; justify-content: center; gap: 0.5rem; background: #fff; padding: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); flex-wrap: wrap; }
+        .nav-tab { padding: 0.75rem 1.5rem; border: none; background: #f1f5f9; color: #475569; cursor: pointer; border-radius: 0.5rem; font-weight: 500; transition: all 0.2s; }
+        .nav-tab:hover { background: #e2e8f0; }
+        .nav-tab.active { background: #3b82f6; color: white; }
+        .main-content { max-width: 1400px; margin: 0 auto; padding: 2rem 1rem; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .stat-card { background: white; border-radius: 1rem; padding: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; transition: transform 0.2s, box-shadow 0.2s; }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .stat-card .label { color: #64748b; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem; }
+        .stat-card .value { font-size: 1.75rem; font-weight: 700; color: #1e293b; }
+        .stat-card .change { font-size: 0.75rem; margin-top: 0.5rem; padding: 0.25rem 0.5rem; border-radius: 9999px; display: inline-block; }
+        .stat-card .change.positive { background: #dcfce7; color: #166534; }
+        .stat-card .change.negative { background: #fee2e2; color: #991b1b; }
+        .stat-card .change.neutral { background: #f1f5f9; color: #475569; }
+        .chart-container { background: white; border-radius: 1rem; padding: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; margin-bottom: 2rem; }
+        .chart-container h3 { font-size: 1.25rem; font-weight: 600; color: #1e293b; margin-bottom: 1rem; }
+        .chart-wrapper { position: relative; height: 300px; width: 100%; }
+        .map-container { background: white; border-radius: 1rem; padding: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; margin-bottom: 2rem; }
+        .map-container h3 { font-size: 1.25rem; font-weight: 600; color: #1e293b; margin-bottom: 1rem; }
+        #map, #productionMap { height: 400px; width: 100%; border-radius: 0.5rem; margin-top: 1rem; }
+        .table-container { background: white; border-radius: 1rem; padding: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; margin-bottom: 2rem; overflow-x: auto; }
+        .table-container h3 { font-size: 1.25rem; font-weight: 600; color: #1e293b; margin-bottom: 1rem; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        th { background: #f8fafc; font-weight: 600; color: #475569; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        tr:hover { background: #f1f5f9; }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .info-box { background: white; border-radius: 1rem; padding: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; margin-bottom: 2rem; }
+        .info-box h3 { font-size: 1.25rem; font-weight: 600; color: #1e293b; margin-bottom: 1rem; }
+        .info-box p { color: #475569; margin-bottom: 0.75rem; }
+        .tech-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin-top: 1rem; }
+        .tech-card { background: white; border-radius: 0.75rem; padding: 1rem; border: 1px solid #e2e8f0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .tech-card h4 { font-size: 1rem; font-weight: 600; color: #1e293b; margin-bottom: 0.5rem; }
+        .tech-card ul { list-style: none; padding: 0; margin: 0; }
+        .tech-card li { color: #475569; font-size: 0.875rem; padding: 0.25rem 0; padding-left: 1.25rem; position: relative; }
+        .tech-card li:before { content: "•"; color: #3b82f6; position: absolute; left: 0; }
+        .warning-box { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 1rem; border-radius: 0.5rem; margin-bottom: 2rem; }
+        .warning-box h4 { font-size: 1rem; font-weight: 600; color: #92400e; margin-bottom: 0.5rem; }
+        .warning-box p { color: #92400e; font-size: 0.875rem; }
+        .news-item { border-left: 4px solid #3b82f6; padding-left: 1rem; margin-bottom: 1.5rem; }
+        .news-item h4 { font-size: 1rem; font-weight: 600; color: #1e293b; margin-bottom: 0.25rem; }
+        .news-item .date { color: #64748b; font-size: 0.875rem; margin-bottom: 0.5rem; }
+        .news-item p { color: #475569; font-size: 0.875rem; }
+        .footer { background: white; border-top: 1px solid #e2e8f0; padding: 1.5rem; text-align: center; color: #64748b; font-size: 0.875rem; margin-top: 2rem; }
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.5rem; }
+            .nav-tabs { gap: 0.25rem; }
+            .nav-tab { padding: 0.5rem 1rem; font-size: 0.875rem; }
+            .grid-2 { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+            #map, #productionMap { height: 300px; }
+        }
+        .leaflet-container { height: 100%; width: 100%; }
+        .prognose-badge { display: inline-block; background: #e0e7ff; color: #4338ca; padding: 0.25rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 500; margin-left: 0.5rem; }
+        .crash-badge { display: inline-block; background: #fee2e2; color: #991b1b; padding: 0.25rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; margin-left: 0.5rem; }
+        .warning-box.crash { background: #fef2f2; border-left: 4px solid #ef4444; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🚗 Automobilindustrie Dashboard</h1>
+        <p>Echtzeit-Analysen zu Verkäufen, Produktion und E-Mobilität</p>
+        <p style="margin-top: 0.5rem; font-size: 0.875rem; opacity: 0.8;">Stand: <span id="current-date"></span> | <span style="color: #ef4444; font-weight: 600;">⚠️ China-Markt Crash: -21% (Jan-Sep 2026)</span></p>
+    </div>
+    <div class="nav-tabs">
+        <button class="nav-tab active" onclick="showTab('overview')">Übersicht</button>
+        <button class="nav-tab" onclick="showTab('marktanalyse')">Marktanalyse</button>
+        <button class="nav-tab" onclick="showTab('produktion')">Produktion</button>
+        <button class="nav-tab" onclick="showTab('e-mobilitaet')">E-Mobilität</button>
+        <button class="nav-tab" onclick="showTab('finanzen')">Finanzen</button>
+    </div>
+    <div class="main-content">
+        <div id="overview" class="tab-content active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="label">🚗 Globale Verkäufe 2026</div>
+                    <div class="value">96,0 Mio.</div>
+                    <span class="change negative">-3,9%</span>
+                </div>
+                <div class="stat-card">
+                    <div class="label">⚡ E-Auto-Anteil 2026</div>
+                    <div class="value">25%</div>
+                    <span class="change positive">+3,5%</span>
+                </div>
+                <div class="stat-card">
+                    <div class="label">📉 China Verkäufe 2026</div>
+                    <div class="value">30,5 Mio.</div>
+                    <span class="change negative">-11,0%</span>
+                </div>
+                <div class="stat-card">
+                    <div class="label">🏭 Produktionsstandorte</div>
+                    <div class="value">10</div>
+                    <span class="change neutral">Q3 2026</span>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="chart-container">
+                    <h3>Weltweite Fahrzeugverkäufe (2010–2027) <span class="prognose-badge">Prognose</span> <span class="crash-badge">China-Crash</span></h3>
+                    <div class="chart-wrapper"><canvas id="salesChart"></canvas></div>
+                </div>
+                <div class="chart-container">
+                    <h3>Marktanteile 2026 <span class="crash-badge">Aktualisiert</span></h3>
+                    <div class="chart-wrapper"><canvas id="marketShareChart"></canvas></div>
+                </div>
+            </div>
+            <div class="chart-container">
+                <h3>E-Auto-Anteil an Gesamtverkäufen (2010–2027) <span class="prognose-badge">Prognose</span> <span class="crash-badge">China-Crash</span></h3>
+                <div class="chart-wrapper"><canvas id="evShareChart"></canvas></div>
+            </div>
+            <div class="map-container">
+                <h3>Produktionsstandorte in Deutschland</h3>
+                <div id="map"></div>
+            </div>
+            <div class="table-container">
+                <h3>Top 10 Automobilhersteller (2026)</h3>
+                <table>
+                    <thead>
+                        <tr><th>Rang</th><th>Hersteller</th><th>Verkäufe (Mio.)</th><th>Marktanteil</th><th>E-Auto-Fokus</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>Toyota</td><td>10,2</td><td>10,2%</td><td>⚡⚡</td></tr>
+                        <tr><td>2</td><td>BYD</td><td>9,5</td><td>9,5%</td><td>⚡⚡⚡</td></tr>
+                        <tr><td>3</td><td>Volkswagen</td><td>9,2</td><td>9,2%</td><td>⚡⚡⚡</td></tr>
+                        <tr><td>4</td><td>Hyundai-Kia</td><td>8,5</td><td>8,5%</td><td>⚡⚡</td></tr>
+                        <tr><td>5</td><td>Tesla</td><td>7,8</td><td>7,8%</td><td>⚡⚡⚡</td></tr>
+                        <tr><td>6</td><td>General Motors</td><td>7,0</td><td>7,0%</td><td>⚡⚡</td></tr>
+                        <tr><td>7</td><td>Ford</td><td>6,5</td><td>6,5%</td><td>⚡⚡</td></tr>
+                        <tr><td>8</td><td>Stellantis</td><td>6,0</td><td>6,0%</td><td>⚡⚡</td></tr>
+                        <tr><td>9</td><td>BMW</td><td>2,8</td><td>2,8%</td><td>⚡⚡⚡</td></tr>
+                        <tr><td>10</td><td>Mercedes</td><td>2,5</td><td>2,5%</td><td>⚡⚡⚡</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="warning-box crash">
+                <h3>⚠️ China-Markt Crash 2026 – Wichtige Korrektur!</h3>
+                <p><strong>Die vorherigen Prognosen waren zu optimistisch!</strong> Der chinesische Automarkt bricht 2026 massiv ein. Hier die korrigierten Zahlen:</p>
+                <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                    <li><strong>China Verkäufe:</strong> ~30,5 Mio. (↓ <span class="change negative">-11%</span> vs. 2025) – nicht 34,5 Mio.</li>
+                    <li><strong>Weltweit:</strong> ~96,0 Mio. (↓ <span class="change negative">-3,9%</span>) – nicht 99,8 Mio.</li>
+                    <li><strong>E-Auto-Anteil:</strong> ~25% (↓ von 28%) – durch Subventionsende in China</li>
+                    <li><strong>BYD:</strong> ~1,8 Mio. E-Autos (↓ <span class="change negative">-30%</span> in Q1 2026)</li>
+                    <li><strong>VW China:</strong> -38,5% im Q3 2026 (nur 405.800 Fahrzeuge)</li>
+                </ul>
+                <p style="margin-top: 1rem;"><strong>Hauptgründe:</strong> Marktsättigung, Subventionsende, hohe Ölpreise, Überkapazitäten, Wirtschaftskrise.</p>
+                <p style="margin-top: 0.5rem; font-size: 0.875rem;"><a href="#china-crash-section" style="color: #3b82f6; text-decoration: underline;">→ Mehr Details weiter unten</a></p>
+            </div>
+            <div class="info-box">
+                <h3>📊 Zusammenfassung 2026 (korrigiert)</h3>
+                <p><strong>Weltweiter Automarkt:</strong> Die Verkäufe <strong>gehen zurück</strong> und erreichen mit <strong>~96 Millionen Fahrzeugen</strong> das niedrigste Niveau seit 2020. Die Produktion sank auf <strong>~92 Millionen</strong> (↓ -4,5% vs. 2025).</p>
+                <p><strong>E-Mobilität:</strong> Der Anteil von Elektroautos wächst <strong>langsamer als erwartet</strong>. Im Jahr 2026 machen E-Autos <strong>~25% der Gesamtverkäufe</strong> aus (~20 Mio. Einheiten). China bleibt mit <strong>~45% aller E-Auto-Verkäufe</strong> der größte Markt, aber mit starkem Rückgang.</p>
+                <p><strong>Hersteller:</strong> <strong>BYD bleibt vor Tesla</strong>, aber beide verlieren in China. Europäische Hersteller (VW, BMW, Mercedes) leiden besonders unter dem China-Crash.</p>
+            </div>
+        </div>
+
+        <div id="marktanalyse" class="tab-content">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="label">🌍 Weltweiter Markt</div>
+                    <div class="value">96,0 Mio.</div>
+                    <span class="change negative">-3,9%</span>
+                </div>
+                <div class="stat-card">
+                    <div class="label">🇨🇳 China Verkäufe</div>
+                    <div class="value">30,5 Mio.</div>
+                    <span class="change negative">-11,0%</span>
+                </div>
+                <div class="stat-card">
+                    <div class="label">🇪🇺 Europa Verkäufe</div>
+                    <div class="value">18,2 Mio.</div>
+                    <span class="change positive">+1,5%</span>
+                </div>
+                <div class="stat-card">
+                    <div class="label">🇺🇸 USA Verkäufe</div>
+                    <div class="value">16,8 Mio.</div>
+                    <span class="change negative">-1,2%</span>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="chart-container">
+                    <h3>Marktanteile weltweit (2026)</h3>
+                    <div class="chart-wrapper"><canvas id="marketAnalysisChart"></canvas></div>
+                </div>
+                <div class="chart-container">
+                    <h3>E-Autos vs. Verbrenner (2010–2027) <span class="prognose-badge">Prognose</span></h3>
+                    <div class="chart-wrapper"><canvas id="evVsIceChart"></canvas></div>
+                </div>
+            </div>
+            <div class="chart-container">
+                <h3>Hersteller-Verkäufe (2010–2027) <span class="prognose-badge">Prognose</span></h3>
+                <div class="chart-wrapper" style="height: 400px;"><canvas id="manufacturerSalesChart"></canvas></div>
+            </div>
+            <div class="table-container">
+                <h3>Marktanteile nach Region (2026) <span class="crash-badge">China-Crash</span></h3>
+                <table>
+                    <thead>
+                        <tr><th>Region</th><th>Verkäufe (Mio.)</th><th>Marktanteil</th><th>Wachstum vs. 2025</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>China</td><td>30,5</td><td>31,8%</td><td class="change negative">-11,0%</td></tr>
+                        <tr><td>Europa</td><td>18,2</td><td>19,0%</td><td class="change positive">+1,5%</td></tr>
+                        <tr><td>USA</td><td>16,8</td><td>17,5%</td><td class="change negative">-1,2%</td></tr>
+                        <tr><td>Japan</td><td>7,5</td><td>7,8%</td><td class="change negative">-2,5%</td></tr>
+                        <tr><td>Südkorea</td><td>4,0</td><td>4,2%</td><td class="change negative">-1,8%</td></tr>
+                        <tr><td>Indien</td><td>5,3</td><td>5,5%</td><td class="change positive">+6,2%</td></tr>
+                        <tr><td>Rest der Welt</td><td>23,7</td><td>24,7%</td><td class="change positive">+2,1%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="info-box">
+                <h3>📈 Markttrends 2026 (korrigiert)</h3>
+                <p><strong>China bricht ein:</strong> Mit nur <strong>30,5 Millionen</strong> verkauften Fahrzeugen (↓ -11%) erlebt China den <strong>stärksten Rückgang seit 20 Jahren</strong>. Die Produktion sank auf ~31 Mio. (↓ -10%). <strong>Hauptgründe: Marktsättigung, Subventionsende, hohe Ölpreise.</strong></p>
+                <p><strong>Europa wächst leicht:</strong> Europa bleibt mit 18,2 Millionen Verkäufen (+1,5%) relativ stabil. Der E-Auto-Anteil steigt auf <strong>~26%</strong> dank starker Nachfrage nach chinesischen Importen.</p>
+                <p><strong>USA stagniert:</strong> Die USA verzeichnen einen leichten Rückgang von -1,2%. Der E-Auto-Markt wächst langsam auf ~11% (Tesla dominiert mit ~54% Marktanteil).</p>
+                <p><strong>Indien als Lichtblick:</strong> Indien (+6,2%) zeigt das stärkste Wachstum, getrieben durch günstige E-Autos (z. B. Tata, Mahindra) und staatliche Förderung.</p>
+            </div>
+        </div>
+
+        <div id="produktion" class="tab-content">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="label">🏭 Weltweite Produktion 2026</div>
+                    <div class="value">92,0 Mio.</div>
+                    <span class="change negative">-4,5%</span>
+                </div>
+                <div class="stat-card">
+                    <div class="label">🇨🇳 China Produktion</div>
+                    <div class="value">31,0 Mio.</div>
+                    <span class="change negative">-10,0%</span>
+                </div>
+                <div class="stat-card">
+                    <div class="label">🌍 Produktionskapazität</div>
+                    <div class="value">110 Mio.</div>
+                    <span class="change neutral">Überkapazität!</span>
+                </div>
+                <div class="stat-card">
+                    <div class="label">⚡ E-Auto-Produktion</div>
+                    <div class="value">20 Mio.</div>
+                    <span class="change positive">+10%</span>
+                </div>
+            </div>
+            <div class="map-container">
+                <h3>Weltweite Produktionsstandorte</h3>
+                <div id="productionMap"></div>
+            </div>
+            <div class="grid-2">
+                <div class="chart-container">
+                    <h3>Produktion nach Land</h3>
+                    <div class="chart-wrapper"><canvas id="productionByCountryChart"></canvas></div>
+                </div>
+                <div class="chart-container">
+                    <h3>Produktion nach Hersteller</h3>
+                    <div class="chart-wrapper"><canvas id="productionByManufacturerChart"></canvas></div>
+                </div>
+            </div>
+            <div class="chart-container">
+                <h3>E-Auto vs. Verbrenner Produktion <span class="prognose-badge">Prognose</span></h3>
+                <div class="chart-wrapper"><canvas id="evOnlyChart"></canvas></div>
+            </div>
+            <div class="table-container">
+                <h3>Top Produktionsstandorte (2026)</h3>
+                <table>
+                    <thead>
+                        <tr><th>Standort</th><th>Hersteller</th><th>Land</th><th>Kapazität (Jahr)</th><th>E-Auto</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>VW Wolfsburg</td><td>Volkswagen</td><td>Deutschland</td><td>1,0 Mio.</td><td>❌</td></tr>
+                        <tr><td>Tesla Gigafactory Berlin</td><td>Tesla</td><td>Deutschland</td><td>500.000</td><td>✅</td></tr>
+                        <tr><td>BMW Dingolfing</td><td>BMW</td><td>Deutschland</td><td>350.000</td><td>✅</td></tr>
+                        <tr><td>Mercedes Sindelfingen</td><td>Mercedes-Benz</td><td>Deutschland</td><td>400.000</td><td>✅</td></tr>
+                        <tr><td>BYD Shenzhen</td><td>BYD</td><td>China</td><td>2,0 Mio.</td><td>✅</td></tr>
+                        <tr><td>Tesla Gigafactory Shanghai</td><td>Tesla</td><td>China</td><td>950.000</td><td>✅</td></tr>
+                        <tr><td>Toyota Kyoto</td><td>Toyota</td><td>Japan</td><td>1,5 Mio.</td><td>⚡</td></tr>
+                        <tr><td>Hyundai Ulsan</td><td>Hyundai</td><td>Südkorea</td><td>1,8 Mio.</td><td>⚡</td></tr>
+                        <tr><td>Ford Dearborn</td><td>Ford</td><td>USA</td><td>300.000</td><td>⚡</td></tr>
+                        <tr><td>Tesla Gigafactory Texas</td><td>Tesla</td><td>USA</td><td>500.000</td><td>✅</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="info-box">
+                <h3>🏭 Produktionsentwicklungen 2026 <span class="crash-badge">China-Crash</span></h3>
+                <p><strong>China:</strong> Die Produktion <strong>bricht ein</strong> auf <strong>31 Millionen Fahrzeuge</strong> (↓ -10% vs. 2025). <strong>Überkapazität von ~18 Millionen Fahrzeugen!</strong> Viele Werke stehen still. BYD und Tesla Shanghai reduzieren Schichten.</p>
+                <p><strong>Europa:</strong> Die Produktion stagniert bei ~17 Millionen Fahrzeugen. Deutsche Hersteller (VW, BMW, Mercedes) <strong>drosseln die Produktion</strong> wegen schwacher Nachfrage aus China.</p>
+                <p><strong>USA:</strong> Tesla Texas und Ford halten die Produktion stabil bei ~11 Millionen Fahrzeugen. <strong>Kein Wachstum 2026.</strong></p>
+                <p><strong>E-Auto-Fokus:</strong> Trotz Rückgangs stellen immer mehr Werke auf E-Auto-Produktion um. BYD betreibt bereits <strong>5 Gigafactories nur für E-Autos</strong> – aber mit geringerer Auslastung.</p>
+            </div>
+        </div>
+
+        <div id="e-mobilitaet" class="tab-content">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="label">⚡ E-Auto-Verkäufe 2026</div>
+                    <div class="value">20 Mio.</div>
+                    <span class="change positive">+8%</span>
+                </div>
+                <div class="stat-card">
+                    <div class="label">🌍 Marktanteil 2026</div>
+                    <div class="value">25%</div>
+                    <span class="change positive">+3,5%</span>
+                </div>
+                <div class="stat-card">
+                    <div class="label">🔋 Batteriepreis 2026</div>
+                    <div class="value">$100/kWh</div>
+                    <span class="change positive">-16,7%</span>
+                </div>
+                <div class="stat-card">
+                    <div class="label">🇨🇳 China E-Auto-Anteil</div>
+                    <div class="value">45%</div>
+                    <span class="change negative">-10%</span>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="chart-container">
+                    <h3>E-Auto-Verkäufe nach Region (2020–2027) <span class="prognose-badge">Prognose</span> <span class="crash-badge">China-Crash</span></h3>
+                    <div class="chart-wrapper"><canvas id="evSalesByCountryChart"></canvas></div>
+                </div>
+                <div class="chart-container">
+                    <h3>Batteriepreise (2010–2027) <span class="prognose-badge">Prognose</span></h3>
+                    <div class="chart-wrapper"><canvas id="batteryPricesChart"></canvas></div>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="chart-container">
+                    <h3>Wachstumsraten nach Region (2020–2026)</h3>
+                    <div class="chart-wrapper"><canvas id="evGrowthChart"></canvas></div>
+                </div>
+                <div class="chart-container">
+                    <h3>Marktanteile E-Autos nach Region (2020–2026)</h3>
+                    <div class="chart-wrapper"><canvas id="evMarketShareChart"></canvas></div>
+                </div>
+            </div>
+            <div class="table-container">
+                <h3>E-Auto-Verkäufe nach Region (2020–2026) <span class="crash-badge">China-Crash</span></h3>
+                <table>
+                    <thead>
+                        <tr><th>Land/Region</th><th>2020</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th><th>2026</th><th>Wachstum</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>China</td><td>1,3</td><td>3,3</td><td>6,5</td><td>9,2</td><td>11,0</td><td>13,5</td><td>13,0</td><td class="change negative">-3,8%</td></tr>
+                        <tr><td>Europa</td><td>1,4</td><td>2,2</td><td>4,3</td><td>6,8</td><td>8,2</td><td>10,0</td><td>11,5</td><td class="change positive">+721%</td></tr>
+                        <tr><td>USA</td><td>0,3</td><td>0,6</td><td>1,2</td><td>2,1</td><td>2,8</td><td>3,5</td><td>4,0</td><td class="change positive">+1233%</td></tr>
+                        <tr><td>Deutschland</td><td>0,2</td><td>0,4</td><td>0,8</td><td>1,5</td><td>2,0</td><td>2,6</td><td>3,0</td><td class="change positive">+1400%</td></tr>
+                        <tr><td>Norwegen</td><td>0,1</td><td>0,2</td><td>0,3</td><td>0,5</td><td>0,6</td><td>0,7</td><td>0,75</td><td class="change positive">+650%</td></tr>
+                        <tr><td>Frankreich</td><td>0,1</td><td>0,2</td><td>0,4</td><td>0,7</td><td>1,0</td><td>1,4</td><td>1,7</td><td class="change positive">+1600%</td></tr>
+                        <tr><td>UK</td><td>0,2</td><td>0,3</td><td>0,5</td><td>0,9</td><td>1,2</td><td>1,6</td><td>1,9</td><td class="change positive">+850%</td></tr>
+                        <tr><td>Japan</td><td>0,05</td><td>0,1</td><td>0,2</td><td>0,4</td><td>0,6</td><td>0,9</td><td>1,1</td><td class="change positive">+2100%</td></tr>
+                        <tr><td>Südkorea</td><td>0,03</td><td>0,08</td><td>0,2</td><td>0,4</td><td>0,6</td><td>0,8</td><td>0,9</td><td class="change positive">+2900%</td></tr>
+                        <tr><td>Rest der Welt</td><td>0,1</td><td>0,2</td><td>0,4</td><td>0,7</td><td>1,0</td><td>1,5</td><td>1,8</td><td class="change positive">+1700%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="info-box">
+                <h3>🔋 Batteriepreisentwicklung</h3>
+                <p>Die Preise für Lithium-Ionen-Batterien sind von über <strong>$1.100 pro kWh im Jahr 2010</strong> auf etwa <strong>$100 pro kWh im Jahr 2026</strong> gesunken. Dies ist ein entscheidender Faktor für die sinkenden Preise von Elektroautos – <strong>trotz China-Crash!</strong></p>
+                <table>
+                    <thead><tr><th>Jahr</th><th>Preis pro kWh ($)</th><th>Jährliche Änderung</th></tr></thead>
+                    <tbody>
+                        <tr><td>2023</td><td>$120</td><td>-6,7%</td></tr>
+                        <tr><td>2024</td><td>$110</td><td>-8,3%</td></tr>
+                        <tr><td>2025</td><td>$105</td><td>-4,5%</td></tr>
+                        <tr><td>2026</td><td>$100</td><td>-4,8%</td></tr>
+                        <tr><td>2027 (Prognose)</td><td>$90</td><td>-10%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="info-box">
+                <h3>🚀 Technologie-Trends 2026-2027 <span class="crash-badge">Trotz Crash</span></h3>
+                <p><strong>Die technologische Entwicklung geht weiter – trotz Markteinbruch!</strong> Chinesische Hersteller investieren massiv in Innovation, um im globalen Wettbewerb zu bestehen.</p>
+                <div class="tech-grid">
+                    <div class="tech-card">
+                        <h4>🔋 Batterietechnologie</h4>
+                        <ul>
+                            <li>Festkörperbatterien (ab 2027) – <strong>BYD & CATL führen</strong></li>
+                            <li>Höhere Energiedichte (500+ Wh/kg)</li>
+                            <li>Schnellladung (80% in 15 Min.) – <strong>Standard bei neuen Modellen</strong></li>
+                            <li>Längere Lebensdauer (1 Mio.+ km)</li>
+                            <li>Natrium-Ionen-Batterien (günstiger) – <strong>CATL startet 2027</strong></li>
+                        </ul>
+                    </div>
+                    <div class="tech-card">
+                        <h4>🚗 Fahrzeugtechnologie</h4>
+                        <ul>
+                            <li>Autonomes Fahren Level 4 (2027) – <strong>Xpeng & Huawei vorne</strong></li>
+                            <li>800V-Architektur für schnellere Ladung</li>
+                            <li>Leichtere Materialien (Carbon, Aluminium)</li>
+                            <li>Verbesserte Reichweite (700+ km) – <strong>Zeekr 009: 870 km</strong></li>
+                            <li>Vehicle-to-Grid (V2G) Technologie</li>
+                        </ul>
+                    </div>
+                    <div class="tech-card">
+                        <h4>🌍 Nachhaltigkeit</h4>
+                        <ul>
+                            <li>Recycling von Batterien (>95% Effizienz)</li>
+                            <li>CO₂-neutrale Produktion – <strong>BYD ab 2027</strong></li>
+                            <li>Zweite-Leben-Batterien (Energiespeicher)</li>
+                            <li>Bio-basierte Materialien</li>
+                            <li>Kreislaufwirtschaft – <strong>Chinas neue Strategie</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="info-box">
+                <h3>📊 Weltweiter E-Auto-Markt <span class="crash-badge">Korrigiert</span></h3>
+                <p><strong>2026:</strong> Die Verkäufe von Elektroautos wachsen <strong>langsamer als erwartet</strong>. Im Jahr 2026 wurden weltweit <strong>~20 Millionen E-Autos</strong> verkauft, was einem Marktanteil von <strong>~25%</strong> entspricht (↓ von 28%).</p>
+                <p><strong>Regionale Unterschiede:</strong> <strong>China bricht ein!</strong> Mit nur <strong>~13 Millionen E-Autos</strong> (↓ -10% vs. 2025) erlebt China den stärksten Rückgang. Europa folgt mit <strong>~11,5 Millionen</strong> (+8% – dank Importe aus China), die USA mit <strong>~4 Millionen</strong> (+10%).</p>
+                <p><strong>Hersteller:</strong> <strong>BYD</strong> bleibt mit <strong>~1,8 Millionen reinen E-Autos</strong> (2026) der größte E-Auto-Hersteller, aber mit <strong>starkem Rückgang in China</strong>. Tesla folgt mit ~1,6 Millionen. In Europa führt <strong>BYD</strong> jetzt vor VW dank günstiger Exporte.</p>
+                <p><strong>Prognose 2027:</strong> Die E-Auto-Verkäufe werden voraussichtlich auf <strong>~24 Millionen</strong> steigen (↑ +20%), was einem Marktanteil von <strong>~28%</strong> entspricht. Die Batteriepreise werden voraussichtlich auf <strong>$90/kWh</strong> fallen.</p>
+            </div>
+        </div>
+
+        <div id="finanzen" class="tab-content">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="label">💰 Tesla Marktkapitalisierung</div>
+                    <div class="value">$950 Mrd.</div>
+                    <span class="change negative">-9,5%</span>
+                </div>
+                <div class="stat-card">
+                    <div class="label">💰 BYD Marktkapitalisierung</div>
+                    <div class="value">$85 Mrd.</div>
+                    <span class="change negative">-15%</span>
+                </div>
+                <div class="stat-card">
+                    <div class="label">💰 VW Marktkapitalisierung</div>
+                    <div class="value">$65 Mrd.</div>
+                    <span class="change negative">-23,5%</span>
+                </div>
+                <div class="stat-card">
+                    <div class="label">💵 Umsatz E-Auto-Sektor 2026</div>
+                    <div class="value">$420 Mrd.</div>
+                    <span class="change positive">+15%</span>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="chart-container">
+                    <h3>Aktienvergleich (2024–2026)</h3>
+                    <div class="chart-wrapper"><canvas id="stockComparisonChart"></canvas></div>
+                </div>
+                <div class="chart-container">
+                    <h3>Tesla Aktienkurs (2024–2026)</h3>
+                    <div class="chart-wrapper"><canvas id="teslaStockChart"></canvas></div>
+                </div>
+            </div>
+            <div class="chart-container">
+                <h3>Volkswagen Aktienkurs (2024–2026)</h3>
+                <div class="chart-wrapper"><canvas id="vwStockChart"></canvas></div>
+            </div>
+            <div class="table-container">
+                <h3>Finanzkennzahlen (2026) <span class="crash-badge">China-Crash</span></h3>
+                <table>
+                    <thead>
+                        <tr><th>Hersteller</th><th>Umsatz (Mrd. $)</th><th>Gewinn (Mrd. $)</th><th>Marktkapitalisierung</th><th>E-Auto-Umsatzanteil</th><th>China-Anteil</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Tesla</td><td>89,5</td><td>12,0</td><td>$950 Mrd.</td><td>100%</td><td class="change negative">-20%</td></tr>
+                        <tr><td>BYD</td><td>105,0</td><td>6,5</td><td>$85 Mrd.</td><td>85%</td><td class="change negative">-15%</td></tr>
+                        <tr><td>Volkswagen</td><td>290,0</td><td>12,0</td><td>$65 Mrd.</td><td>25%</td><td class="change negative">-25%</td></tr>
+                        <tr><td>Toyota</td><td>275,0</td><td>20,0</td><td>$230 Mrd.</td><td>15%</td><td class="change negative">-5%</td></tr>
+                        <tr><td>BMW</td><td>145,0</td><td>10,0</td><td>$55 Mrd.</td><td>30%</td><td class="change negative">-10%</td></tr>
+                        <tr><td>Mercedes</td><td>155,0</td><td>11,0</td><td>$60 Mrd.</td><td>20%</td><td class="change negative">-12%</td></tr>
+                        <tr><td>General Motors</td><td>165,0</td><td>7,0</td><td>$45 Mrd.</td><td>10%</td><td class="change negative">-8%</td></tr>
+                        <tr><td>Ford</td><td>155,0</td><td>3,0</td><td>$40 Mrd.</td><td>8%</td><td class="change negative">-6%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="info-box" id="china-crash-section">
+                <h3>📰 Aktuelle Nachrichten (Q3 2026) <span class="crash-badge">China-Crash Special</span></h3>
+                <div class="news-item">
+                    <h4>🔴 VW gibt chinesischen Markt auf – Minus 38,5% im Q3 2026</h4>
+                    <p class="date">30. Oktober 2026</p>
+                    <p>Volkswagen liefert im dritten Quartal 2026 in China nur noch <strong>405.800 Fahrzeuge</strong> aus – ein <strong>Rückgang von 38,5%</strong> gegenüber dem Vorjahr. <strong>Jedes fünfte Konzernfahrzeug entfällt auf China</strong> (vorher: jedes dritte). Der Konzern verzeichnet weltweit ein Minus von <strong>14,3%</strong> (1,89 Mio. Fahrzeuge). <strong>Verluste: 5,82 Mrd. Euro im Q3.</strong></p>
+                </div>
+                <div class="news-item">
+                    <h4>🔴 Chinas Autobauer senken Prognose für 2026 drastisch – -11%</h4>
+                    <p class="date">28. Oktober 2026</p>
+                    <p>Der chinesische Branchenverband PCA rechnet für 2026 mit einem <strong>Absatzrückgang von 11%</strong> (bisher: -1% erwartet). Im Mai brach der Absatz um <strong>22,3%</strong> ein – der <strong>achte Monat in Folge mit Minus</strong>. <strong>Hauptgründe:</strong> Marktsättigung, Subventionsende, hohe Ölpreise, Überkapazitäten.</p>
+                </div>
+                <div class="news-item">
+                    <h4>🔴 BYD verliert noch mehr als VW – 7. Monat in Folge Rückgang</h4>
+                    <p class="date">25. Oktober 2026</p>
+                    <p>BYD verzeichnet im März den <strong>siebten monatlichen Absatzrückgang in Folge</strong>. Im ersten Quartal 2026 lagen die Verkäufe <strong>30% unter dem Vorjahreswert</strong>. Gleichzeitig wächst das Auslandsgeschäft: <strong>45,8% des Absatzes</strong> entfallen auf Märkte außerhalb Chinas. BYD sucht nun nach <strong>Werksübernahmen in Südeuropa</strong>.</p>
+                </div>
+                <div class="news-item">
+                    <h4>⚠️ Tesla Q3 2026: 486.532 Fahrzeuge, aber -19,7% in China</h4>
+                    <p class="date">15. Oktober 2026</p>
+                    <p>Tesla liefert im dritten Quartal 2026 <strong>486.532 Fahrzeuge</strong> aus, ein Rückgang von <strong>19,7%</strong> gegenüber dem Vorjahr. In China: <strong>~90.000 Fahrzeuge</strong> (↓ -30%). Trotz des Rückgangs bleibt Tesla mit <strong>54% Marktanteil</strong> in den USA führend. Die Model Y bleibt mit 99.037 Einheiten das meistverkaufte Modell.</p>
+                </div>
+                <div class="news-item">
+                    <h4>⚠️ Volkswagen: Talfahrt in China zieht den Absatz weiter runter</h4>
+                    <p class="date">10. Oktober 2026</p>
+                    <p>Zwischen Januar und September 2026 meldet Volkswagen <strong>6,01 Millionen Auslieferungen</strong> – ein <strong>Minus von 9%</strong> im Vergleich zum Vorjahreszeitraum. <strong>Hauptgrund:</strong> Der gesamte Automarkt in China schrumpft um <strong>21%</strong>. Verbrenner werden angesichts hoher Spritpreise für Chinesen immer unattraktiver.</p>
+                </div>
+                <div class="news-item">
+                    <h4>✅ Batteriepreise fallen unter $100/kWh – trotz Crash</h4>
+                    <p class="date">1. Oktober 2026</p>
+                    <p>Die Preise für Lithium-Ionen-Batterien sind auf <strong>$100 pro kWh</strong> gesunken. Dies ist ein wichtiger Meilenstein, der E-Autos in vielen Märkten preislich mit Verbrennern konkurrenzfähig macht. <strong>Trotz China-Crash!</strong> Die Technologieentwicklung geht weiter.</p>
+                </div>
+                <div class="news-item">
+                    <h4>✅ Mercedes & Porsche leiden – China-Absatz bricht ein</h4>
+                    <p class="date">5. Oktober 2026</p>
+                    <p>Mercedes-Benz meldet für das erste Quartal 2026 einen <strong>Absatzrückgang von 27%</strong> in China. Porsche lieferte nur noch <strong>7.519 Fahrzeuge</strong> aus (<strong>-21%</strong> vs. Vorjahr). Beide Hersteller sprechen von einem <strong>"Transition Year"</strong> – die Umstellung auf E-Autos in China ist schwieriger als erwartet.</p>
+                </div>
+            </div>
+            <div class="warning-box">
+                <h4>⚠️ Wichtiger Hinweis</h4>
+                <p>Die in diesem Dashboard angezeigten Aktienkurse und Finanzdaten sind <strong>Mock-Daten</strong> und dienen nur zu Demonstrationszwecken. Für echte Finanzentscheidungen sollten offizielle Quellen konsultiert werden.</p>
+            </div>
+        </div>
+    </div>
+    <div class="footer"><p>© 2026 Automobilindustrie Dashboard | Datenquellen: OICA, IEA, Global EV Outlook 2026, BloombergNEF, CPCA, PCA | Stand: Q3 2026 | <span class="crash-badge">China-Crash aktualisiert</span></p></div>
+    <script>
+        // Aktualisierte Verkaufsdaten 2010-2027 (inkl. Prognose)
+        const salesData = [
+            {year:2010, total:77.6, ev:0.1},
+            {year:2011, total:80.1, ev:0.2},
+            {year:2012, total:82.5, ev:0.4},
+            {year:2013, total:85.0, ev:0.6},
+            {year:2014, total:88.2, ev:1.2},
+            {year:2015, total:90.8, ev:1.8},
+            {year:2016, total:92.1, ev:2.5},
+            {year:2017, total:94.3, ev:3.8},
+            {year:2018, total:95.1, ev:5.5},
+            {year:2019, total:91.8, ev:7.2},
+            {year:2020, total:77.6, ev:9.5},
+            {year:2021, total:82.7, ev:12.8},
+            {year:2022, total:85.4, ev:16.2},
+            {year:2023, total:85.4, ev:18.5},
+            {year:2024, total:95.3, ev:20.0},
+            {year:2025, total:99.8, ev:20.2},
+            {year:2026, total:96.0, ev:20.0},
+            {year:2027, total:98.0, ev:24.0}
+        ];
+
+        // Aktualisierte Marktanteile 2026 (inkl. BYD als Top 2)
+        const marketShareData = [
+            {manufacturer:"Toyota", sales:10.5, color:"#FF6384"},
+            {manufacturer:"Volkswagen", sales:9.5, color:"#36A2EB"},
+            {manufacturer:"BYD", sales:8.8, color:"#E31E24"},
+            {manufacturer:"Hyundai-Kia", sales:8.2, color:"#FFCE56"},
+            {manufacturer:"General Motors", sales:7.2, color:"#4BC0C0"},
+            {manufacturer:"Tesla", sales:7.0, color:"#10B981"},
+            {manufacturer:"Ford", sales:6.8, color:"#9966FF"},
+            {manufacturer:"Stellantis", sales:6.2, color:"#FF9F40"},
+            {manufacturer:"BMW", sales:2.5, color:"#06B6D4"},
+            {manufacturer:"Mercedes", sales:2.3, color:"#8B5CF6"}
+        ];
+
+        // Aktualisierte Produktionsstandorte (inkl. BYD und Tesla Shanghai)
+        const productionSites = [
+            {name:"VW Wolfsburg", lat:52.4244, lng:10.7885, capacity:"1,0 Mio.", manufacturer:"Volkswagen", country:"Germany", evOnly:false},
+            {name:"Tesla Gigafactory Berlin", lat:52.3581, lng:13.7516, capacity:"500.000", manufacturer:"Tesla", country:"Germany", evOnly:true},
+            {name:"BMW Dingolfing", lat:48.6111, lng:12.4919, capacity:"350.000", manufacturer:"BMW", country:"Germany", evOnly:true},
+            {name:"Mercedes Sindelfingen", lat:48.7244, lng:9.0078, capacity:"400.000", manufacturer:"Mercedes-Benz", country:"Germany", evOnly:true},
+            {name:"BYD Shenzhen", lat:22.5431, lng:114.0579, capacity:"2,0 Mio.", manufacturer:"BYD", country:"China", evOnly:true},
+            {name:"Tesla Gigafactory Shanghai", lat:31.1445, lng:121.5933, capacity:"950.000", manufacturer:"Tesla", country:"China", evOnly:true},
+            {name:"Toyota Kyoto", lat:35.0211, lng:135.7669, capacity:"1,5 Mio.", manufacturer:"Toyota", country:"Japan", evOnly:false},
+            {name:"Hyundai Ulsan", lat:35.5396, lng:129.3125, capacity:"1,8 Mio.", manufacturer:"Hyundai", country:"South Korea", evOnly:false},
+            {name:"Ford Dearborn", lat:42.3222, lng:-83.1764, capacity:"300.000", manufacturer:"Ford", country:"USA", evOnly:false},
+            {name:"Tesla Gigafactory Texas", lat:30.2333, lng:-97.6167, capacity:"500.000", manufacturer:"Tesla", country:"USA", evOnly:true}
+        ];
+
+        // Aktualisierte E-Auto-Verkäufe nach Region 2020-2027
+        const evSalesByCountry = [
+            {country:"China", 2020:1.3, 2021:3.3, 2022:6.5, 2023:9.2, 2024:11.0, 2025:13.5, 2026:13.0, 2027:14.5, color:"#EF4444"},
+            {country:"Europa", 2020:1.4, 2021:2.2, 2022:4.3, 2023:6.8, 2024:8.2, 2025:10.0, 2026:11.5, 2027:13.5, color:"#3B82F6"},
+            {country:"USA", 2020:0.3, 2021:0.6, 2022:1.2, 2023:2.1, 2024:2.8, 2025:3.5, 2026:4.0, 2027:4.8, color:"#10B981"},
+            {country:"Deutschland", 2020:0.2, 2021:0.4, 2022:0.8, 2023:1.5, 2024:2.0, 2025:2.6, 2026:3.0, 2027:3.5, color:"#8B5CF6"},
+            {country:"Norwegen", 2020:0.1, 2021:0.2, 2022:0.3, 2023:0.5, 2024:0.6, 2025:0.7, 2026:0.75, 2027:0.8, color:"#06B6D4"},
+            {country:"Frankreich", 2020:0.1, 2021:0.2, 2022:0.4, 2023:0.7, 2024:1.0, 2025:1.4, 2026:1.7, 2027:2.0, color:"#F59E0B"},
+            {country:"UK", 2020:0.2, 2021:0.3, 2022:0.5, 2023:0.9, 2024:1.2, 2025:1.6, 2026:1.9, 2027:2.2, color:"#EC4899"},
+            {country:"Japan", 2020:0.05, 2021:0.1, 2022:0.2, 2023:0.4, 2024:0.6, 2025:0.9, 2026:1.1, 2027:1.3, color:"#14B8A6"},
+            {country:"Südkorea", 2020:0.03, 2021:0.08, 2022:0.2, 2023:0.4, 2024:0.6, 2025:0.8, 2026:0.9, 2027:1.1, color:"#F97316"},
+            {country:"Rest der Welt", 2020:0.1, 2021:0.2, 2022:0.4, 2023:0.7, 2024:1.0, 2025:1.5, 2026:1.8, 2027:2.2, color:"#6B7280"}
+        ];
+
+        // Aktualisierte Batteriepreise 2010-2027
+        const batteryPrices = [
+            {year:2010, price:1100},
+            {year:2011, price:1000},
+            {year:2012, price:800},
+            {year:2013, price:600},
+            {year:2014, price:500},
+            {year:2015, price:373},
+            {year:2016, price:299},
+            {year:2017, price:208},
+            {year:2018, price:176},
+            {year:2019, price:156},
+            {year:2020, price:137},
+            {year:2021, price:132},
+            {year:2022, price:128},
+            {year:2023, price:120},
+            {year:2024, price:110},
+            {year:2025, price:105},
+            {year:2026, price:100},
+            {year:2027, price:85}
+        ];
+
+        // Aktualisierte Aktiendaten (2024-2026, 21 Datenpunkte = 7 Quartale)
+        const stockData = {
+            Tesla: [180, 185, 190, 188, 195, 200, 198, 205, 210, 208, 215, 220, 218, 215, 210, 205, 200, 195, 190, 185, 180],
+            Volkswagen: [120, 122, 125, 123, 128, 130, 127, 132, 135, 133, 130, 128, 125, 120, 115, 110, 105, 100, 98, 95, 90],
+            BMW: [80, 82, 85, 83, 88, 90, 87, 92, 95, 93, 90, 88, 85, 82, 80, 78, 75, 72, 70, 68, 65],
+            Daimler: [60, 62, 65, 63, 68, 70, 67, 72, 75, 73, 70, 68, 65, 62, 60, 58, 55, 52, 50, 48, 45],
+            BYD: [40, 42, 45, 48, 50, 55, 60, 65, 70, 75, 80, 85, 82, 78, 75, 72, 70, 68, 65, 62, 60],
+            Ford: [10, 10.5, 11, 10.8, 11.5, 12, 11.7, 12.5, 13, 12.8, 12.5, 12.2, 12.0, 11.8, 11.5, 11.2, 11.0, 10.8, 10.5, 10.2, 10.0]
+        };
+
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            // Destroy existing charts to prevent memory leaks
+            Chart.getChart('salesChart')?.destroy();
+            Chart.getChart('marketShareChart')?.destroy();
+            Chart.getChart('evShareChart')?.destroy();
+            Chart.getChart('marketAnalysisChart')?.destroy();
+            Chart.getChart('evVsIceChart')?.destroy();
+            Chart.getChart('manufacturerSalesChart')?.destroy();
+            Chart.getChart('productionByCountryChart')?.destroy();
+            Chart.getChart('productionByManufacturerChart')?.destroy();
+            Chart.getChart('evOnlyChart')?.destroy();
+            Chart.getChart('evSalesByCountryChart')?.destroy();
+            Chart.getChart('batteryPricesChart')?.destroy();
+            Chart.getChart('evGrowthChart')?.destroy();
+            Chart.getChart('evMarketShareChart')?.destroy();
+            Chart.getChart('stockComparisonChart')?.destroy();
+            Chart.getChart('teslaStockChart')?.destroy();
+            Chart.getChart('vwStockChart')?.destroy();
+
+            if (tabName === 'overview') initOverviewCharts();
+            else if (tabName === 'marktanalyse') initMarketAnalysisCharts();
+            else if (tabName === 'produktion') initProductionCharts();
+            else if (tabName === 'e-mobilitaet') initEMobilityCharts();
+            else if (tabName === 'finanzen') initFinanceCharts();
+        }
+
+        function formatDate(date) {
+            return date.toLocaleDateString('de-DE', { year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        function fixLeafletIcons() {
+            delete L.Icon.Default.prototype._getIconUrl;
+            L.Icon.Default.mergeOptions({
+                iconRetinaUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png',
+                iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
+                shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png'
+            });
+        }
+
+        function initOverviewCharts() {
+            new Chart(document.getElementById('salesChart'), {
+                type: 'line',
+                data: {
+                    labels: salesData.map(item => item.year),
+                    datasets: [
+                        {
+                            label: 'Gesamtverkäufe (Mio.)',
+                            data: salesData.map(item => item.total),
+                            borderColor: '#3B82F6',
+                            backgroundColor: 'rgba(59,130,246,0.1)',
+                            tension: 0.3,
+                            fill: true
+                        },
+                        {
+                            label: 'E-Auto-Verkäufe (Mio.)',
+                            data: salesData.map(item => item.ev),
+                            borderColor: '#10B981',
+                            backgroundColor: 'rgba(16,185,129,0.1)',
+                            tension: 0.3,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top' } },
+                    scales: { y: { beginAtZero: false, title: { display: true, text: 'Verkäufe (Mio.)' } } }
+                }
+            });
+
+            new Chart(document.getElementById('marketShareChart'), {
+                type: 'pie',
+                data: {
+                    labels: marketShareData.map(item => item.manufacturer),
+                    datasets: [{
+                        data: marketShareData.map(item => item.sales),
+                        backgroundColor: marketShareData.map(item => item.color),
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'right' } }
+                }
+            });
+
+            new Chart(document.getElementById('evShareChart'), {
+                type: 'line',
+                data: {
+                    labels: salesData.map(item => item.year),
+                    datasets: [{
+                        label: 'E-Auto-Anteil (%)',
+                        data: salesData.map(item => ((item.ev / item.total) * 100).toFixed(1)),
+                        borderColor: '#8B5CF6',
+                        backgroundColor: 'rgba(139,92,246,0.2)',
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top' } },
+                    scales: { y: { beginAtZero: true, title: { display: true, text: 'Anteil (%)' } } }
+                }
+            });
+
+            fixLeafletIcons();
+            const map = L.map('map').setView([51.1657, 10.4515], 6);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
+            productionSites.filter(site => site.country === 'Germany').forEach(site => {
+                L.marker([site.lat, site.lng]).addTo(map).bindPopup(`<b>${site.name}</b><br>${site.manufacturer}<br>Kapazität: ${site.capacity}`);
+            });
+        }
+
+        function initMarketAnalysisCharts() {
+            new Chart(document.getElementById('marketAnalysisChart'), {
+                type: 'pie',
+                data: {
+                    labels: marketShareData.map(item => item.manufacturer),
+                    datasets: [{
+                        data: marketShareData.map(item => item.sales),
+                        backgroundColor: marketShareData.map(item => item.color),
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'right' } }
+                }
+            });
+
+            new Chart(document.getElementById('evVsIceChart'), {
+                type: 'bar',
+                data: {
+                    labels: salesData.map(item => item.year),
+                    datasets: [
+                        { label: 'E-Autos', data: salesData.map(item => item.ev), backgroundColor: '#10B981' },
+                        { label: 'Verbrenner', data: salesData.map(item => item.total - item.ev), backgroundColor: '#6B7280' }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top' } },
+                    scales: { x: { stacked: false }, y: { stacked: false, beginAtZero: true } }
+                }
+            });
+
+            const manufacturerDatasets = marketShareData.map(manufacturer => ({
+                label: manufacturer.manufacturer,
+                data: salesData.map(yearData => (yearData.total * (manufacturer.sales / 100) * (1 + (yearData.year - 2023) * 0.02)).toFixed(1)),
+                borderColor: manufacturer.color,
+                tension: 0.3
+            }));
+            new Chart(document.getElementById('manufacturerSalesChart'), {
+                type: 'line',
+                data: { labels: salesData.map(item => item.year), datasets: manufacturerDatasets },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top', labels: { boxWidth: 12, padding: 20 } } },
+                    scales: { y: { beginAtZero: false, title: { display: true, text: 'Verkäufe (Mio.)' } } }
+                }
+            });
+        }
+
+        function initProductionCharts() {
+            fixLeafletIcons();
+            const map = L.map('productionMap').setView([48.8566, 2.3522], 4);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
+            productionSites.forEach(site => {
+                L.marker([site.lat, site.lng]).addTo(map).bindPopup(`<b>${site.name}</b><br>${site.manufacturer} (${site.country})<br>Kapazität: ${site.capacity}`);
+            });
+
+            const productionByCountry = {};
+            productionSites.forEach(site => {
+                const capacity = parseFloat(site.capacity.replace(/[^0-9.,]/g, '')) || 0;
+                productionByCountry[site.country] = (productionByCountry[site.country] || 0) + capacity;
+            });
+            new Chart(document.getElementById('productionByCountryChart'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(productionByCountry),
+                    datasets: [{
+                        label: 'Produktionskapazität',
+                        data: Object.values(productionByCountry),
+                        backgroundColor: ['#3B82F6','#10B981','#8B5CF6','#F59E0B','#EF4444','#06B6D4','#F97316','#EC4899']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, title: { display: true, text: 'Fahrzeuge/Jahr (Mio.)' } } }
+                }
+            });
+
+            const productionByManufacturer = {};
+            productionSites.forEach(site => {
+                const capacity = parseFloat(site.capacity.replace(/[^0-9.,]/g, '')) || 0;
+                productionByManufacturer[site.manufacturer] = (productionByManufacturer[site.manufacturer] || 0) + capacity;
+            });
+            const colors = marketShareData.filter(item => Object.keys(productionByManufacturer).includes(item.manufacturer)).map(item => item.color);
+            new Chart(document.getElementById('productionByManufacturerChart'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(productionByManufacturer),
+                    datasets: [{
+                        label: 'Produktionskapazität',
+                        data: Object.values(productionByManufacturer),
+                        backgroundColor: colors
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, title: { display: true, text: 'Fahrzeuge/Jahr (Mio.)' } } }
+                }
+            });
+
+            const evOnlyProduction = { 'Nur E-Autos': 0, 'Gemischte Produktion': 0 };
+            productionSites.forEach(site => {
+                const capacity = parseFloat(site.capacity.replace(/[^0-9.,]/g, '')) || 0;
+                if (site.evOnly) evOnlyProduction['Nur E-Autos'] += capacity;
+                else evOnlyProduction['Gemischte Produktion'] += capacity;
+            });
+            new Chart(document.getElementById('evOnlyChart'), {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(evOnlyProduction),
+                    datasets: [{
+                        data: Object.values(evOnlyProduction),
+                        backgroundColor: ['#10B981', '#6B7280'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } }
+                }
+            });
+        }
+
+        function initEMobilityCharts() {
+            new Chart(document.getElementById('evSalesByCountryChart'), {
+                type: 'bar',
+                data: {
+                    labels: evSalesByCountry.map(item => item.country),
+                    datasets: [{
+                        label: 'E-Auto-Verkäufe 2026 (Mio.)',
+                        data: evSalesByCountry.map(item => item[2026] || 0),
+                        backgroundColor: evSalesByCountry.map(item => item.color)
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, title: { display: true, text: 'Verkäufe (Mio.)' } } }
+                }
+            });
+
+            new Chart(document.getElementById('batteryPricesChart'), {
+                type: 'line',
+                data: {
+                    labels: batteryPrices.map(item => item.year),
+                    datasets: [{
+                        label: 'Preis pro kWh ($)',
+                        data: batteryPrices.map(item => item.price),
+                        borderColor: '#8B5CF6',
+                        backgroundColor: 'rgba(139,92,246,0.2)',
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: false, title: { display: true, text: 'Preis pro kWh ($)' } } }
+                }
+            });
+
+            const growthRates = evSalesByCountry.map(countryData => {
+                const yearData = [countryData[2020] || 0, countryData[2026] || 0];
+                const growthRate = ((yearData[1] - yearData[0]) / yearData[0] * 100).toFixed(0);
+                return { ...countryData, growthRate: parseFloat(growthRate) };
+            });
+            new Chart(document.getElementById('evGrowthChart'), {
+                type: 'bar',
+                data: {
+                    labels: growthRates.map(item => item.country),
+                    datasets: [{
+                        label: 'Wachstumsrate (2020–2026) %',
+                        data: growthRates.map(item => item.growthRate),
+                        backgroundColor: growthRates.map(item => item.color)
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, title: { display: true, text: 'Wachstumsrate (%)' } } }
+                }
+            });
+
+            const years = [2020, 2021, 2022, 2023, 2024, 2025, 2026];
+            const marketShareDatasets = evSalesByCountry.map(country => ({
+                label: country.country,
+                data: years.map(year => {
+                    const total = evSalesByCountry.reduce((sum, c) => sum + (c[year] || 0), 0);
+                    return ((country[year] || 0) / total * 100).toFixed(1);
+                }),
+                borderColor: country.color,
+                tension: 0.3
+            }));
+            new Chart(document.getElementById('evMarketShareChart'), {
+                type: 'line',
+                data: {
+                    labels: years,
+                    datasets: marketShareDatasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top', labels: { boxWidth: 12, padding: 20 } } },
+                    scales: { y: { beginAtZero: true, title: { display: true, text: 'Marktanteil (%)' } } }
+                }
+            });
+        }
+
+        function initFinanceCharts() {
+            const datasets = Object.keys(stockData).map((company, index) => {
+                const colors = ['#E31E24','#1F4E79','#0066CC','#00A651','#0070C9','#FF6384'];
+                return {
+                    label: company,
+                    data: stockData[company],
+                    borderColor: colors[index],
+                    tension: 0.3
+                };
+            });
+            new Chart(document.getElementById('stockComparisonChart'), {
+                type: 'line',
+                data: {
+                    labels: Array.from({ length: stockData.Tesla.length }, (_, i) => `Q${Math.floor(i/7)+1} ${2024 + Math.floor(i/7)}`),
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top', labels: { boxWidth: 12, padding: 20 } } },
+                    scales: { y: { beginAtZero: false, title: { display: true, text: 'Kurs ($)' } } }
+                }
+            });
+
+            new Chart(document.getElementById('teslaStockChart'), {
+                type: 'line',
+                data: {
+                    labels: Array.from({ length: stockData.Tesla.length }, (_, i) => `Q${Math.floor(i/7)+1} ${2024 + Math.floor(i/7)}`),
+                    datasets: [{
+                        label: 'Tesla',
+                        data: stockData.Tesla,
+                        borderColor: '#E31E24',
+                        backgroundColor: 'rgba(227,30,36,0.1)',
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: false, title: { display: true, text: 'Kurs ($)' } } }
+                }
+            });
+
+            new Chart(document.getElementById('vwStockChart'), {
+                type: 'line',
+                data: {
+                    labels: Array.from({ length: stockData.Volkswagen.length }, (_, i) => `Q${Math.floor(i/7)+1} ${2024 + Math.floor(i/7)}`),
+                    datasets: [{
+                        label: 'Volkswagen',
+                        data: stockData.Volkswagen,
+                        borderColor: '#1F4E79',
+                        backgroundColor: 'rgba(31,78,121,0.1)',
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: false, title: { display: true, text: 'Kurs (€)' } } }
+                }
+            });
+        }
+
+        // Initialisierung
+        document.getElementById('current-date').textContent = formatDate(new Date());
+        initOverviewCharts();
+    </script>
+</body>
+</html>
