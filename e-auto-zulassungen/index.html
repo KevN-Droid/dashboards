@@ -17,6 +17,7 @@ try { var t = localStorage.getItem("ev26-theme"); if (t === "light" || t === "da
   --grid:#e1e0d9; --axis:#c3c2b7; --ring:rgba(11,11,11,.10);
   --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4; --s6:#008300;
   --s1-wash:rgba(42,120,214,.10);
+  --prev:#9ec5f4; --total:#52514e; --up-fill:#0ca30c; --down-fill:#d03b3b;
   --up:#006300; --down:#b42525;
   --ok:#0ca30c; --warn:#fab219; --crit:#d03b3b;
   --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans","Helvetica Neue",Arial,sans-serif;
@@ -29,6 +30,7 @@ try { var t = localStorage.getItem("ev26-theme"); if (t === "light" || t === "da
     --grid:#2c2c2a; --axis:#383835; --ring:rgba(255,255,255,.10);
     --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300;
     --s1-wash:rgba(57,135,229,.14);
+    --prev:#184f95; --total:#c3c2b7;
     --up:#0ca30c; --down:#e66767;
   }
 }
@@ -39,6 +41,7 @@ try { var t = localStorage.getItem("ev26-theme"); if (t === "light" || t === "da
   --grid:#2c2c2a; --axis:#383835; --ring:rgba(255,255,255,.10);
   --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300;
   --s1-wash:rgba(57,135,229,.14);
+  --prev:#184f95; --total:#c3c2b7;
   --up:#0ca30c; --down:#e66767;
 }
 *{box-sizing:border-box}
@@ -191,6 +194,27 @@ tr.focus td:first-child{font-weight:650}
   .models li{grid-template-columns:18px minmax(0,118px) minmax(0,1fr) 56px;gap:8px}
   td.barcell{min-width:130px}
 }
+
+/* Toyota-Abschnitt */
+.ty-head{border-top:3px solid var(--s1)}
+.srcsmall{font-size:11.5px;color:var(--muted)}
+.b{font-weight:650}
+td.sub1{padding-left:22px;color:var(--ink-2)}
+.kpi .value small{font-size:15px;font-weight:600;color:var(--ink-2)}
+.chart text.val{fill:var(--ink);font-weight:650;font-size:11.5px}
+.chart text.lab{fill:var(--ink-2);font-size:12px}
+.chart .conn{stroke:var(--axis);stroke-width:1}
+.chart .mk{pointer-events:none}
+.tylegend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-2);margin:10px 0 0;padding:0;list-style:none}
+.tylegend li{display:inline-flex;align-items:center;gap:6px}
+.tylegend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.minis.ty-minis{grid-template-columns:repeat(2,minmax(0,1fr))}
+#tyCmp td:first-child{white-space:normal;min-width:220px}
+.tytbl{font-size:13px}
+.tytbl th,.tytbl td{padding:7px 5px}
+.tytbl td:first-child,.tytbl th:first-child{white-space:normal}
+.tytbl td.sub1{padding-left:16px}
+@media (max-width:640px){.minis.ty-minis{grid-template-columns:minmax(0,1fr)}}
 @media (forced-colors: active){.chart .bar,.hbar i,.models .tr i,.meter>i,.segbar>span{forced-color-adjust:none}}
 </style>
 </head>
@@ -201,7 +225,7 @@ tr.focus td:first-child{font-weight:650}
   <div>
     <p class="eyebrow">Stand 6. November 2026 · Deutschland bis Oktober, EU und Europa bis September</p>
     <h1>E-Auto-Neuzulassungen 2026</h1>
-    <p class="sub">Batterieelektrische Pkw (BEV) in Deutschland, der EU-27 und Europa. Alle Werte geprüft gegen KBA und ACEA. Deutschland enthält bereits die KBA-Oktoberzahlen; die europäischen Oktoberzahlen der ACEA erscheinen Ende November.</p>
+    <p class="sub">Batterieelektrische Pkw (BEV) in Deutschland, der EU-27 und Europa, dazu Toyota im Herstellervergleich. Alle Werte geprüft gegen KBA und ACEA. Deutschland enthält bereits die KBA-Oktoberzahlen; die europäischen Oktoberzahlen der ACEA erscheinen Ende November.</p>
   </div>
   <div class="toolbar">
     <div class="seg" role="group" aria-label="Region">
@@ -376,6 +400,117 @@ tr.focus td:first-child{font-weight:650}
     </div>
   </section>
 
+  <section class="card ty-head" id="toyota">
+    <div class="card-head">
+      <div>
+        <h2>Hersteller im Vergleich: Toyota</h2>
+        <p class="note">Toyota gegenüber Markt, Tesla und BYD · Finanzzahlen zum 2. Quartal des Geschäftsjahres 2027 (Juli–September 2026; Toyotas Geschäftsjahr beginnt im April)</p>
+      </div>
+      <div class="seg" role="group" aria-label="Toyota Zeitraum">
+        <button type="button" data-ty="q" aria-pressed="true">Quartal Jul–Sep</button>
+        <button type="button" data-ty="h" aria-pressed="false">Halbjahr Apr–Sep</button>
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table id="tyCmp" class="tytbl">
+        <thead><tr><th>Markt und Zeitraum</th><th>Toyota</th><th>ggü. Vj.</th><th>Markt ggü. Vj.</th><th>Tesla</th><th>BYD</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="subnote">Toyota = nur Marke Toyota (ohne Lexus). Toyota verliert in Deutschland Marktanteile, verkauft aber deutlich mehr E-Autos; in Europa wächst Toyota langsamer als der Markt. BYD inklusive Plug-in-Hybride, wo „alle Antriebe“.</p>
+  </section>
+
+  <section class="grid two">
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <h2>Antriebsmix: Toyota gegenüber dem Markt</h2>
+          <p class="note">Anteile am jeweiligen Absatz bzw. an den Neuzulassungen · „Sonstige“ = Benzin, Diesel, Gas u. a. (errechnet)</p>
+        </div>
+      </div>
+      <div id="tyMixCmp"></div>
+      <ul class="tylegend"><li><i style="background:var(--s1)"></i>Hybrid (HEV)</li><li><i style="background:var(--s2)"></i>Plug-in-Hybrid</li><li><i style="background:var(--s3)"></i>Elektro (BEV)</li><li><i style="background:var(--s4)"></i>Sonstige Antriebe</li></ul>
+      <p class="callout">Toyota setzt weltweit fast nur auf Vollhybride. E-Autos machen bei Toyota knapp 5 % des Absatzes aus, im EU-Markt sind es 23 %, in Deutschland 28 %.</p>
+    </div>
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <h2>Toyota: Absatz nach Antrieb</h2>
+          <p class="note">Einzelhandelsabsatz Toyota + Lexus weltweit in Tausend Fahrzeugen · Quelle: Toyota</p>
+        </div>
+      </div>
+      <div id="tyMix"></div>
+      <div class="tbl-wrap" style="margin-top:8px"><table id="tySalesTable" class="tytbl"><thead></thead><tbody></tbody></table></div>
+      <p class="subnote" id="tySalesNote"></p>
+    </div>
+  </section>
+
+  <div class="grid kpis" id="tyKpis" style="margin-top:16px" aria-live="polite"></div>
+
+  <section class="grid two">
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <h2>Toyota: Operativer Gewinn – was sich verändert hat</h2>
+          <p class="note" id="tyBridgeNote"></p>
+        </div>
+      </div>
+      <div class="chart" id="tyBridge"></div>
+      <ul class="tylegend"><li><i style="background:var(--total)"></i>Gewinn</li><li><i style="background:var(--up-fill)"></i>Anstieg</li><li><i style="background:var(--down-fill)"></i>Rückgang</li></ul>
+      <p class="subnote">Währung = Wechselkurseffekte · Kosten = Kostensenkungsmaßnahmen inkl. Materialpreise · Vertrieb = Marketing-Anstrengungen · Aufwand = Aufwendungen und deren Senkung. Details im Tooltip.</p>
+      <p class="callout" id="tyBridgeCallout"></p>
+    </div>
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <h2>Toyota: Gewinn- und Verlustrechnung</h2>
+          <p class="note" id="tyPlNote"></p>
+        </div>
+      </div>
+      <div class="tbl-wrap"><table id="tyPl" class="tytbl"><thead></thead><tbody></tbody></table></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h2>Toyota: Operativer Gewinn nach Region</h2>
+        <p class="note">Mrd. Yen, ohne Bewertungseffekte aus Swaps · Marge und konsolidierter Absatz im Tooltip und in der Tabelle</p>
+      </div>
+    </div>
+    <div class="chart" id="tyRegions"></div>
+    <ul class="tylegend" id="tyRegLegend"></ul>
+    <div class="tbl-wrap" style="margin-top:12px"><table id="tyRegTable" class="tytbl"><thead></thead><tbody></tbody></table></div>
+  </section>
+
+  <section class="grid two">
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <h2>Toyota: Prognose April 2026 – März 2027</h2>
+          <p class="note">Neue Prognose vom 5. November 2026 gegenüber der bisherigen</p>
+        </div>
+      </div>
+      <div class="tbl-wrap"><table id="tyFc" class="tytbl"><thead><tr><th>Kennzahl</th><th>bisher</th><th>neu</th><th>Änderung</th><th>Ist GJ 2026</th></tr></thead><tbody></tbody></table></div>
+      <p class="subnote">Konsolidierter Absatz unverändert 9,70 Mio. Fahrzeuge (Ist GJ 2026: 9,595 Mio.). Wechselkursannahme neu: 157 Yen je US-$, 182 Yen je €.</p>
+    </div>
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <h2>Toyota: China, Finanzdienstleistungen, Aktionäre</h2>
+          <p class="note">Mrd. Yen bzw. Tausend Fahrzeuge</p>
+        </div>
+      </div>
+      <div class="minis ty-minis" id="tyMinis"></div>
+      <div class="minis ty-minis" style="margin-top:10px">
+        <div class="mini"><p class="label">Dividende je Aktie, Prognose GJ 2027</p><p class="value">100 Yen</p><p class="meta">Zwischendividende 50 Yen · Vorjahr 95 Yen</p></div>
+        <div class="mini"><p class="label">Rahmen Aktienrückkauf GJ 2027</p><p class="value">1,3 Bio. Yen</p><p class="meta">um 300 Mrd. Yen erhöht</p></div>
+        <div class="mini"><p class="label">Gewinn je Aktie, Halbjahr</p><p class="value">185,97 Yen</p><p class="meta">Vorjahr 136,07 Yen</p></div>
+        <div class="mini"><p class="label">Gewinn je Aktie, Prognose GJ 2027</p><p class="value">299,95 Yen</p><p class="meta">Eigenkapitalquote 36,7 % (30.9.2026)</p></div>
+      </div>
+    </div>
+  </section>
+
   <section class="card" id="pruefung">
     <div class="card-head">
       <div>
@@ -410,6 +545,7 @@ tr.focus td:first-child{font-weight:650}
         <li><a href="https://anfac.com/las-ventas-de-turismos-electrificados-crecen-un-43-con-una-de-cada-tres-ventas-en-octubre/">ANFAC: Matriculaciones de electrificados, octubre 2026</a></li>
         <li><a href="https://www.unrae.it/sala-stampa/autovetture/7858/mercato-vetture-italia-ottobre-a-48-131921-ma-la-transizione-resta-ferma-ai-box">UNRAE: Mercato vetture Italia, ottobre 2026</a> sowie <a href="https://www.unrae.it/dati-statistici/immatricolazioni/7851/il-mercato-italiano-delle-autovetture-bev-per-marca-ottobre-2026">BEV per marca</a> und <a href="https://www.unrae.it/dati-statistici/immatricolazioni/7849/immatricolazioni-bev-per-modello-ottobre-2026">BEV per modello</a></li>
         <li><a href="https://www.acap.pt/pt/noticia/1411/mercado-automovel-em-portugal-com-crescimento-de-24-por-cento-em-outubro-de-2026/7">ACAP: Mercado automóvel em Portugal, outubro de 2026</a></li>
+        <li><a href="https://global.toyota/pages/global_toyota/ir/financial-results/2027_2q_presentation_en.pdf">Toyota: FY2027 Second Quarter Financial Results, Präsentation (PDF)</a> und <a href="https://global.toyota/pages/global_toyota/ir/financial-results/2027_2q_summary_en.pdf">Financial Summary (PDF)</a>, 5.11.2026</li>
         <li><a href="https://via.tt.se/pressmeddelande/4623714/tydligt-skifte-fran-laddhybrider-till-elbilar-i-oktober?lang=sv">Mobility Sweden: Pressemitteilung und Monatsbericht Nyregistreringar oktober 2026 (Excel)</a></li>
         <li><a href="https://kommunikasjon.ntb.no/pressemelding/19125514/flest-nye-biler-i-en-oktober-pa-over-30-ar-mer-enn-en-av-fem-er-kinesisk?publisherId=17848801">OFV: Bilsalget i oktober 2026</a> und <a href="https://ofv.no/bilsalget/bilsalget-i-oktober-2025">OFV-Statistik, Modelle Oktober 2026 und 2025</a></li>
       </ol>
@@ -782,6 +918,295 @@ setScope(startScope);
 renderMonths();
 renderCountries();
 renderModels("ytd");
+})();
+
+/* =====================================================================
+   Toyota im Vergleich (Toyota-Unterlagen vom 5.11.2026; Vergleich: ACEA, KBA, UNRAE, Mobility Sweden)
+   ===================================================================== */
+(function(){
+"use strict";
+var fmt0 = new Intl.NumberFormat("de-DE",{maximumFractionDigits:0});
+var f1 = new Intl.NumberFormat("de-DE",{minimumFractionDigits:1,maximumFractionDigits:1});
+function sgn(x, f){ f = f || f1; return (x>0?"+":x<0?"−":"±") + f.format(Math.abs(x)); }
+function chg(a,b){ return (b/a-1)*100; }
+var NS = "http://www.w3.org/2000/svg";
+function el(n, a){ var e = document.createElementNS(NS,n); for (var k in a) e.setAttribute(k,a[k]); return e; }
+var tip = document.getElementById("tip");
+function showTip(html, x, y){
+  tip.innerHTML = html; tip.classList.add("on");
+  var w = tip.offsetWidth, h = tip.offsetHeight;
+  tip.style.left = Math.min(Math.max(8, x - w/2), window.innerWidth - w - 8) + "px";
+  var top = y - h - 12; tip.style.top = (top < 8 ? y + 16 : top) + "px";
+}
+function hideTip(){ tip.classList.remove("on"); }
+function bindTip(node, html){
+  node.addEventListener("mousemove", function(e){ showTip(html, e.clientX, e.clientY); });
+  node.addEventListener("mouseleave", hideTip);
+  node.addEventListener("focus", function(){ var r = node.getBoundingClientRect(); showTip(html, r.left + r.width/2, r.top); });
+  node.addEventListener("blur", hideTip);
+}
+function mrd(v){ return f1.format(v) + " Mrd. ¥"; }
+
+/* ---------- Vergleich am Markt: [Markt/Zeitraum, Quelle, Toyota, ggü. Vj. %, Markt ggü. Vj. %, Tesla, ggü., BYD, ggü., errechnet?] ---------- */
+var CMP = [
+  ["Europa (EU + EFTA + UK), Jan–Sep, alle Antriebe","ACEA",650075,1.0,6.3,260575,50.0,283997,134.6,0],
+  ["Deutschland, Jan–Okt, alle Antriebe","KBA",56787,-18.0,4.9,47742,206.1,47961,216.1,0],
+  ["Deutschland, Jan–Okt, nur E-Autos","KBA, FZ10",7908,57.8,60.7,47742,206.1,18716,140.9,1],
+  ["Italien, Jan–Okt, nur E-Autos","UNRAE",1664,354.6,63.3,10919,20.7,9664,111.7,0],
+  ["Schweden, Jan–Okt, alle Antriebe","Mobility Sweden",20205,13.1,3.7,8700,48.9,2502,231.4,0]
+];
+(function(){
+  var tb = document.querySelector("#tyCmp tbody");
+  function d(v){ return "<span class='" + (v>=0?"pos":"neg") + "'>" + sgn(v) + " %</span>"; }
+  tb.innerHTML = CMP.map(function(r){
+    return "<tr><td>" + r[0] + "<br><span class='srcsmall'>" + r[1] + (r[9] ? " · Veränderung errechnet" : "") + "</span></td><td><b>" + fmt0.format(r[2]) + "</b></td><td>" + d(r[3]) + "</td><td>" + d(r[4]) + "</td><td>" + fmt0.format(r[5]) + " " + d(r[6]) + "</td><td>" + fmt0.format(r[7]) + " " + d(r[8]) + "</td></tr>";
+  }).join("");
+})();
+
+/* ---------- Antriebsmix im Vergleich: [Bezeichnung, HEV, PHEV, BEV, Sonstige] in Stück bzw. Tsd. ---------- */
+var MIXCMP_FIX = [
+  ["EU-Markt gesamt, Jan–Sep 2026 (ACEA)",3090530,860257,1931465,2634807],
+  ["Deutschland gesamt, Jan–Okt 2026 (KBA)",700127,275988,698230,801945],
+  ["Toyota in Deutschland, Jan–Okt 2026 (KBA, FZ10)",40561,2781,7908,5537]
+];
+function renderMixCmp(d){
+  var rows = [["Toyota + Lexus weltweit, " + d.cur + " (Toyota)", d.hev[1], d.phev[1], d.bev[1], d.retail[1]-d.elec[1]]].concat(MIXCMP_FIX);
+  var host = document.getElementById("tyMixCmp"); host.innerHTML = "";
+  var names = ["Hybrid (HEV)","Plug-in-Hybrid","Elektro (BEV)","Sonstige Antriebe"], cols = ["--s1","--s2","--s3","--s4"];
+  rows.forEach(function(r){
+    var tot = r[1]+r[2]+r[3]+r[4];
+    var row = document.createElement("div"); row.className = "mixrow";
+    row.innerHTML = "<p class='yr'>" + r[0] + "</p>";
+    var bar = document.createElement("div"); bar.className = "segbar"; bar.setAttribute("role","img");
+    bar.setAttribute("aria-label", r[0] + ": " + names.map(function(n,i){ return n + " " + f1.format(r[i+1]/tot*100) + " %"; }).join(", "));
+    for (var i = 0; i < 4; i++){
+      var sh = r[i+1]/tot*100, seg = document.createElement("span");
+      seg.style.flex = sh + " 1 0"; seg.style.background = "var(" + cols[i] + ")"; seg.tabIndex = 0;
+      if (i === 3) seg.className = "dark-ink";
+      if (sh >= 8) seg.textContent = Math.round(sh) + " %";
+      bindTip(seg, "<b>" + names[i] + "</b>" + f1.format(sh) + " %<br><span class='k'>" + r[0] + "</span>");
+      bar.appendChild(seg);
+    }
+    row.appendChild(bar); host.appendChild(row);
+  });
+}
+
+/* ---------- Daten: Toyota, Präsentation FY2027 2Q (5.11.2026) ----------
+   q = Juli–September (3 Monate, Seiten 32–36), h = April–September (Seiten 5–9). [Vorjahr, aktuell] */
+var D = {
+  q:{ name:"Juli–September", prev:"Jul–Sep 2025", cur:"Jul–Sep 2026",
+      rev:[12377.4,13437.0], oi:[839.5,1127.6], oim:[6.8,8.4], other:[386.4,-137.1], eq:[131.5,147.6], pre:[1225.9,990.5], net:[932.0,759.4], netm:[7.5,5.7],
+      usd:[147,159], eur:[172,183],
+      dPL:{rev:1059.6, oi:288.1, other:-523.5, eq:16.0, pre:-235.4, net:-172.6},
+      cons:[2372,2364], retail:[2624,2507], elec:[1207,1401], elecShare:[46.0,55.9], hev:[1102,1212], phev:[51,72], bev:[54,117], hino:"25 Tsd. konsolidiert / 27 Tsd. Einzelhandel",
+      idx:{cons:99.7, retail:95.6, elec:116.1, hev:110.0, phev:141.3, bev:215.5},
+      bridge:[["Währung",340.0,"Transaktion (Im-/Export) +255,0 · Umrechnung Auslandstöchter +85,0"],
+              ["Kosten",-255.0,"Materialpreise −325,0 (davon Nahost −100,0) · Kostensenkung +70,0"],
+              ["Vertrieb",95.0,"Volumen/Modellmix −55,0 · Wertschöpfungskette +40,0 · Sonstiges +110,0 · enthält Nahost −35,0"],
+              ["Aufwand",170.0,"Personal −50,0 · Abschreibungen −35,0 · F&E −60,0 · Sonstige +315,0"],
+              ["Sonstiges",-61.9,"Swap-Bewertung −54,6 · Zwischengewinne +12,0 · Sonstiges −19,3"]],
+      fxNet:10.0,
+      regions:[["Japan",475.0,718.5,9.0,12.1,488,500,243.4],["Nordamerika",-70.4,6.7,-1.4,0.1,739,737,77.2],["Europa",97.0,94.4,6.1,5.0,275,282,-2.6],["Asien",224.4,224.5,9.7,9.6,432,418,0.1],["Sonstige",100.7,114.8,8.4,8.3,437,426,14.1]],
+      china:{retail:[464,361], subs:[67.1,23.5], eq:[24.6,12.5]}, fs:[189.3,212.5] },
+  h:{ name:"April–September", prev:"Apr–Sep 2025", cur:"Apr–Sep 2026",
+      rev:[24630.7,26962.4], oi:[2005.6,2191.1], oim:[8.1,8.1], other:[472.4,763.2], eq:[272.6,358.3], pre:[2478.1,2954.4], net:[1773.4,2236.4], netm:[7.2,8.3],
+      usd:[146,159], eur:[168,184],
+      dPL:{rev:2331.7, oi:185.4, other:290.8, eq:85.7, pre:476.2, net:463.0},
+      cons:[4783,4758], retail:[5267,5059], elec:[2461,2811], elecShare:[46.7,55.6], hev:[2262,2450], phev:[98,130], bev:[101,231], hino:"51 Tsd. konsolidiert / 53 Tsd. Einzelhandel",
+      idx:{cons:99.5, retail:96.0, elec:114.2, hev:108.3, phev:133.2, bev:227.4},
+      bridge:[["Währung",685.0,"Transaktion (Im-/Export) +590,0 · Umrechnung Auslandstöchter +95,0"],
+              ["Kosten",-340.0,"Materialpreise −465,0 (davon Nahost −125,0) · Kostensenkung +125,0"],
+              ["Vertrieb",165.0,"Volumen/Modellmix −115,0 · Wertschöpfungskette +70,0 · Sonstiges +210,0 · enthält Nahost −85,0"],
+              ["Aufwand",-20.0,"Personal −105,0 · Abschreibungen −75,0 · F&E −95,0 · Sonstige +255,0"],
+              ["Sonstiges",-304.6,"Swap-Bewertung −43,0 · Zwischengewinne −236,3 · Sonstiges −25,3"]],
+      fxNet:-195.0,
+      regions:[["Japan",1118.4,1257.2,10.6,10.7,970,1024,138.7],["Nordamerika",-134.1,132.0,-1.3,1.1,1533,1530,262.2],["Europa",194.4,207.7,6.2,5.5,573,589,13.2],["Asien",445.1,434.0,10.0,9.3,853,857,-11.1],["Sonstige",199.1,215.8,8.6,8.1,854,758,16.7]],
+      china:{retail:[914,685], subs:[122.2,65.0], eq:[48.0,28.6]}, fs:[377.3,442.3] }
+};
+/* Prognose GJ 2027 (Seiten 11–12): [Kennzahl, bisher, neu, Ist GJ 2026, Einheit] */
+var FC = [
+  ["Umsatz",54000.0,53500.0,50684.9,"Mrd. ¥"],
+  ["Operativer Gewinn",3400.0,3900.0,3766.2,"Mrd. ¥"],
+  ["Operative Marge",6.3,7.3,7.4,"%"],
+  ["Gewinn vor Steuern",4570.0,4960.0,5152.9,"Mrd. ¥"],
+  ["Nettogewinn",3250.0,3570.0,3848.0,"Mrd. ¥"],
+  ["Absatz Toyota + Lexus (Einzelhandel)",10500,10300,10477,"Tsd."],
+  ["davon elektrifiziert",5905,5741,5040,"Tsd."],
+  ["davon Elektro (BEV)",533,463,243,"Tsd."]
+];
+
+/* ---------- Tooltip ---------- */
+var tip = document.getElementById("tip");
+function showTip(html, x, y){
+  tip.innerHTML = html; tip.classList.add("on");
+  var w = tip.offsetWidth, h = tip.offsetHeight;
+  tip.style.left = Math.min(Math.max(8, x - w/2), window.innerWidth - w - 8) + "px";
+  var top = y - h - 12; tip.style.top = (top < 8 ? y + 16 : top) + "px";
+}
+function hideTip(){ tip.classList.remove("on"); }
+function bindTip(node, html){
+  node.addEventListener("mousemove", function(e){ showTip(html, e.clientX, e.clientY); });
+  node.addEventListener("mouseleave", hideTip);
+  node.addEventListener("focus", function(){ var r = node.getBoundingClientRect(); showTip(html, r.left + r.width/2, r.top); });
+  node.addEventListener("blur", hideTip);
+}
+function mrd(v){ return f1.format(v) + " Mrd. ¥"; }
+
+/* ---------- Kennzahlen ---------- */
+function renderKpis(d){
+  function tile(label, val, delta, meta, hero){
+    return '<div class="card kpi' + (hero?' hero':'') + '"><p class="label">' + label + '</p><p class="value">' + val + '</p><p class="meta"><span class="b ' + (delta>=0?'pos':'neg') + '">' + sgn(delta) + ' %</span> · ' + meta + '</p></div>';
+  }
+  document.getElementById("tyKpis").innerHTML =
+    tile("Operativer Gewinn, " + d.name, fmt0.format(d.oi[1]) + "<small> Mrd. ¥</small>", chg(d.oi[0],d.oi[1]), "Marge " + f1.format(d.oim[1]) + " % (Vj. " + f1.format(d.oim[0]) + " %)", true) +
+    tile("Umsatz", fmt0.format(d.rev[1]) + "<small> Mrd. ¥</small>", chg(d.rev[0],d.rev[1]), "Vorjahr " + fmt0.format(d.rev[0])) +
+    tile("Nettogewinn", fmt0.format(d.net[1]) + "<small> Mrd. ¥</small>", chg(d.net[0],d.net[1]), "Marge " + f1.format(d.netm[1]) + " % (Vj. " + f1.format(d.netm[0]) + " %)") +
+    tile("Konsolidierter Absatz", fmt0.format(d.cons[1]) + "<small> Tsd.</small>", d.idx.cons - 100, "Vorjahr " + fmt0.format(d.cons[0]) + " Tsd.");
+}
+
+/* ---------- Gewinnbrücke (Wasserfall) ---------- */
+function renderBridge(d){
+  var host = document.getElementById("tyBridge"); host.innerHTML = "";
+  var steps = [["Vorjahr", d.oi[0], null, "t"]].concat(d.bridge.map(function(b){ return [b[0], b[1], b[2], "d"]; })).concat([["Aktuell", d.oi[1], null, "t"]]);
+  var W = Math.max(300, host.clientWidth || 600), H = 300, padL = 44, padR = 8, padT = 22, padB = 40;
+  var SHORT = {"Vorjahr":"Vj.","Währung":"Währ.","Kosten":"Kost.","Vertrieb":"Vertr.","Aufwand":"Aufw.","Sonstiges":"Sonst.","Aktuell":"Akt."};
+  var run = 0, tops = [], lo = 0, hi = 0;
+  steps.forEach(function(s){
+    var a, b;
+    if (s[3] === "t"){ a = 0; b = s[1]; run = s[1]; } else { a = run; b = run + s[1]; run = b; }
+    tops.push([a,b]); lo = Math.min(lo,a,b); hi = Math.max(hi,a,b);
+  });
+  var step = hi > 2000 ? 500 : 250, max = Math.ceil(hi*1.05/step)*step;
+  var iw = W-padL-padR, ih = H-padT-padB, band = iw/steps.length, bw = Math.min(24, band*0.55);
+  var y = function(v){ return padT + ih - v/max*ih; };
+  var svg = el("svg",{viewBox:"0 0 "+W+" "+H,role:"img","aria-label":"Operativer Gewinn " + d.name + ": von " + f1.format(d.oi[0]) + " auf " + f1.format(d.oi[1]) + " Milliarden Yen"});
+  for (var t = 0; t <= max; t += step){
+    svg.appendChild(el("line",{x1:padL,x2:W-padR,y1:y(t),y2:y(t),"class":t===0?"bl":"gl"}));
+    var tx = el("text",{x:padL-6,y:y(t)+4,"text-anchor":"end"}); tx.textContent = fmt0.format(t); svg.appendChild(tx);
+  }
+  steps.forEach(function(s, i){
+    var cx = padL + band*i + band/2, a = tops[i][0], b = tops[i][1];
+    var y1 = y(Math.max(a,b)), y2 = y(Math.min(a,b)), h = Math.max(1.5, y2-y1);
+    var fill = s[3]==="t" ? "var(--total)" : (s[1]>=0 ? "var(--up-fill)" : "var(--down-fill)");
+    svg.appendChild(el("rect",{x:cx-bw/2,y:y1,width:bw,height:h,rx:3,fill:fill,"class":"mk"}));
+    if (i < steps.length-1){ var nb = tops[i][1]; svg.appendChild(el("line",{x1:cx+bw/2,x2:cx+band-bw/2,y1:y(nb),y2:y(nb),"class":"conn"})); }
+    var v = el("text",{x:cx,y:y1-6,"text-anchor":"middle","class":"val"}); v.textContent = s[3]==="t" ? fmt0.format(s[1]) : sgn(s[1], fmt0); svg.appendChild(v);
+    var lb = el("text",{x:cx,y:H-padB+16,"text-anchor":"middle","class":"lab"}); lb.textContent = band < 62 ? SHORT[s[0]] : s[0]; svg.appendChild(lb);
+    var hit = el("rect",{x:padL+band*i,y:padT,width:band,height:ih,"class":"hit",tabindex:0,"aria-label":s[0] + ": " + (s[3]==="t" ? mrd(s[1]) : sgn(s[1]) + " Mrd. ¥")});
+    bindTip(hit, "<b>" + s[0] + "</b>" + (s[3]==="t" ? mrd(s[1]) : "<span class='" + (s[1]>=0?"pos":"neg") + "'>" + sgn(s[1]) + " Mrd. ¥</span>") + (s[2] ? "<br><span class='k'>" + s[2] + "</span>" : ""));
+    svg.appendChild(hit);
+  });
+  host.appendChild(svg);
+  document.getElementById("tyBridgeNote").textContent = d.prev + " gegenüber " + d.cur + " · Mrd. Yen · Quelle: Toyota-Präsentation";
+  document.getElementById("tyBridgeCallout").textContent = "Ohne Wechselkurs- und Swap-Effekte: " + sgn(d.fxNet) + " Mrd. Yen (laut Toyota). Kurse: " + d.usd[0] + " → " + d.usd[1] + " Yen je US-$, " + d.eur[0] + " → " + d.eur[1] + " Yen je €.";
+}
+
+/* ---------- GuV-Tabelle ---------- */
+function renderPL(d){
+  document.querySelector("#tyPl thead").innerHTML = "<tr><th>Mrd. Yen</th><th>" + d.prev + "</th><th>" + d.cur + "</th><th>Veränderung</th></tr>";
+  var rows = [["Umsatz",d.rev,0,0,d.dPL.rev],["Operativer Gewinn",d.oi,1,0,d.dPL.oi],["  Marge",d.oim,0,"%"],["Other Income",d.other,0,0,d.dPL.other],["Ergebnis at-Equity-Beteiligungen",d.eq,0,0,d.dPL.eq],["Gewinn vor Steuern",d.pre,0,0,d.dPL.pre],["Nettogewinn Toyota Motor Corp.",d.net,1,0,d.dPL.net],["  Marge",d.netm,0,"%"]];
+  document.querySelector("#tyPl tbody").innerHTML = rows.map(function(r){
+    var v = r[1], pct = r[3] === "%";
+    var diff = r[4] !== undefined ? r[4] : v[1]-v[0];
+    var dtxt = pct ? sgn(diff) + " Pp." : sgn(diff) + (v[0] > 0 && v[1] > 0 ? " (" + sgn(chg(v[0],v[1])) + " %)" : "");
+    var sub = r[0].indexOf("  ") === 0;
+    return "<tr" + (r[2]?" class='hl'":"") + "><td" + (sub?" class='sub1'":"") + ">" + r[0].trim() + "</td><td>" + f1.format(v[0]) + (pct?" %":"") + "</td><td>" + f1.format(v[1]) + (pct?" %":"") + "</td><td class='" + (diff>=0?"pos":"neg") + "'>" + dtxt + "</td></tr>";
+  }).join("");
+  document.getElementById("tyPlNote").textContent = d.name + " · Prozentwerte errechnet";
+}
+
+/* ---------- Regionen (gruppierte horizontale Balken) ---------- */
+function renderRegions(d){
+  var host = document.getElementById("tyRegions"); host.innerHTML = "";
+  var R = d.regions, W = Math.max(300, host.clientWidth || 900), rowH = 46, padL = W < 500 ? 88 : 104, padR = 52, padT = 6, H = padT + R.length*rowH + 22;
+  var lo = Math.min(0, Math.min.apply(null, R.map(function(r){ return Math.min(r[1],r[2]); })));
+  var hi = Math.max.apply(null, R.map(function(r){ return Math.max(r[1],r[2]); }));
+  var step = hi > 1000 ? 250 : 100, max = Math.ceil(hi/step)*step, min = Math.floor(lo/step)*step;
+  var x = function(v){ return padL + (v-min)/(max-min)*(W-padL-padR); };
+  var svg = el("svg",{viewBox:"0 0 "+W+" "+H,role:"img","aria-label":"Operativer Gewinn nach Region, " + d.name});
+  for (var t = min; t <= max; t += step){
+    svg.appendChild(el("line",{x1:x(t),x2:x(t),y1:padT,y2:H-22,"class":t===0?"bl":"gl"}));
+    if (W >= 500 || ((t - min) / step) % 2 === 0){ var tx = el("text",{x:x(t),y:H-6,"text-anchor":"middle"}); tx.textContent = fmt0.format(t); svg.appendChild(tx); }
+  }
+  R.forEach(function(r, i){
+    var y0 = padT + i*rowH + 6, bh = 14;
+    var lb = el("text",{x:padL-10,y:y0+bh+5,"text-anchor":"end","class":"lab"}); lb.textContent = r[0]; svg.appendChild(lb);
+    [[r[1],"var(--prev)",d.prev],[r[2],"var(--s1)",d.cur]].forEach(function(s, j){
+      var yy = y0 + j*(bh+3), a = x(Math.min(0,s[0])), b = x(Math.max(0,s[0]));
+      svg.appendChild(el("rect",{x:a,y:yy,width:Math.max(1.5,b-a),height:bh,rx:3,fill:s[1],"class":"mk"}));
+      var v = el("text",{x:b+6,y:yy+bh-3,"text-anchor":"start","class":j?"val":""}); v.textContent = f1.format(s[0]); svg.appendChild(v);
+    });
+    var hit = el("rect",{x:0,y:padT+i*rowH,width:W,height:rowH,"class":"hit",tabindex:0,"aria-label":r[0] + ": " + f1.format(r[1]) + " auf " + f1.format(r[2]) + " Mrd. Yen"});
+    bindTip(hit, "<b>" + r[0] + "</b><span class='k'>" + d.prev + ":</span> " + mrd(r[1]) + " (Marge " + f1.format(r[3]) + " %)<br><span class='k'>" + d.cur + ":</span> " + mrd(r[2]) + " (Marge " + f1.format(r[4]) + " %)<br><span class='k'>Absatz:</span> " + fmt0.format(r[5]) + " → " + fmt0.format(r[6]) + " Tsd.");
+    svg.appendChild(hit);
+  });
+  host.appendChild(svg);
+  document.getElementById("tyRegLegend").innerHTML = "<li><i style='background:var(--prev)'></i>" + d.prev + "</li><li><i style='background:var(--s1)'></i>" + d.cur + "</li>";
+  document.querySelector("#tyRegTable thead").innerHTML = "<tr><th>Region</th><th>Gewinn Vj.</th><th>Gewinn</th><th>Veränderung</th><th>Marge Vj.</th><th>Marge</th><th>Absatz Vj. (Tsd.)</th><th>Absatz (Tsd.)</th></tr>";
+  document.querySelector("#tyRegTable tbody").innerHTML = R.map(function(r){
+    var df = r[7];
+    return "<tr><td>" + r[0] + "</td><td>" + f1.format(r[1]) + "</td><td><b>" + f1.format(r[2]) + "</b></td><td class='" + (df>=0?"pos":"neg") + "'>" + sgn(df) + "</td><td>" + f1.format(r[3]) + " %</td><td>" + f1.format(r[4]) + " %</td><td>" + fmt0.format(r[5]) + "</td><td>" + fmt0.format(r[6]) + "</td></tr>";
+  }).join("");
+}
+
+/* ---------- Antriebe ---------- */
+function renderSales(d){
+  var host = document.getElementById("tyMix"); host.innerHTML = "";
+  [0,1].forEach(function(i){
+    var parts = [["Hybrid (HEV)",d.hev[i],"--s1"],["Plug-in-Hybrid",d.phev[i],"--s2"],["Elektro (BEV)",d.bev[i],"--s3"],["Sonstige Antriebe",d.retail[i]-d.elec[i],"--s4",1]];
+    var row = document.createElement("div"); row.className = "mixrow";
+    row.innerHTML = "<p class='yr'>" + (i ? d.cur : d.prev) + " · " + fmt0.format(d.retail[i]) + " Tsd.</p>";
+    var bar = document.createElement("div"); bar.className = "segbar"; bar.setAttribute("role","img");
+    bar.setAttribute("aria-label", parts.map(function(p){ return p[0] + " " + fmt0.format(p[1]) + " Tsd."; }).join(", "));
+    parts.forEach(function(p){
+      var share = p[1]/d.retail[i]*100, seg = document.createElement("span");
+      seg.style.flex = share + " 1 0"; seg.style.background = "var(" + p[2] + ")"; seg.tabIndex = 0;
+      if (p[3]) seg.className = "dark-ink";
+      if (share >= 8) seg.textContent = Math.round(share) + " %";
+      bindTip(seg, "<b>" + p[0] + "</b>" + fmt0.format(p[1]) + " Tsd. · " + f1.format(share) + " %" + (p[3] ? "<br><span class='k'>errechnet: Absatz minus elektrifiziert</span>" : ""));
+      bar.appendChild(seg);
+    });
+    row.appendChild(bar); host.appendChild(row);
+  });
+  document.querySelector("#tySalesTable thead").innerHTML = "<tr><th>Tsd. Fahrzeuge</th><th>" + d.prev + "</th><th>" + d.cur + "</th><th>Vj. = 100 %</th></tr>";
+  var rows = [["Konsolidierter Absatz",d.cons,1,d.idx.cons],["Einzelhandel Toyota + Lexus",d.retail,1,d.idx.retail],["davon elektrifiziert",d.elec,0,d.idx.elec],["  Hybrid (HEV)",d.hev,0,d.idx.hev],["  Plug-in-Hybrid (PHEV)",d.phev,0,d.idx.phev],["  Elektro (BEV)",d.bev,0,d.idx.bev]];
+  document.querySelector("#tySalesTable tbody").innerHTML = rows.map(function(r){
+    var sub = r[0].indexOf("  ") === 0, idx = r[3];
+    return "<tr" + (r[2]?" class='hl'":"") + "><td" + (sub?" class='sub1'":"") + ">" + r[0].trim() + (r[0]==="davon elektrifiziert" ? " (" + f1.format(d.elecShare[0]) + " → " + f1.format(d.elecShare[1]) + " %)" : "") + "</td><td>" + fmt0.format(r[1][0]) + "</td><td>" + fmt0.format(r[1][1]) + "</td><td>" + f1.format(idx) + " %</td></tr>";
+  }).join("");
+  document.getElementById("tySalesNote").textContent = "Vorjahr enthält noch Hino (" + d.hino + "). Wasserstoff (FCEV): unter 1 Tsd.";
+}
+
+/* ---------- China & Finanzdienstleistungen ---------- */
+function renderMinis(d){
+  function mini(label, v, unit, extra){
+    var c = chg(v[0],v[1]);
+    return "<div class='mini'><p class='label'>" + label + "</p><p class='value'>" + (unit==="Tsd." ? fmt0.format(v[1]) : f1.format(v[1])) + " " + unit + "</p><p class='meta'><span class='b " + (c>=0?"pos":"neg") + "'>" + sgn(c) + " %</span> · Vorjahr " + (unit==="Tsd." ? fmt0.format(v[0]) : f1.format(v[0])) + (extra||"") + "</p></div>";
+  }
+  document.getElementById("tyMinis").innerHTML =
+    mini("China: Einzelhandel Toyota + Lexus", d.china.retail, "Tsd.") +
+    mini("China: operativer Gewinn der Töchter", d.china.subs, "Mrd. ¥") +
+    mini("China: Ergebnis at-Equity (Joint Ventures)", d.china.eq, "Mrd. ¥") +
+    mini("Finanzdienstleistungen: operativer Gewinn", d.fs, "Mrd. ¥", " · ohne Swap-Effekte");
+}
+
+/* ---------- Prognose ---------- */
+document.querySelector("#tyFc tbody").innerHTML = FC.map(function(r){
+  var pct = r[4] === "%", tsd = r[4] === "Tsd.", f = tsd ? fmt0 : f1, d = r[2]-r[1];
+  var u = pct ? " %" : "";
+  return "<tr" + (r[0]==="Operativer Gewinn"||r[0]==="Nettogewinn" ? " class='hl'" : "") + "><td>" + r[0] + (pct ? "" : " (" + r[4] + ")") + "</td><td>" + f.format(r[1]) + u + "</td><td><b>" + f.format(r[2]) + u + "</b></td><td class='" + (d>=0?"pos":"neg") + "'>" + sgn(d, f) + (pct?" Pp.":"") + "</td><td>" + f.format(r[3]) + u + "</td></tr>";
+}).join("");
+
+
+var CUR = "q";
+function setPeriod(p){
+  var d = D[p]; CUR = p;
+  document.querySelectorAll("[data-ty]").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.ty === p)); });
+  renderKpis(d); renderBridge(d); renderPL(d); renderRegions(d); renderSales(d); renderMinis(d); renderMixCmp(d);
+}
+document.querySelectorAll("[data-ty]").forEach(function(b){ b.addEventListener("click", function(){ setPeriod(b.dataset.ty); }); });
+setPeriod("q");
+var rz; window.addEventListener("resize", function(){ clearTimeout(rz); rz = setTimeout(function(){ renderBridge(D[CUR]); renderRegions(D[CUR]); }, 150); });
 })();
 </script>
 </body>
